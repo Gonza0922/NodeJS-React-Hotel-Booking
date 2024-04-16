@@ -20,8 +20,8 @@ export const register = z.object({
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
   birthdate: z
-    .string({ required_error: "Check In is required" })
-    .min(1, { message: "Check In is required" }),
+    .string({ required_error: "Birthdate is required" })
+    .min(1, { message: "Birthdate is required" }),
   nacionality: z
     .string({ required_error: "Nacionality is required" })
     .min(1, { message: "Nacionality is required" })
@@ -59,8 +59,8 @@ export const update = z.object({
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
   birthdate: z
-    .string({ required_error: "Check In is required" })
-    .min(1, { message: "Check In is required" }),
+    .string({ required_error: "Birthdate is required" })
+    .min(1, { message: "Birthdate is required" }),
   nacionality: z
     .string({ required_error: "Nacionality is required" })
     .min(1, { message: "Nacionality is required" })

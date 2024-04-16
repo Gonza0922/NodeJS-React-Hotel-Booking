@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { usePartnerContext } from "../context/PartnerContext";
 import { useHotelContext } from "../context/HotelContext";
 import { getHotelIdRequest, putHotelRequest } from "../api/hotel.api";
 import { getImagesPerHotelRequest } from "../api/images.api";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { updateHotelSchema } from "../validations/hotel.validation.js";
 
 function UpdateHotel() {
@@ -22,8 +24,23 @@ function UpdateHotel() {
     load,
     setLoad,
   } = useHotelContext();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(updateHotelSchema) });
+  const [result, setResult] = useState({
+    principalImg: false,
+    moreImages: false,
+  });
+  const [dataInicializator, setDataInicializator] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    reset(hotelData);
+  }, [dataInicializator]);
 
   useEffect(() => {
     setLoad("Update");
@@ -44,6 +61,7 @@ function UpdateHotel() {
           ...prevHotelData,
           moreImages: data,
         }));
+        setDataInicializator(true);
       } catch (error) {
         setImages([]);
         setRedirect(true);
@@ -54,9 +72,55 @@ function UpdateHotel() {
     clickGetImagesPerHotel();
   }, []);
 
+  const validandoTipoPrincipalImg = () => {
+    const file = hotelData.principalImg.name;
+    if (file) {
+      file.includes(".jpg") || file.includes(".jpeg")
+        ? setResult((prevElement) => ({
+            ...prevElement,
+            principalImg: false,
+          }))
+        : setResult((prevElement) => ({
+            ...prevElement,
+            principalImg: true,
+          }));
+    }
+  };
+
+  const validandoTipoMoreImages = () => {
+    if (hotelData.moreImages.length <= 1) {
+      setResult((prevElement) => ({
+        ...prevElement,
+        moreImages: 1,
+      }));
+      return;
+    }
+    for (let i = 0; i < hotelData.moreImages.length; i++) {
+      const file = hotelData.moreImages[i].name;
+      if (file) {
+        file.includes(".jpg") || file.includes(".jpeg")
+          ? setResult((prevElement) => ({
+              ...prevElement,
+              moreImages: false,
+            }))
+          : setResult((prevElement) => ({
+              ...prevElement,
+              moreImages: true,
+            }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    hotelData.principalImg && validandoTipoPrincipalImg();
+  }, [hotelData.principalImg]);
+
+  useEffect(() => {
+    hotelData.moreImages && validandoTipoMoreImages();
+  }, [hotelData.moreImages]);
+
   const updateHotel = async (newData) => {
     try {
-      await updateHotelSchema.validate(newData);
       if (typeof hotelData.principalImg !== "string") {
         console.log("La principalImg es un file");
         handleImageUpdate(hotel_ID, hotelData.principalImg);
@@ -70,33 +134,34 @@ function UpdateHotel() {
       return data;
     } catch (error) {
       console.log(error);
-      error.response
-        ? setError(error.response.data.message[0])
-        : setError(error.errors[0]);
+      setError(error.response.data.message[0]);
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const finalData = {
-      ...hotelData,
-      price_per_night: Number(hotelData.price_per_night),
-      phone: Number(hotelData.phone),
-    };
-    console.log(finalData);
-    updateHotel(finalData); // info del hotel + imagenes nuevas en formato nombre
-    // setLoad("Updating...");
-    // setTimeout(() => {
-    //   navigate("/loginProperty");
-    //   setLoad("Update");
-    // }, 3000);
-  };
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      data = {
+        ...data,
+        price_per_night: Number(data.price_per_night),
+        phone: Number(data.phone),
+      };
+      console.log(data);
+      updateHotel(data); // hotel info + new images in name format
+      setLoad("Updating...");
+      setTimeout(() => {
+        navigate("/loginProperty");
+        setLoad("Update");
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <>
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Update Hotel {hotel_ID}</h3>
+        <h3 className="title-update">Update Hotel {hotel_ID}</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? (
             <div className="error">{error}</div>
@@ -110,14 +175,19 @@ function UpdateHotel() {
             <input
               id="name"
               type="text"
-              value={hotelData.name}
               className="validate"
               autoComplete="off"
+              value={hotelData.name}
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, name: e.target.value })
-              }
+              {...register("name", {
+                onChange: (e) => {
+                  setHotelData({ ...hotelData, name: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.name && <span>{errors.name.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
@@ -126,17 +196,24 @@ function UpdateHotel() {
             <input
               id="price_per_night"
               type="number"
-              value={hotelData.price_per_night}
               className="validate"
               autoComplete="off"
+              value={hotelData.price_per_night}
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({
-                  ...hotelData,
-                  price_per_night: e.target.value,
-                })
-              }
+              {...register("price_per_night", {
+                onChange: (e) => {
+                  setHotelData({
+                    ...hotelData,
+                    price_per_night: e.target.value,
+                  });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.price_per_night && (
+                <span>{errors.price_per_night.message}</span>
+              )}
+            </div>
           </div>
         </div>
         <div className="row-input">
@@ -145,46 +222,61 @@ function UpdateHotel() {
             <input
               id="location"
               type="text"
-              value={hotelData.location}
               className="validate"
               autoComplete="off"
+              value={hotelData.location}
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, location: e.target.value })
-              }
+              {...register("location", {
+                onChange: (e) => {
+                  setHotelData({ ...hotelData, location: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.location && <span>{errors.location.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
           <div className="my-input-field col s12">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="create-description">Description</label>
             <textarea
-              id="description"
+              id="create-description"
               type="text"
+              className="materialize-textarea"
+              autoComplete="off"
               value={hotelData.description}
-              className="materialize-textarea"
-              autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, description: e.target.value })
-              }
+              {...register("description", {
+                onChange: (e) => {
+                  setHotelData({ ...hotelData, description: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.description && <span>{errors.description.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
           <div className="my-input-field col s12">
-            <label htmlFor="services">Services</label>
+            <label htmlFor="create-services">Services</label>
             <textarea
-              id="services"
+              id="create-services"
               type="text"
-              value={hotelData.services}
               className="materialize-textarea"
               autoComplete="off"
+              value={hotelData.services}
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, services: e.target.value })
-              }
+              {...register("services", {
+                onChange: (e) => {
+                  setHotelData({ ...hotelData, services: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.services && <span>{errors.services.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
@@ -193,14 +285,19 @@ function UpdateHotel() {
             <input
               id="phone"
               type="number"
-              value={hotelData.phone}
               className="validate"
               autoComplete="off"
+              value={hotelData.phone}
               spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, phone: e.target.value })
-              }
+              {...register("phone", {
+                onChange: (e) => {
+                  setHotelData({ ...hotelData, phone: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.phone && <span>{errors.phone.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
@@ -234,6 +331,15 @@ function UpdateHotel() {
                 </span>
               )}
             </div>
+            <div className="container-span">
+              {errors.principalImg && hotelData.principalImg === undefined ? (
+                <span>Principal Image is required</span>
+              ) : result.principalImg ? (
+                <span>Only JPEG and JPG files are allowed</span>
+              ) : (
+                <p></p>
+              )}
+            </div>
           </div>
         </div>
         <div className="row-input">
@@ -264,6 +370,17 @@ function UpdateHotel() {
                 <span>New Files Selected.</span>
               ) : (
                 <span>Old Files Selected.</span>
+              )}
+            </div>
+            <div className="container-span">
+              {errors.moreImages && hotelData.moreImages === undefined ? (
+                <span>Other Files are required</span>
+              ) : result.moreImages === 1 ? (
+                <span>Enter more than 1 file</span>
+              ) : result.moreImages ? (
+                <span>Only JPEG and JPG files are allowed</span>
+              ) : (
+                <p></p>
               )}
             </div>
           </div>

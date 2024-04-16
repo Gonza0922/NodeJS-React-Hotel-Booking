@@ -42,7 +42,7 @@ commentRouter.post(
   validateSchema(PIN),
   validateTokenUser,
   verifyPIN
-); //verificar PIN en base de datos y crea cookie
-commentRouter.get("/verify/token/PIN/:hotel_ID", verifyTokenPIN); //verificar PIN en la cookie
+); //Check PIN in data base and create a cookie
+commentRouter.get("/verify/token/PIN/:hotel_ID", verifyTokenPIN); //Check PIN in the cookie
 
 export default commentRouter;

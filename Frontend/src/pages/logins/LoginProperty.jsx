@@ -30,7 +30,7 @@ export function LoginProperty() {
     <>
       <NavbarLRP />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Login Partner</h3>
+        <h3 className="title-update">Login Partner</h3>
         <div className="container-errors">
           {error === "Partner not found" ? (
             <div className="error">{error}</div>
@@ -50,10 +50,10 @@ export function LoginProperty() {
               spellCheck={false}
               {...register("email", {
                 required: { value: true, message: "Email is required" },
-                // pattern: {
-                //   value: /^[a-z0-9._%+-]+@[a-z0-9-]+\.com$/,
-                //   message: "Invalid Email",
-                // },
+                pattern: {
+                  value: /^[a-z0-9._%+-]+@[a-z0-9-]+\.com$/,
+                  message: "Invalid Email",
+                },
               })}
             />
             <label htmlFor="email">Email</label>

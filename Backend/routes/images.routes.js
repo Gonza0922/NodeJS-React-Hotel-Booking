@@ -45,7 +45,7 @@ imagesRouter.put(
   deleteMultipleImages,
   putMultipleImages
 );
-// PODRIAMOS UTILIZARLOS
+// IT CAN USE
 // imagesRouter.get(
 //   "/delete/single/:hotel_ID",
 //   validateTokenPartner,

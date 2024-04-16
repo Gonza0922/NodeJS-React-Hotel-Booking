@@ -39,11 +39,4 @@ export const transformDateZ = (dateZ) => {
   const ResetedDate = year + "-" + month + "-" + day;
 
   return ResetedDate;
-  // Despues de las 9pm el dia pasa a ser el siguiente
 };
-
-// export const transformDateZ = (dateZ) => {
-//   const date = new Date(dateZ);
-//   const isoDate = date.toISOString().split("T")[0]; // Obtener la fecha en formato ISO (UTC) y recortar la hora y la zona horaria
-//   return isoDate;
-// };

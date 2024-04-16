@@ -17,6 +17,8 @@ import { getUserIdRequest } from "../api/user.api.js";
 import { transformDateZ } from "../functions/dates.js";
 import { verifyTokenPINRequest } from "../api/comment.api";
 import Cookie from "js-cookie";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { reservationSchema } from "../validations/reservation.validation.js";
 
 function Home() {
   const { isAuthenticated, user, error, setError } = useUserContext();
@@ -25,7 +27,7 @@ function Home() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({ resolver: yupResolver(reservationSchema) });
   const {
     hotel,
     setHotel,
@@ -289,28 +291,14 @@ function Home() {
           </div>
           <div className="row">
             <div className="input-field col s6">
-              <input
-                id="check_in"
-                type="date"
-                className="validate"
-                {...register("check_in", {
-                  required: { value: true, message: "Check In is required" },
-                })}
-              />
+              <input id="check_in" type="date" className="validate" {...register("check_in")} />
               <label htmlFor="check_in">Check In</label>
               <div className="container-span">
                 {errors.check_in && <span>{errors.check_in.message}</span>}
               </div>
             </div>
             <div className="input-field col s6">
-              <input
-                id="check_out"
-                type="date"
-                className="validate"
-                {...register("check_out", {
-                  required: { value: true, message: "Check Out is required" },
-                })}
-              />
+              <input id="check_out" type="date" className="validate" {...register("check_out")} />
               <label htmlFor="check_out">Check Out</label>
               <div className="container-span">
                 {errors.check_out && <span>{errors.check_out.message}</span>}
@@ -323,7 +311,6 @@ function Home() {
                 name="guests"
                 control={control}
                 defaultValue=""
-                rules={{ required: "guests is required" }}
                 render={({ field }) => (
                   <select {...field} className="browser-default">
                     <option value="" disabled>
@@ -349,15 +336,15 @@ function Home() {
                 name="room_type"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Room Type is required" }}
                 render={({ field }) => (
                   <select {...field} className="browser-default">
                     <option value="" disabled>
                       Room Type
                     </option>
                     <option value="Individual">Individual</option>
-                    <option value="Familiar">Familiar</option>
                     <option value="Doble">Doble</option>
+                    <option value="Triple">Triple</option>
+                    <option value="Familiar">Familiar</option>
                     {/* <option value="Suite">Suite + $50</option> */}
                   </select>
                 )}

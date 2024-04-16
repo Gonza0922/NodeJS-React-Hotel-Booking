@@ -25,7 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-// app.use("/uploads", express.static("BackEnd/uploads"));
 app.use("/auth", userRouter);
 app.use("/auth", partnerRouter);
 app.use("/user", reservationRouter);

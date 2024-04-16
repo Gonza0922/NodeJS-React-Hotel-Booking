@@ -2,68 +2,28 @@ import * as yup from "yup";
 
 export const createHotelSchema = yup.object().shape({
   name: yup
-    .mixed()
-    .test("required", "Name is required", (value) => {
-      return value && value.length;
-    })
-    .test("phoneLength", "Name must be at least 2 characters", (value) => {
-      return value && value.length > 2;
-    })
-    .test("phoneLength", "Name must be no more than 25 characters", (value) => {
-      return value && value.length <= 25;
-    }),
-  price_per_night: yup
-    .mixed()
-    .test("required", "Price Per Night is required", (value) => {
-      return value && value.length;
-    }),
+    .string()
+    .required("Name is required")
+    .min(2, "Name must be at least 2 characters")
+    .max(25, "Name must be no more than 25 characters"),
+  price_per_night: yup.string().required("Price Per Night is required"),
   location: yup
-    .mixed()
-    .test("required", "Location is required", (value) => {
-      return value && value.length;
-    })
-    .test(
-      "locationLength",
-      "Location must be at least 5 characters",
-      (value) => {
-        return value && value.length >= 5;
-      }
-    ),
+    .string()
+    .required("Location is required")
+    .min(5, "Location must be at least 5 characters"),
   description: yup
-    .mixed()
-    .test("required", "Description is required", (value) => {
-      return value && value.length;
-    })
-    .test(
-      "phoneLength",
-      "Description must be at least 10 characters",
-      (value) => {
-        return value && value.length >= 10;
-      }
-    ),
+    .string()
+    .required("Description is required")
+    .min(10, "Description must be at least 10 characters"),
   services: yup
-    .mixed()
-    .test("required", "Services are required", (value) => {
-      return value && value.length;
-    })
-    .test("phoneLength", "Services must be at least 10 characters", (value) => {
-      return value && value.length >= 10;
-    }),
+    .string()
+    .required("Services are required")
+    .min(10, "Services must be at least 10 characters"),
   phone: yup
-    .mixed()
-    .test("required", "Phone is required", (value) => {
-      return value && value.length;
-    })
-    .test(
-      "phoneLength",
-      "Phone must be at least than 10 characters",
-      (value) => {
-        return value && value.length >= 10;
-      }
-    )
-    .test("phoneLength", "Phone must be no more 11 characters", (value) => {
-      return value && value.length <= 11;
-    }),
+    .string()
+    .required("Number is required")
+    .min(10, "Number must be at least 10 characters")
+    .max(11, "Number must be no more than 11 characters"),
   principalImg: yup
     .mixed()
     .test("required", "Principal Image is required", (value) => {
@@ -93,8 +53,14 @@ export const createHotelSchema = yup.object().shape({
       if (value.length) {
         for (let i = 0; i < value.length; i++) {
           const file = value[i].name;
-          if (file && (file.includes(".jpg") || file.includes(".jpeg")))
-            result = true;
+          if (file) {
+            if (file.includes(".jpg") || file.includes(".jpeg")) {
+              result = true;
+            } else {
+              result = false;
+              break;
+            }
+          }
         }
       }
       return result;
@@ -102,6 +68,29 @@ export const createHotelSchema = yup.object().shape({
 });
 
 export const updateHotelSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name is required")
+    .min(2, "Name must be at least 2 characters")
+    .max(25, "Name must be no more than 25 characters"),
+  price_per_night: yup.string().required("Price Per Night is required"),
+  location: yup
+    .string()
+    .required("Location is required")
+    .min(5, "Location must be at least 5 characters"),
+  description: yup
+    .string()
+    .required("Description is required")
+    .min(10, "Description must be at least 10 characters"),
+  services: yup
+    .string()
+    .required("Services are required")
+    .min(10, "Services must be at least 10 characters"),
+  phone: yup
+    .string()
+    .required("Phone is required")
+    .min(10, "Phone must be at least 10 characters")
+    .max(11, "Phone must be no more than 11 characters"),
   principalImg: yup
     .mixed()
     .test("required", "Principal Image is required", (value) => {
@@ -135,7 +124,7 @@ export const updateHotelSchema = yup.object().shape({
     })
     .test("fileType", "Other Files only accept JPEG and JPG files", (value) => {
       let result = true;
-      if (value.length) {
+      if (value) {
         for (let i = 0; i < value.length; i++) {
           const name = value[i].name;
           const image_name = value[i].image_name;

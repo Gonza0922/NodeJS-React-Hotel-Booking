@@ -3,7 +3,7 @@ import { z } from "zod";
 export const PIN = z.object({
   reservation_ID: z
     .number({ required_error: "Enter your reservation number" })
-    .positive({ message: "Rreservation number should be positive" }),
+    .positive({ message: "Reservation number should be positive" }),
   PIN: z
     .number({ required_error: "Enter your PIN" })
     .positive({ message: "PIN should be positive" }),

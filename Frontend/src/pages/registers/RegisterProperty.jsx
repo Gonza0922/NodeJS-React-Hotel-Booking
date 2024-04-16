@@ -5,6 +5,8 @@ import NavbarLRP from "../../components/Navbars/NavbarLRP";
 import { usePartnerContext } from "../../context/PartnerContext";
 import { useHotelContext } from "../../context/HotelContext";
 import { Countrys } from "../../components/Countrys";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { profileSchema } from "../../validations/profile.validation.js";
 
 export function RegisterProperty() {
   const { partner, isAuthenticatedPartner, signUp, error } =
@@ -15,7 +17,7 @@ export function RegisterProperty() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({ resolver: yupResolver(profileSchema) });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function RegisterProperty() {
     <>
       <NavbarLRP />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Register Partner</h3>
+        <h3 className="title-update">Register Partner</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? (
             <div className="error">{error}</div>
@@ -58,13 +60,7 @@ export function RegisterProperty() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("email", {
-                required: { value: true, message: "Email is required" },
-                pattern: {
-                  value: /^[a-z0-9._%+-]+@[a-z0-9-]+\.com$/,
-                  message: "Invalid Email",
-                },
-              })}
+              {...register("email")}
             />
             <label htmlFor="email">Email</label>
             <div className="container-span">
@@ -102,17 +98,7 @@ export function RegisterProperty() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("first_name", {
-                required: { value: true, message: "First Name is required" },
-                minLength: {
-                  value: 2,
-                  message: "First Name must be at least 2 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "First Name must be no more than 20 characters.",
-                },
-              })}
+              {...register("first_name")}
             />
             <label htmlFor="first_name">First Name</label>
             <div className="container-span">
@@ -128,17 +114,7 @@ export function RegisterProperty() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("last_name", {
-                required: { value: true, message: "Last Name is required" },
-                minLength: {
-                  value: 2,
-                  message: "Last Name must be at least 2 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Last Name must be no more than 20 characters.",
-                },
-              })}
+              {...register("last_name")}
             />
             <label htmlFor="last_name">Last Name</label>
             <div className="container-span">
@@ -154,17 +130,7 @@ export function RegisterProperty() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("phone", {
-                required: { value: true, message: "Phone is required" },
-                minLength: {
-                  value: 10,
-                  message: "Phone must be at least 10 characters",
-                },
-                maxLength: {
-                  value: 11,
-                  message: "Phone must be no more than 11 characters.",
-                },
-              })}
+              {...register("phone")}
             />
             <label htmlFor="phone">Phone</label>
             <div className="container-span">
@@ -180,17 +146,7 @@ export function RegisterProperty() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("birthdate", {
-                required: { value: true, message: "Date of Birth is required" },
-                minLength: {
-                  value: 10,
-                  message: "Date of Birth must be 10 characters",
-                },
-                maxLength: {
-                  value: 10,
-                  message: "Date of Birth must be 10 characters",
-                },
-              })}
+              {...register("birthdate")}
             />
             <label htmlFor="birthdate">Date of Birth</label>
             <div className="container-span">
@@ -204,7 +160,6 @@ export function RegisterProperty() {
               name="nacionality"
               control={control}
               defaultValue=""
-              rules={{ required: "Nacionality is required" }}
               render={({ field }) => (
                 <select {...field} className="browser-default">
                   <Countrys />

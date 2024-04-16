@@ -1,8 +1,9 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { getAllHotelsRequest } from "../api/hotel.api";
-// import { verifyTokenPINRequest } from "../api/comment.api";
-// import Cookie from "js-cookie";
-import { updateImageRequest, updateMoreImagesRequest } from "../api/images.api";
+import {
+  updatePrincipalImageRequest,
+  updateMoreImagesRequest,
+} from "../api/images.api";
 
 const hotelContext = createContext();
 
@@ -60,7 +61,7 @@ const HotelProvider = (props) => {
     try {
       const formData = new FormData();
       formData.append("principalImg", image);
-      await updateImageRequest(hotel_ID, formData);
+      await updatePrincipalImageRequest(hotel_ID, formData);
       console.log("Image updated successfully in cloudinary and database");
     } catch (error) {
       console.error("Failed to upload image:", error);

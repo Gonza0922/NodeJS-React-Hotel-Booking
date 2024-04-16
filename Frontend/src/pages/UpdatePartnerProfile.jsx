@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { usePartnerContext } from "../context/PartnerContext";
 import { useHotelContext } from "../context/HotelContext";
 import { transformDateZ } from "../functions/dates";
 import { Countrys } from "../components/Countrys";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { profileSchema } from "../validations/profile.validation.js";
 import {
   getPartnerIdRequest,
   putPartnerIdRequest,
@@ -14,6 +17,13 @@ function UpdatePartnerProfile() {
   const { logout, partner, error, setError, confirmDelete, setConfirmDelete } =
     usePartnerContext();
   const { setRedirect, setErrorRedirect, load, setLoad } = useHotelContext();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    control,
+  } = useForm({ resolver: yupResolver(profileSchema) });
   const navigate = useNavigate();
   const [partnerData, setPartnerData] = useState({
     email: "",
@@ -35,6 +45,11 @@ function UpdatePartnerProfile() {
           password: "",
           birthdate: transformDateZ(data.birthdate),
         });
+        reset({
+          ...data,
+          password: "",
+          birthdate: transformDateZ(data.birthdate),
+        });
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
@@ -43,17 +58,12 @@ function UpdatePartnerProfile() {
     clickGetUser();
   }, []);
 
-  const updatePartner = async () => {
+  const updatePartner = async (partner) => {
     try {
       const data = await putPartnerIdRequest({
-        ...partnerData,
-        phone: Number(partnerData.phone),
+        ...partner,
+        phone: Number(partner.phone),
       });
-      setLoad("Updating Profile...");
-      setTimeout(() => {
-        navigate(`/partners/${partner.first_name}`);
-        setLoad("Update Profile");
-      }, 3000);
       return data;
     } catch (error) {
       console.log(error);
@@ -70,10 +80,23 @@ function UpdatePartnerProfile() {
     }
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    updatePartner();
-  };
+  const onSubmit = handleSubmit((data) => {
+    try {
+      data = {
+        ...data,
+        birthdate: transformDateZ(data.birthdate),
+      };
+      console.log(data);
+      updatePartner(data);
+      setLoad("Updating Profile...");
+      setTimeout(() => {
+        navigate(`/partners/${partner.first_name}`);
+        setLoad("Update Profile");
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <>
@@ -126,7 +149,7 @@ function UpdatePartnerProfile() {
         </div>
       </nav>
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Update Profile</h3>
+        <h3 className="title-update">Update Profile</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? (
             <div className="error">{error}</div>
@@ -135,7 +158,7 @@ function UpdatePartnerProfile() {
           )}
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="email">Email</label>
             <input
               id="email"
@@ -144,14 +167,19 @@ function UpdatePartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, email: e.target.value })
-              }
+              {...register("email", {
+                onChange: (e) => {
+                  setPartnerData({ ...partnerData, email: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.email && <span>{errors.email.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="first_name">First Name</label>
             <input
               id="first_name"
@@ -160,14 +188,22 @@ function UpdatePartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, first_name: e.target.value })
-              }
+              {...register("first_name", {
+                onChange: (e) => {
+                  setPartnerData({
+                    ...partnerData,
+                    first_name: e.target.value,
+                  });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.first_name && <span>{errors.first_name.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="last_name">Last Name</label>
             <input
               id="last_name"
@@ -176,30 +212,40 @@ function UpdatePartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, last_name: e.target.value })
-              }
+              {...register("last_name", {
+                onChange: (e) => {
+                  setPartnerData({ ...partnerData, last_name: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.last_name && <span>{errors.last_name.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="phone">Phone</label>
             <input
               id="phone"
-              type="number"
+              type="text"
               value={partnerData.phone}
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, phone: e.target.value })
-              }
+              {...register("phone", {
+                onChange: (e) => {
+                  setPartnerData({ ...partnerData, phone: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.phone && <span>{errors.phone.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="birthdate">Date of Birth</label>
             <input
               id="birthdate"
@@ -208,26 +254,32 @@ function UpdatePartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, birthdate: e.target.value })
-              }
+              {...register("birthdate", {
+                onChange: (e) => {
+                  setPartnerData({ ...partnerData, birthdate: e.target.value });
+                },
+              })}
             />
+            <div className="container-span">
+              {errors.birthdate && <span>{errors.birthdate.message}</span>}
+            </div>
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
-            <select
-              className="browser-default"
-              value={partnerData.nacionality}
-              onChange={(e) =>
-                setPartnerData({
-                  ...partnerData,
-                  nacionality: e.target.value,
-                })
-              }
-            >
-              <Countrys />
-            </select>
+          <div className="my-input-field col s12">
+            <Controller
+              name="nacionality"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <select {...field} className="browser-default">
+                  <Countrys />
+                </select>
+              )}
+            />
+            <div className="container-span">
+              {errors.nacionality && <span>{errors.nacionality.message}</span>}
+            </div>
           </div>
         </div>
         <div className="container-button-login-register-partner">

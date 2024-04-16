@@ -1,42 +1,42 @@
 import axios from "./axios.js";
 
 export const getReservationRequest = async () => {
-  //Selecciona la reservacion que coincida con el user_ID, seleccionado al validar el UserToken
+  //Select the reservation that matches the user_ID, selected when validating the UserToken
   const request = await axios.get("/user/per_user/reservations");
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const getReservationIdRequest = async (reservation_ID) => {
-  //Selecciona la reservacion que coincida con el reservation_ID enviado por parametro
+  //Select the reservation that matches the reservation_ID sent by parameter
   const request = await axios.get(`/user/reservations/${reservation_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const getReservationFromHotelRequest = async (hotel_ID) => {
-  //Selecciona la reservacion que coincida con el hotel_ID enviado por parametro
+  //Select the reservation that matches the hotel_ID sent by parameter
   const request = await axios.get(`/user/hotel/reservations/${hotel_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const postReservationRequest = async (reservation) => {
-  //Crea una reservacion
+  //Create a reservation
   const request = await axios.post("/user/create/reservations", reservation);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const putReservationRequest = async (reservation_ID, newReservation) => {
-  //Actualiza un reservacion que coincida con el reservation_ID enviado por parametro
+  //Update reservation
   const request = await axios.put(
     `/user/update/reservations/${reservation_ID}`,
     newReservation
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const deleteReservationRequest = async (reservation_ID) => {
-  //Elimina un reservacion que coincida con el reservation_ID enviado por parametro
+  //Delete a reservation
   const request = await axios.delete(
     `/user/delete/reservations/${reservation_ID}`
   );
   return request.data;
-}; //[SE USA] 2
+}; //[USED] 2

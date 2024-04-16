@@ -1,13 +1,13 @@
 import axios from "./axios.js";
 
 export const getImagesPerHotelRequest = async (hotel_ID) => {
-  //Selecciona todas las imagenes del hotel enviado por parametro
+  //Select all images of the hotel sent by parameter
   const request = await axios.get(`/images/all/${hotel_ID}`);
   return request.data;
-}; //[SE USA] 2
+}; //[USED] 2
 
 export const postImageRequest = async (hotel_ID, formData) => {
-  //Guarda la imagen del hotel
+  //Create the principal image
   const request = await axios.post(
     `/images/create/single/${hotel_ID}`,
     formData,
@@ -18,10 +18,10 @@ export const postImageRequest = async (hotel_ID, formData) => {
     }
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const postMoreImagesRequest = async (hotel_ID, formData) => {
-  //Guarda mas imagenes del hotel
+  //Create multiple images
   const request = await axios.post(
     `/images/create/multiple/${hotel_ID}`,
     formData,
@@ -32,10 +32,10 @@ export const postMoreImagesRequest = async (hotel_ID, formData) => {
     }
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
-export const updateImageRequest = async (hotel_ID, formData) => {
-  //Guarda la imagen del hotel
+export const updatePrincipalImageRequest = async (hotel_ID, formData) => {
+  //Update principal image
   const request = await axios.put(
     `/images/update/single/${hotel_ID}`,
     formData,
@@ -46,10 +46,10 @@ export const updateImageRequest = async (hotel_ID, formData) => {
     }
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const updateMoreImagesRequest = async (hotel_ID, formData) => {
-  //Guarda mas imagenes del hotel
+  //Update multiple images
   const request = await axios.put(
     `/images/update/multiple/${hotel_ID}`,
     formData,
@@ -60,10 +60,10 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
     }
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 // export const deleteImageRequest = async (hotel_ID) => {
-//   //Elimina la imagen de principal del hotel en clodinary
+//   //Delete principal image from the hotel in cloudinary
 //   try {
 //     const request = await axios.get(`/images/delete/single/${hotel_ID}`);
 //     return request.data;
@@ -71,10 +71,10 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
 //     console.log(error);
 //     throw error;
 //   }
-// }; //PODRIAMOS UTILIZARLO
+// }; //IT CAN USE
 
 // export const deleteArrayImagesRequest = async (hotel_ID) => {
-//   //Elimina la imagen de principal del hotel en clodinary
+//   //Delete multiple images from the hotel in cloudinary
 //   try {
 //     const request = await axios.get(`/images/delete/multiple/${hotel_ID}`);
 //     return request.data;
@@ -82,4 +82,4 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
 //     console.log(error);
 //     throw error;
 //   }
-// }; //PODRIAMOS UTILIZARLO
+// }; //IT CAN USE

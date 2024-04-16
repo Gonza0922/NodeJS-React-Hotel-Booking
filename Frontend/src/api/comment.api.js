@@ -1,55 +1,55 @@
 import axios from "./axios.js";
 
 export const getAllCommentsRequest = async () => {
-  //Selecciona todos los hoteles
+  //Select all comments
   const request = await axios.get("/user/all/comments");
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const getCommentIdRequest = async (comment_ID) => {
-  //Selecciona el hotel que coincida con el hotel_ID enviado por parametro
+  //Select the comment that matches the comment_ID sent by parameter
   const request = await axios.get(`/user/comments/${comment_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const getCommentPerHotelRequest = async (hotel_ID) => {
-  //Selecciona el/los hoteles creados por el partner_ID, seleccionado al validar el PartnerToken
+  //Select the comment(s) created by the Hotel_ID sent by parameter
   const request = await axios.get(`/user/per_hotel/${hotel_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const postCommentRequest = async (dataComment) => {
-  //Crea un hotel
+  //Create a comment
   const request = await axios.post("/user/create/comments", dataComment);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const putCommentRequest = async (comment_ID, newDataComment) => {
-  //Actualiza un hotel que coincida con el hotel_ID enviado por parametro
+  //Update a comment that matches the comment_ID sent by parameter
   const request = await axios.put(
     `/user/update/comments/${comment_ID}`,
     newDataComment
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const deleteCommentRequest = async (comment_ID) => {
-  //Elimina un hotel que coincida con el hotel_ID enviado
+  //Delete a comment that matches the comment_ID sent by parameter
   const request = await axios.delete(`/user/delete/comments/${comment_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const verifyPINRequest = async (hotel_ID, dataReservation) => {
-  //Verifica el PIN de la base de datos y crea una cookie
+  //Check if the PIN exists in the database and create a cookie
   const request = await axios.post(
     `/user/verify/PIN/comments/${hotel_ID}`,
     dataReservation
   );
   return request.data;
-}; //[SE USA]
+}; //[USED]
 
 export const verifyTokenPINRequest = async (hotel_ID) => {
-  //Verifica el PIN en la cookie
+  //Check if the TokenPIN exists/matches to be able to write a review
   const request = await axios.get(`/user/verify/token/PIN/${hotel_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[USED]

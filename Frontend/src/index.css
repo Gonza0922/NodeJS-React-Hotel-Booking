@@ -290,6 +290,10 @@ select,
   display: inline-block;
 }
 
+.title-update {
+  margin-bottom: 40px;
+}
+
 .delete,
 .delete-hotel {
   float: right;

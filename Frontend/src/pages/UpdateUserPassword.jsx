@@ -31,7 +31,7 @@ function UpdateUserPassword() {
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Update User Password</h3>
+        <h3 className="title-update">Update User Password</h3>
         <div className="container-errors">
           {error === "Old Password Incorrect" ? (
             <div className="error">{error}</div>

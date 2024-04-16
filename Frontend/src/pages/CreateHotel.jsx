@@ -11,8 +11,7 @@ import { createHotelSchema } from "../validations/hotel.validation.js";
 
 function CreateHotel() {
   const { logout, partner, error, setError } = usePartnerContext();
-  const { images, setImages, hotelData, setHotelData, load, setLoad } =
-    useHotelContext();
+  const { hotelData, setHotelData, load, setLoad } = useHotelContext();
   const {
     register,
     handleSubmit,
@@ -256,10 +255,6 @@ function CreateHotel() {
                     ...prevElement,
                     principalImg: e.target.files[0],
                   }));
-                  setImages((prevElement) => ({
-                    ...prevElement,
-                    principalImg: e.target.files[0],
-                  }));
                 }}
               />
             </div>
@@ -297,10 +292,6 @@ function CreateHotel() {
                 {...register("moreImages")}
                 onChange={(e) => {
                   setHotelData((prevElement) => ({
-                    ...prevElement,
-                    moreImages: e.target.files,
-                  }));
-                  setImages((prevElement) => ({
                     ...prevElement,
                     moreImages: e.target.files,
                   }));

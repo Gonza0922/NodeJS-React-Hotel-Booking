@@ -218,7 +218,6 @@ export const deletePartner = async (req, res) => {
         console.log({ message: "There are no images to delete from images" });
       }
       if (getImagesUrl[0])
-        // dejo o saco el if
         getImagesUrl.forEach(async (element) => {
           const url = element.image_name;
           const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
