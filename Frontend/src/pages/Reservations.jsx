@@ -87,6 +87,7 @@ function Reservations() {
                 <h6>Nights: {reservation.nights}</h6>
                 <h6>People: {reservation.people}</h6>
                 <h6>Room Type: {reservation.room_type}</h6>
+                <h6>Person Price: ${reservation.person_price}</h6>
                 <h6>Total Price: ${reservation.total_price}</h6>
                 {reservationHotel < 1 ? (
                   <p></p>

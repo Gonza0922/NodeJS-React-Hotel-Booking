@@ -5,10 +5,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
-  //Selecciona todos los usuarios
+  //Select all users
   try {
-    const [findUser] = await db.query("SELECT * FROM users");
-    res.status(200).json(findUser);
+    const [users] = await db.query("SELECT * FROM users");
+    res.status(200).json(users);
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to recover Users" });
@@ -16,20 +16,22 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUserId = async (req, res) => {
-  //Selecciona el usuario que coincida con el user_ID enviado por parametro
+  //Select the user that matches the user_ID sent by parameter
   try {
-    const id = req.params.user_ID;
-    const [findUser] = await db.query("SELECT * FROM users WHERE user_ID = ?", id);
+    const { user_ID } = req.params;
+    const [findUser] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user_ID]);
     if (findUser.length === 0) return res.status(400).json({ message: "User not found" });
     res.status(200).json(findUser[0]);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to recover User" });
+    res.status(500).json({
+      error: `Failed to recover User for user_ID ${user_ID}`,
+    });
   }
 };
 
 export const registerUser = async (req, res) => {
-  //Registra un usuario nuevo
+  //Register a new user
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const q = "INSERT INTO users(email, password, first_name, last_name, DNI, phone) VALUES (?)";
@@ -42,10 +44,10 @@ export const registerUser = async (req, res) => {
       req.body.phone,
     ];
     const [findDNI] = await db.query("SELECT DNI FROM users WHERE DNI = ?", [req.body.DNI]);
-    if (findDNI.length > 0) return res.status(400).json({ message: "User already exists" });
-    const create = await db.query(q, [values]);
-    const getID = create[0].insertId;
-    const [user] = await db.query("SELECT * FROM users WHERE user_ID = ?", [getID]);
+    if (findDNI.length > 0) return res.status(400).json({ message: ["User already exists"] });
+    const createUser = await db.query(q, [values]);
+    const user_ID = createUser[0].insertId;
+    const [user] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user_ID]);
     const token = await generateToken({ user_ID: user[0].user_ID });
     res.cookie("UserToken", token);
     res.status(201).json(user[0]);
@@ -56,7 +58,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const putUser = async (req, res) => {
-  //Actualiza un usuario
+  //Update a user
   try {
     const q =
       "UPDATE users SET email = ?, first_name = ?, last_name = ?, DNI = ?, phone = ? WHERE user_ID = ?";
@@ -71,8 +73,7 @@ export const putUser = async (req, res) => {
       req.body.user_ID,
     ]);
     if (findDNI.length > 0 && findDNI[0].DNI !== req.body.DNI)
-      //se encontro un DNI igual al que pongo y el DNI es distinto del DNI del user al que estoy editando
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: ["User already exists"] });
     await db.query(q, [...values, req.body.user_ID]);
     res.status(200).json({ message: `User ${req.body.user_ID} updated` });
   } catch (err) {
@@ -82,18 +83,22 @@ export const putUser = async (req, res) => {
 };
 
 export const putUserPassword = async (req, res) => {
-  //Actualiza la contraseña de un usuario
+  //Update a user's password
   try {
     const { oldPassword, newPassword, againNewPassword } = req.body;
-    const id = req.params.user_ID;
+    const { user_ID } = req.params;
     if (newPassword !== againNewPassword)
       return res.status(400).json({ message: "New passwords don't match" });
-    const [findPassword] = await db.query("SELECT password FROM users WHERE user_ID = ?", [id]);
+    const [findPassword] = await db.query("SELECT password FROM users WHERE user_ID = ?", [
+      user_ID,
+    ]);
     const isMatch = await bcrypt.compare(oldPassword, findPassword[0].password);
     if (!isMatch) return res.status(400).json({ message: "Old Password Incorrect" });
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await db.query("UPDATE users SET password = ? WHERE user_ID = ?", [hashedPassword, id]);
-    res.status(200).json({ message: `User password from user ${id} updated` });
+    await db.query("UPDATE users SET password = ? WHERE user_ID = ?", [hashedPassword, user_ID]);
+    res.status(200).json({
+      message: `User password from user ${user_ID} updated`,
+    });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to update User password" });
@@ -101,7 +106,7 @@ export const putUserPassword = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  //Loguea un usuario que coincida con los datos enviados
+  //Log in a user that matches the data sent
   try {
     const { email, password } = req.body;
     const [user] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
@@ -122,7 +127,7 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = async (req, res) => {
-  //Desloguea un usuario
+  //Log out a partner
   try {
     res.cookie("UserToken", "", { expires: new Date(0) });
     return res.status(200).json({ message: "Disconnected" });
@@ -133,13 +138,13 @@ export const logoutUser = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
-  //Verifica si existe/coincide el UserToken para ingresar a la cuenta del usuario
+  //Check if the UserToken exists/matches to enter the user account
   try {
     const { UserToken } = req.cookies;
     if (!UserToken) return res.status(400).json({ message: "Unauthorized, no token" });
     jwt.verify(UserToken, process.env.TOKEN_SECURE, async (err, user) => {
       if (err) return res.status(400).json({ message: "Verification error" });
-      const [userFound] = await db.query("SELECT * FROM users WHERE user_ID = ?", user.user_ID);
+      const [userFound] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user.user_ID]);
       if (userFound.length === 0) return res.status(400).json({ message: "User not found" });
       return res.status(200).json({
         user_ID: userFound[0].user_ID,
@@ -154,15 +159,17 @@ export const verifyUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  //Elimina un usuario que coincida con el user_ID enviado por parametro y todas sus reservaciones
+  //Delete a user that matches the user_ID sent by parameter and all its reservations
   try {
-    const id = req.params.user_ID;
-    await db.query("DELETE FROM reservations WHERE user_ID = ?", id);
-    const [deleteUser] = await db.query("DELETE FROM users WHERE user_ID = ?", id);
+    const { user_ID } = req.params;
+    await db.query("DELETE FROM reservations WHERE user_ID = ?", [user_ID]);
+    const [deleteUser] = await db.query("DELETE FROM users WHERE user_ID = ?", [user_ID]);
     if (deleteUser.affectedRows === 0)
       return res.status(400).json({ message: "User doesn´t exists" });
     res.cookie("UserToken", "", { expires: new Date(0) });
-    res.status(200).json({ message: `User ${id} and his reservations deleted` });
+    res.status(204).json({
+      message: `User ${user_ID} and his reservations deleted`,
+    });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to delete User" });

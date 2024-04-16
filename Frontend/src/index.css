@@ -200,7 +200,7 @@ form {
 }
 
 #card-reservations {
-  margin: 20px 20px;
+  margin: 15px 15px;
 }
 
 #card-partners {
@@ -340,6 +340,10 @@ select,
   padding: 0 20px;
 }
 
+.card .card-content {
+  padding: 20px 30px;
+}
+
 .card-content {
   width: 100%;
 }
@@ -431,4 +435,8 @@ select,
 .dropdown-trigger {
   font-size: 20px;
   padding: 0px 40px;
+}
+
+.p-update-reservation {
+  margin: 0px 0px 10px 0px;
 }

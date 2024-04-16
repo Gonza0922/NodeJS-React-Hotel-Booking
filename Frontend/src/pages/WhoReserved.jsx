@@ -35,7 +35,9 @@ function WhoReserved() {
     await deleteReservationRequest(id);
     typeof reserved === "object" && !Array.isArray(reserved)
       ? setReserved([])
-      : setReserved(reserved.filter((reserve) => reserve.reservation_ID !== id));
+      : setReserved(
+          reserved.filter((reserve) => reserve.reservation_ID !== id)
+        );
   };
 
   return (
@@ -62,7 +64,8 @@ function WhoReserved() {
                 )}
                 <hr />
                 <div className="container-data">
-                  <h6>Reservation Date:</h6> {ResetDate(reserved.reservation_date)}
+                  <h6>Reservation Date:</h6>{" "}
+                  {ResetDate(reserved.reservation_date)}
                 </div>
                 <div className="container-data">
                   <h6>Check In:</h6> {ResetDate(reserved.check_in)}
@@ -80,7 +83,10 @@ function WhoReserved() {
                   <h6>Room Type:</h6> {reserved.room_type}
                 </div>
                 <div className="container-data">
-                  <h6>Person Price:</h6> ${reserved.total_price}
+                  <h6>Person Price:</h6> ${reserved.person_price}
+                </div>
+                <div className="container-data">
+                  <h6>Total Price:</h6> ${reserved.total_price}
                 </div>
                 <button
                   onClick={() => deleteReservation(reserved.reservation_ID)}
@@ -109,7 +115,8 @@ function WhoReserved() {
                   )}
                   <hr />
                   <div className="container-data">
-                    <h6>Reservation Date:</h6> {ResetDate(reserve.reservation_date)}
+                    <h6>Reservation Date:</h6>{" "}
+                    {ResetDate(reserve.reservation_date)}
                   </div>
                   <div className="container-data">
                     <h6>Check In:</h6> {ResetDate(reserve.check_in)}
@@ -127,10 +134,10 @@ function WhoReserved() {
                     <h6>Room Type:</h6> {reserve.room_type}
                   </div>
                   <div className="container-data">
-                    <h6>Person Price:</h6> ${reserve.total_price}
+                    <h6>Person Price:</h6> ${reserve.person_price}
                   </div>
                   <div className="container-data">
-                    <h6>Total Price:</h6> ${reserve.total_price * reserve.people}.00
+                    <h6>Total Price:</h6> ${reserve.total_price}
                   </div>
                   <button
                     onClick={() => deleteReservation(reserve.reservation_ID)}

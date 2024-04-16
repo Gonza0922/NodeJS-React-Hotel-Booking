@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login } from "../schemas/user.schema.js";
+import { register, login, update } from "../schemas/user.schema.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
 import {
@@ -21,7 +21,12 @@ partnerRouter.post(
   validateSchema(register),
   registerPartner
 );
-partnerRouter.put("/partners/update", validateTokenPartner, putPartner);
+partnerRouter.put(
+  "/partners/update",
+  validateSchema(update),
+  validateTokenPartner,
+  putPartner
+);
 partnerRouter.put(
   "/partners/password/update/:partner_ID",
   validateTokenPartner,

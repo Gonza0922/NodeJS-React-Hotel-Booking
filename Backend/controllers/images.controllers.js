@@ -3,12 +3,12 @@ import { v2 as cloudinary } from "cloudinary";
 import { cloudinaryUploader } from "../cloudinary/cloudinary.uploader.js";
 
 export const getAllImages = async (req, res) => {
-  //Selecciona todas las imagenes del hotel enviado por parametro
+  //Select all images of the hotel sent by parameter
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const [findHotel] = await db.query(
       "SELECT image_name FROM images WHERE hotel_ID = ?",
-      id
+      hotel_ID
     );
     if (findHotel.length === 0)
       return res.status(400).json({ message: "Images not found" });
@@ -20,12 +20,12 @@ export const getAllImages = async (req, res) => {
 };
 
 export const postSingleImage = async (req, res) => {
+  //Create the principal image
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const file = req.files.principalImg;
-    if (!file) {
+    if (!file)
       return res.status(400).json({ message: "No image has been uploaded" });
-    }
     const response = await cloudinaryUploader(file);
     const [findUrl] = await db.query(
       "SELECT principalImg FROM hotels WHERE principalImg = ?",
@@ -35,7 +35,7 @@ export const postSingleImage = async (req, res) => {
       return res.status(400).json({ message: "PrincipalImg already exists" });
     await db.query("UPDATE hotels SET principalImg = ? WHERE hotel_ID = ?", [
       response.secure_url,
-      id,
+      hotel_ID,
     ]);
     res.status(201).json({
       message: "Image uploaded to database and cloudinary",
@@ -47,17 +47,16 @@ export const postSingleImage = async (req, res) => {
 };
 
 export const postMultipleImages = async (req, res) => {
+  //Create multiple images
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const files = req.files.moreImages;
-    if (!files) {
+    if (!files)
       return res.status(400).json({ message: "No images have been uploaded" });
-    }
     files.forEach(async (file) => {
       const response = await cloudinaryUploader(file);
-      const values = [id, response.secure_url];
       await db.query("INSERT INTO images (hotel_ID, image_name) VALUES (?)", [
-        values,
+        [hotel_ID, response.secure_url],
       ]);
     });
     res.status(201).json({
@@ -69,13 +68,13 @@ export const postMultipleImages = async (req, res) => {
   }
 };
 
-export const putSingleImages = async (req, res) => {
+export const putSingleImage = async (req, res) => {
+  //Update the principal image
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const file = req.files.principalImg;
-    if (!file) {
+    if (!file)
       return res.status(400).json({ message: "No image has been uploaded" });
-    }
     const response = await cloudinaryUploader(file);
     const [findUrl] = await db.query(
       "SELECT principalImg FROM hotels WHERE principalImg = ?",
@@ -85,7 +84,7 @@ export const putSingleImages = async (req, res) => {
       return res.status(400).json({ message: "PrincipalImg already exists" });
     await db.query("UPDATE hotels SET principalImg = ? WHERE hotel_ID = ?", [
       response.secure_url,
-      id,
+      hotel_ID,
     ]);
     res.status(200).json({
       message: "Image updated in database and cloudinary",
@@ -97,17 +96,17 @@ export const putSingleImages = async (req, res) => {
 };
 
 export const putMultipleImages = async (req, res) => {
+  //Update multiple images
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const files = req.files.moreImages;
     const [findImage_ID] = await db.query(
       "SELECT image_ID FROM images WHERE hotel_ID = ?",
-      [id]
+      [hotel_ID]
     );
     const image_ID = findImage_ID[0].image_ID;
-    if (!files) {
+    if (!files)
       return res.status(400).json({ message: "No images have been uploaded" });
-    }
     files.forEach(async (file, index) => {
       const response = await cloudinaryUploader(file);
       await db.query("UPDATE images SET image_name = ? WHERE image_ID = ?", [
@@ -124,22 +123,22 @@ export const putMultipleImages = async (req, res) => {
   }
 };
 
-export const deleteSingleImages = async (req, res) => {
+export const deleteSingleImage = async (req, res) => {
+  //Delete the principal image
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const [getUrl] = await db.query(
       "SELECT principalImg FROM hotels WHERE hotel_ID = ?",
-      [id]
+      [hotel_ID]
     );
-    if (getUrl[0] === undefined) {
+    if (getUrl[0] === undefined)
       return res.status(400).json({ message: "There is no image to delete" });
-    }
     const url = getUrl[0].principalImg;
     const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
     if (match && match[1]) {
       const publicId = match[1];
       await cloudinary.uploader.destroy(publicId);
-      res.status(200).json({
+      res.status(204).json({
         message: "Image successfully removed from cloudinary",
       });
     } else {
@@ -152,16 +151,16 @@ export const deleteSingleImages = async (req, res) => {
 };
 
 export const deleteMultipleImages = async (req, res) => {
+  //Delete multiple images
   try {
     let count = 0;
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const [getUrl] = await db.query(
       "SELECT image_name FROM images WHERE hotel_ID = ?",
-      [id]
+      [hotel_ID]
     );
-    if (getUrl[0] === undefined) {
+    if (getUrl[0] === undefined)
       return res.status(400).json({ message: "There are no images to delete" });
-    }
     getUrl.forEach(async (element) => {
       const url = element.image_name;
       const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
@@ -173,7 +172,9 @@ export const deleteMultipleImages = async (req, res) => {
         console.error("Couldn´t extract Public ID from URL");
       }
     });
-    console.log(`${count} Images successfully removed from cloudinary`);
+    res.status(204).json({
+      message: `${count} Images successfully removed from cloudinary`,
+    });
   } catch (error) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to Delete Images" });

@@ -46,7 +46,7 @@ function UpdateReservation() {
       console.log(data);
       navigate(`/users/${user.first_name}/reservations`);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response.data.message[0]);
     }
   };
 
@@ -66,9 +66,7 @@ function UpdateReservation() {
       <form className="form-update-reservation col s12" onSubmit={handleClick}>
         <h3 className="title">Update Reservation {reservation_ID}</h3>
         <div className="container-errors">
-          {error === "Reservation already exists" ? (
-            <div className="error">{error}</div>
-          ) : error === "Fields are required" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
@@ -107,23 +105,33 @@ function UpdateReservation() {
           </div>
         </div>
         <div className="row">
-          <div className="col s6">
-            <label htmlFor="people">People</label>
-            <input
-              id="people"
-              type="number"
+          <div className="input-field col s6">
+            <p className="p-update-reservation">People</p>
+            <select
+              className="browser-default"
               value={reservationData.people}
-              className="validate"
-              autoComplete="off"
               onChange={(e) =>
                 setReservationData({
                   ...reservationData,
-                  people: e.target.value,
+                  people: Number(e.target.value),
                 })
               }
-            />
+            >
+              <option value="" disabled>
+                People
+              </option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
           </div>
           <div className="input-field col s6">
+            <p className="p-update-reservation">Room Type</p>
             <select
               className="browser-default"
               value={reservationData.room_type}
@@ -137,10 +145,10 @@ function UpdateReservation() {
               <option value="" disabled>
                 Room Type
               </option>
-              <option value="individual">Individual</option>
-              <option value="familiar">Familiar</option>
-              <option value="doble">Doble</option>
-              {/* <option value="suite">Suite + $50</option> */}
+              <option value="Individual">Individual</option>
+              <option value="Familiar">Familiar</option>
+              <option value="Doble">Doble</option>
+              {/* <option value="Suite">Suite + $50</option> */}
             </select>
           </div>
         </div>

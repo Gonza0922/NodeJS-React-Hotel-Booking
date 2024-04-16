@@ -85,8 +85,8 @@ function UpdateHotel() {
       }, 3000);
       return data;
     } catch (error) {
-      setError(error);
       console.log(error);
+      setError(error.response.data.message[0]);
     }
   };
 
@@ -119,7 +119,7 @@ function UpdateHotel() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Hotel {hotel_ID}</h3>
         <div className="container-errors">
-          {error === "Hotel already exists" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
@@ -276,8 +276,8 @@ function UpdateHotel() {
               />
             </div>
             <div className="message-files">
-              {hotelData.moreImages === undefined ? (
-                <span>No file selected.</span>
+              {hotelData.moreImages === null ? (
+                <span>No files selected.</span>
               ) : (
                 <span>Other Files Selected.</span>
               )}

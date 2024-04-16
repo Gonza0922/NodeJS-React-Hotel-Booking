@@ -6,7 +6,7 @@ import { validateSchema } from "../middlewares/validateSchema.js";
 import { reservation } from "../schemas/reservation.schema.js";
 import {
   getReservationPerUser,
-  getReservationId,
+  getReservationPerId,
   getReservationPerHotel,
   postReservation,
   putReservation,
@@ -23,7 +23,7 @@ reservationRouter.get(
 reservationRouter.get(
   "/reservations/:reservation_ID",
   validateTokenUser,
-  getReservationId
+  getReservationPerId
 );
 reservationRouter.get(
   "/hotel/reservations/:hotel_ID",
@@ -32,12 +32,13 @@ reservationRouter.get(
 );
 reservationRouter.post(
   "/create/reservations",
-  validateTokenUser,
   validateSchema(reservation),
+  validateTokenUser,
   postReservation
 );
 reservationRouter.put(
   "/update/reservations/:reservation_ID",
+  validateSchema(reservation),
   validateTokenUser,
   putReservation
 );

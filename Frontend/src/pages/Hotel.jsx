@@ -52,8 +52,9 @@ function Home() {
   const createReservation = async (reservation, doIt) => {
     try {
       await postReservationRequest(reservation, doIt);
-      setConfirmation("correctly booked hotel");
+      setConfirmation("Correctly booked hotel");
     } catch (error) {
+      console.log(error);
       setError(error.response.data.message);
       setConfirmation(error.response.data.message);
     }
@@ -64,6 +65,7 @@ function Home() {
   };
 
   const onSubmit = handleSubmit((data) => {
+    data = { ...data, people: Number(data.people) };
     setDatosUsar({ ...data, hotel_ID, doIt: false });
     createReservation({ ...data, hotel_ID, doIt: false });
   });
@@ -160,7 +162,7 @@ function Home() {
               </div>
             </div>
           </div>
-        ) : confirmation === "correctly booked hotel" ? (
+        ) : confirmation === "Correctly booked hotel" ? (
           <div className="delete-confirm-container">
             <div className="delete-confirm">
               <h5>Correctly booked hotel</h5>
@@ -216,16 +218,27 @@ function Home() {
           </div>
           <div className="row">
             <div className="input-field col s6">
-              <input
-                id="people"
-                type="number"
-                className="validate"
-                autoComplete="off"
-                {...register("people", {
-                  required: { value: true, message: "People is required" },
-                })}
+              <Controller
+                name="people"
+                control={control}
+                defaultValue=""
+                rules={{ required: "People is required" }}
+                render={({ field }) => (
+                  <select {...field} className="browser-default">
+                    <option value="" disabled>
+                      People
+                    </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                  </select>
+                )}
               />
-              <label htmlFor="people">People</label>
               <div className="container-span">
                 {errors.people && <span>{errors.people.message}</span>}
               </div>
@@ -241,10 +254,10 @@ function Home() {
                     <option value="" disabled>
                       Room Type
                     </option>
-                    <option value="individual">Individual</option>
-                    <option value="familiar">Familiar</option>
-                    <option value="doble">Doble</option>
-                    {/* <option value="suite">Suite + $50</option> */}
+                    <option value="Individual">Individual</option>
+                    <option value="Familiar">Familiar</option>
+                    <option value="Doble">Doble</option>
+                    {/* <option value="Suite">Suite + $50</option> */}
                   </select>
                 )}
               />

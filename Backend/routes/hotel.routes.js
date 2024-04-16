@@ -26,7 +26,12 @@ hotelRouter.post(
   validateTokenPartner,
   postHotel
 );
-hotelRouter.put("/update/hotels/:hotel_ID", validateTokenPartner, putHotel);
+hotelRouter.put(
+  "/update/hotels/:hotel_ID",
+  validateSchema(hotel),
+  validateTokenPartner,
+  putHotel
+);
 hotelRouter.delete(
   "/delete/hotels/:hotel_ID",
   validateTokenPartner,

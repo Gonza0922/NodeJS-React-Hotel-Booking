@@ -1,7 +1,7 @@
 import { db } from "../tables.js";
 
 export const getAllHotels = async (req, res) => {
-  //Selecciona todos los hoteles
+  //Select all hotels
   try {
     const [hotels] = await db.query("SELECT * FROM hotels");
     res.status(200).json(hotels);
@@ -12,44 +12,48 @@ export const getAllHotels = async (req, res) => {
 };
 
 export const getHotelId = async (req, res) => {
-  //Selecciona el hotel que coincida con el hotel_ID enviado por parametro
+  //Select the hotel that matches the hotel_ID sent by parameter
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const [findHotel] = await db.query(
       "SELECT * FROM hotels WHERE hotel_ID = ?",
-      id
+      [hotel_ID]
     );
     if (findHotel.length === 0)
       return res.status(400).json({ message: "Hotel not found" });
     res.status(200).json(findHotel[0]);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to recover Hotel for Hotel" });
+    res.status(500).json({
+      error: `Failed to recover Hotel for hotel_ID ${hotel_ID}`,
+    });
   }
 };
 
 export const getHotelPerPartner = async (req, res) => {
-  //Selecciona el/los hoteles creados por el partner_ID, seleccionado al validar el PartnerToken
+  //Select the hotel(s) created by the partner_ID, selected when validating the PartnerToken
   try {
     const { partner_ID } = req.partner;
-    const [hotels] = await db.query(
+    const [findHotels] = await db.query(
       "SELECT * FROM hotels WHERE partner_ID = ?",
       [partner_ID]
     );
-    res.status(200).json(hotels);
+    res.status(200).json(findHotels);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to recover Hotel for Partner" });
+    res.status(500).json({
+      error: `Failed to recover Hotel for partner_ID ${partner_ID}`,
+    });
   }
 };
 
 export const postHotel = async (req, res) => {
-  //Crea un hotel
+  //Create a hotel
   try {
     const { partner_ID } = req.partner;
-    const q1 =
+    const q =
       "INSERT INTO hotels(name, price_per_night, description, services, location, phone, principalImg, partner_ID) VALUES (?)";
-    const values1 = [
+    const values = [
       req.body.name,
       req.body.price_per_night,
       req.body.description,
@@ -65,10 +69,10 @@ export const postHotel = async (req, res) => {
     );
     if (findName.length > 0)
       return res.status(400).json({ message: "Hotel already exists" });
-    const createHotel = await db.query(q1, [values1]);
-    const getID = createHotel[0].insertId; //id del hotel
+    const createHotel = await db.query(q, [values]);
+    const hotel_ID = createHotel[0].insertId;
     const [hotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [
-      getID,
+      hotel_ID,
     ]);
     res.status(201).json(hotel[0]);
   } catch (err) {
@@ -78,9 +82,9 @@ export const postHotel = async (req, res) => {
 };
 
 export const putHotel = async (req, res) => {
-  //Actualiza un hotel que coincida con el hotel_ID enviado
+  //Update a hotel that matches the hotel_ID sent by parameter
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const q =
       "UPDATE hotels SET name = ?, price_per_night = ?, description = ?, services = ?, location = ?, phone = ? WHERE hotel_ID = ?";
     const values = [
@@ -91,28 +95,18 @@ export const putHotel = async (req, res) => {
       req.body.location,
       req.body.phone,
     ];
-    if (
-      req.body.name === "" ||
-      req.body.price_per_night === "" ||
-      req.body.description === "" ||
-      req.body.services === "" ||
-      req.body.location === "" ||
-      req.body.phone === ""
-    ) {
-      return res.status(400).json({ message: "Fields are required" });
-    }
     const [findName] = await db.query(
       "SELECT name FROM hotels WHERE name = ?",
       [req.body.name]
     );
-    const [findNamePerId] = await db.query(
+    const [findNamePerHotelId] = await db.query(
       "SELECT name FROM hotels WHERE hotel_ID = ?",
-      [id]
+      [hotel_ID]
     );
-    if (findName.length > 0 && findNamePerId[0].name !== req.body.name)
-      return res.status(400).json({ message: "Hotel already exists" });
-    await db.query(q, [...values, id]);
-    res.status(200).json({ message: `Hotel ${id} updated` });
+    if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
+      return res.status(400).json({ message: ["Hotel already exists"] });
+    await db.query(q, [...values, hotel_ID]);
+    res.status(200).json({ message: `Hotel ${hotel_ID} updated` });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to update Hotel" });
@@ -120,12 +114,12 @@ export const putHotel = async (req, res) => {
 };
 
 export const deleteHotel = async (req, res) => {
-  //Elimina un hotel que coincida con el hotel_ID enviado
+  //Delete a hotel that matches the hotel_ID sent by parameter
   try {
-    const id = req.params.hotel_ID;
+    const { hotel_ID } = req.params;
     const [hasReservation] = await db.query(
       "SELECT hotel_ID FROM reservations WHERE hotel_ID = ?",
-      id
+      hotel_ID
     );
     if (hasReservation.length > 0)
       for (let i = 0; i < hasReservation.length; i++) {
@@ -136,17 +130,19 @@ export const deleteHotel = async (req, res) => {
       }
     const [deleteHotelImages] = await db.query(
       "DELETE FROM images WHERE hotel_ID = ?",
-      id
+      hotel_ID
     );
     if (deleteHotelImages.affectedRows === 0)
       console.log({ message: "Hotel hasn´t images" });
     const [deleteHotel] = await db.query(
       "DELETE FROM hotels WHERE hotel_ID = ?",
-      id
+      hotel_ID
     );
     if (deleteHotel.affectedRows === 0)
-      return res.status(400).json({ message: "Hotel doesn´t exists" });
-    res.status(200).json({ message: `Hotel ${id} deleted with images` });
+      return res.status(400).json({ message: ["Hotel doesn´t exists"] });
+    res.status(204).json({
+      message: `Hotel ${hotel_ID} deleted with its images`,
+    });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to delete Hotel" });

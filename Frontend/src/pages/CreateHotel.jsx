@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { postHotelRequest } from "../api/hotels.api";
@@ -24,6 +24,14 @@ function CreateHotel() {
   const [load, setLoad] = useState("Create");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setHotelData((prevElement) => ({
+      ...prevElement,
+      principalImg: undefined,
+      moreImages: undefined,
+    }));
+  }, []);
 
   const createHotel = async (hotel) => {
     try {
@@ -234,12 +242,12 @@ function CreateHotel() {
             </div>
             <div className="message-files">
               {hotelData.principalImg === undefined ? (
-                <span>Ninguno archivo selec.</span>
+                <span>No file selected</span>
               ) : (
                 <span>
                   {hotelData.principalImg.name
                     ? hotelData.principalImg.name
-                    : "Imagen Principal"}
+                    : "Principal File"}
                 </span>
               )}
             </div>
@@ -283,9 +291,9 @@ function CreateHotel() {
             </div>
             <div className="message-files">
               {hotelData.moreImages === undefined ? (
-                <span>Ninguno archivo selec.</span>
+                <span>No files selected</span>
               ) : (
-                <span>Archivos selecccionados.</span>
+                <span>Selected files.</span>
               )}
             </div>
             <div className="container-span">

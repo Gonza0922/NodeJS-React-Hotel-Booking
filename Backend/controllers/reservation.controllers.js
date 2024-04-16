@@ -1,94 +1,91 @@
 import { db } from "../tables.js";
 
 export const getReservationPerUser = async (req, res) => {
-  //Selecciona la reservacion que coincida con el user_ID, seleccionado al validar el UserToken
+  //Select the reservation that matches the user_ID, selected when validating the UserToken
   try {
     const { user_ID } = req.user;
-    const [reservations] = await db.query(
+    const [findReservation] = await db.query(
       "SELECT * FROM reservations WHERE user_ID = ?",
       [user_ID]
     );
-    res.status(200).json(reservations);
+    res.status(200).json(findReservation);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to recover Reservation for User" });
+    res.status(500).json({
+      error: `Failed to recover Reservation for user_ID ${user_ID}`,
+    });
   }
 };
 
-export const getReservationId = async (req, res) => {
-  //Selecciona la reservacion que coincida con el reservation_ID enviado por parametro
+export const getReservationPerId = async (req, res) => {
+  //Select the reservation that matches the reservation_ID sent by parameter
   try {
-    const id = req.params.reservation_ID;
+    const { reservation_ID } = req.params;
     const [findReservation] = await db.query(
       "SELECT * FROM reservations WHERE reservation_ID = ?",
-      id
+      [reservation_ID]
     );
     if (findReservation.length === 0)
       return res.status(400).json({ message: "Reservation not found" });
     res.status(200).json(findReservation[0]);
   } catch (err) {
     console.error("Error:", err);
-    res
-      .status(500)
-      .json({ error: "Failed to recover Reservation for Reservation" });
+    res.status(500).json({
+      error: `Failed to recover Reservation for reservation_ID ${reservation_ID}`,
+    });
   }
 };
 
 export const getReservationPerHotel = async (req, res) => {
-  //Selecciona la reservacion que coincida con el hotel_ID enviado por parametro
+  //Select the reservation that matches the hotel_ID sent by parameter
   try {
-    const id = req.params.hotel_ID;
-    const [prueba] = await db.query(
+    const { hotel_ID } = req.params;
+    const [findReservation] = await db.query(
       "SELECT * FROM reservations WHERE hotel_ID = ?",
-      id
+      [hotel_ID]
     );
-    if (!prueba)
+    if (!findReservation)
       return res.status(400).json({
-        message: `In reservations the hotel with id ${id} is not found`,
+        message: `In reservations the hotel with id ${hotel_ID} is not found`,
       });
-    res.status(200).json(prueba);
+    res.status(200).json(findReservation);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to recover Reservation for Hotel" });
+    res.status(500).json({
+      error: `Failed to recover Reservation for hotel_ID ${hotel_ID}`,
+    });
   }
 };
 
 export const postReservation = async (req, res) => {
-  //Crea una reservacion
+  //Create a reservation
   try {
     const { user_ID } = req.user;
     const [calculateNights] = await db.query(
       "SELECT DATEDIFF(?, ?) AS nights",
       [req.body.check_out, req.body.check_in]
     );
-    const query = `
-      SELECT ((SELECT price_per_night from hotels
-      WHERE hotel_ID = ?) * ?) AS total_price
-    `;
-    const [calculateTotalPrice] = await db.query(query, [
-      req.body.hotel_ID,
-      calculateNights[0].nights,
-    ]);
+    const [calculatePersonPrice] = await db.query(
+      "SELECT ((SELECT price_per_night from hotels WHERE hotel_ID = ?) * ?) AS person_price",
+      [req.body.hotel_ID, calculateNights[0].nights]
+    );
+    const [calculateTotalPrice] = await db.query(
+      "SELECT (? * ?) AS total_price",
+      [calculatePersonPrice[0].person_price, req.body.people]
+    );
     const q =
-      "INSERT INTO reservations(check_in, check_out, nights, people, room_type, total_price, user_ID, hotel_ID) VALUES (?)";
+      "INSERT INTO reservations(check_in, check_out, nights, people, room_type, person_price, total_price, user_ID, hotel_ID) VALUES (?)";
     const values = [
       req.body.check_in,
       req.body.check_out,
       calculateNights[0].nights,
       req.body.people,
       req.body.room_type,
+      calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
       user_ID,
       req.body.hotel_ID,
     ];
-    const [createReservation] = await db.query(
-      "SELECT user_ID, hotel_ID FROM reservations WHERE user_ID = ? AND hotel_ID = ?",
-      [user_ID, req.body.hotel_ID]
-    );
-    if (createReservation.length > 0 && req.body.doIt === false)
-      return res.status(400).json({
-        message: "You have already made a reservation at that hotel",
-      });
     const [ItsReserved] = await db.query(
       "SELECT check_in, check_out FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
       [
@@ -102,11 +99,19 @@ export const postReservation = async (req, res) => {
       return res.status(400).json({
         message: "Sorry, the hotel is already booked for those dates",
       });
-    const create = await db.query(q, [values]);
-    const getID = create[0].insertId;
+    const [iHaveReservation] = await db.query(
+      "SELECT user_ID, hotel_ID FROM reservations WHERE user_ID = ? AND hotel_ID = ?",
+      [user_ID, req.body.hotel_ID]
+    );
+    if (iHaveReservation.length > 0 && req.body.doIt === false)
+      return res.status(400).json({
+        message: "You have already made a reservation at that hotel",
+      });
+    const createReservation = await db.query(q, [values]);
+    const reservation_ID = createReservation[0].insertId;
     const [reservation] = await db.query(
       "SELECT * FROM reservations WHERE reservation_ID = ?",
-      [getID]
+      [reservation_ID]
     );
     res.status(201).json(reservation[0]);
   } catch (err) {
@@ -116,44 +121,36 @@ export const postReservation = async (req, res) => {
 };
 
 export const putReservation = async (req, res) => {
-  //Actualiza una reservacion que coincida con el reservation_ID enviado
+  //Update reservation
   try {
     const { user_ID } = req.user;
-    const id = req.params.reservation_ID;
+    const { reservation_ID } = req.params;
     const [calculateNights] = await db.query(
       "SELECT DATEDIFF(?, ?) AS nights",
       [req.body.check_out, req.body.check_in]
     );
-
-    const query = `
-      SELECT ((SELECT price_per_night from hotels
-      WHERE hotel_ID = ?) * ?) AS total_price
-    `;
-    const [calculateTotalPrice] = await db.query(query, [
-      req.body.hotel_ID,
-      calculateNights[0].nights,
-    ]);
+    const [calculatePersonPrice] = await db.query(
+      "SELECT ((SELECT price_per_night from hotels WHERE hotel_ID = ?) * ?) AS person_price",
+      [req.body.hotel_ID, calculateNights[0].nights]
+    );
+    const [calculateTotalPrice] = await db.query(
+      "SELECT (? * ?) AS total_price",
+      [calculatePersonPrice[0].person_price, req.body.people]
+    );
     const q =
-      "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, people  = ?, room_type = ?, total_price  = ?, user_ID = ?, hotel_ID = ? WHERE reservation_ID = ?";
+      "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, people  = ?, room_type = ?, person_price  = ?, total_price  = ?, user_ID = ?, hotel_ID = ? WHERE reservation_ID = ?";
     const values = [
       req.body.check_in,
       req.body.check_out,
       calculateNights[0].nights,
       req.body.people,
       req.body.room_type,
+      calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
       user_ID,
       req.body.hotel_ID,
     ];
-    if (
-      req.body.check_in === "" ||
-      req.body.check_out === "" ||
-      req.body.people === "" ||
-      req.body.room_type === ""
-    ) {
-      return res.status(400).json({ message: "Fields are required" });
-    }
-    const [updateReservation] = await db.query(
+    const [ItsReserved] = await db.query(
       "SELECT user_ID, hotel_ID FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
       [
         req.body.check_in,
@@ -162,10 +159,16 @@ export const putReservation = async (req, res) => {
         req.body.hotel_ID,
       ]
     );
-    if (updateReservation.length > 0)
-      return res.status(400).json({ message: "Reservation already exists" });
-    await db.query(q, [...values, id]);
-    res.status(200).json({ message: `Reservation ${id} updated` });
+    if (
+      ItsReserved.length > 0 &&
+      user_ID !== ItsReserved[0].user_ID &&
+      req.body.hotel_ID !== ItsReserved[0].hotel_ID
+    )
+      return res.status(400).json({
+        message: ["Sorry, the hotel is already booked for those dates"],
+      });
+    await db.query(q, [...values, reservation_ID]);
+    res.status(200).json({ message: `Reservation ${reservation_ID} updated` });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to update Reservation" });
@@ -173,16 +176,16 @@ export const putReservation = async (req, res) => {
 };
 
 export const deleteReservation = async (req, res) => {
-  //Elimina una reservacion que coincida con el reservation_ID enviado
+  //Delete a reservation
   try {
-    const id = req.params.reservation_ID;
+    const { reservation_ID } = req.params;
     const [deleteReservation] = await db.query(
       "DELETE FROM reservations WHERE reservation_ID = ?",
-      id
+      reservation_ID
     );
     if (deleteReservation.affectedRows === 0)
       return res.status(400).json({ message: "Reservation doesn´t exists" });
-    res.status(200).json({ message: `Reservation ${id} deleted` });
+    res.status(204).json({ message: `Reservation ${reservation_ID} deleted` });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to delete Reservation" });

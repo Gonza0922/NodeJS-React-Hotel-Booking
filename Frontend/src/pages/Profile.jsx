@@ -42,7 +42,8 @@ function Profile() {
       console.log(data);
       navigate(`/users/${user.first_name}`);
     } catch (error) {
-      setError(error.response.data.message);
+      console.log(error);
+      setError(error.response.data.message[0]);
     }
   };
 
@@ -110,7 +111,7 @@ function Profile() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Profile</h3>
         <div className="container-errors">
-          {error === "User already exists" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
