@@ -1,5 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { getAllHotelsRequest } from "../api/hotel.api";
+// import { verifyTokenPINRequest } from "../api/comment.api";
+// import Cookie from "js-cookie";
 import {
   postImageRequest,
   postMoreImagesRequest,
@@ -37,6 +39,7 @@ const HotelProvider = (props) => {
   const [redirect, setRedirect] = useState(false);
   const [errorRedirect, setErrorRedirect] = useState({});
   const [load, setLoad] = useState("");
+  const [isPIN, setIsPIN] = useState(false);
 
   useEffect(() => {
     const getHotels = async () => {
@@ -120,6 +123,7 @@ const HotelProvider = (props) => {
         hotelSearch,
         setHotelSearch,
         filtrar,
+        setContent,
         images,
         setImages,
         hotelData,
@@ -138,6 +142,8 @@ const HotelProvider = (props) => {
         setLoad,
         commentsWithUser,
         setCommentsWithUser,
+        isPIN,
+        setIsPIN,
       }}
     >
       {props.children}

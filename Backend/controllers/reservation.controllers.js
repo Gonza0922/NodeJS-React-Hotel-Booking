@@ -73,8 +73,14 @@ export const postReservation = async (req, res) => {
       "SELECT (? * ?) AS total_price",
       [calculatePersonPrice[0].person_price, req.body.guests]
     );
+    let PIN = Math.floor(Math.random() * 900000) + 100000;
+    const [findPIN] = await db.query(
+      "SELECT PIN from reservations WHERE PIN = ? ",
+      [PIN]
+    );
+    if (findPIN.length > 0) PIN = Math.floor(Math.random() * 900000) + 100000;
     const q =
-      "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, user_ID, hotel_ID) VALUES (?)";
+      "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, PIN, user_ID, hotel_ID) VALUES (?)";
     const values = [
       req.body.check_in,
       req.body.check_out,
@@ -83,6 +89,7 @@ export const postReservation = async (req, res) => {
       req.body.room_type,
       calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
+      PIN,
       user_ID,
       req.body.hotel_ID,
     ];

@@ -22,11 +22,35 @@ cloudinary.config({
 const imagesRouter = Router();
 
 imagesRouter.get("/all/:hotel_ID", getAllImages);
-imagesRouter.post("/create/single/:hotel_ID", validateTokenPartner, postSingleImage);
-imagesRouter.post("/create/multiple/:hotel_ID", validateTokenPartner, postMultipleImages);
-imagesRouter.post("/update/single/:hotel_ID", validateTokenPartner, putSingleImage);
-imagesRouter.post("/update/multiple/:hotel_ID", validateTokenPartner, putMultipleImages);
-imagesRouter.get("/delete/single/:hotel_ID", validateTokenPartner, deleteSingleImage);
-imagesRouter.get("/delete/multiple/:hotel_ID", validateTokenPartner, deleteMultipleImages);
+imagesRouter.post(
+  "/create/single/:hotel_ID",
+  validateTokenPartner,
+  postSingleImage
+);
+imagesRouter.post(
+  "/create/multiple/:hotel_ID",
+  validateTokenPartner,
+  postMultipleImages
+);
+imagesRouter.post(
+  "/update/single/:hotel_ID",
+  validateTokenPartner,
+  putSingleImage
+);
+imagesRouter.post(
+  "/update/multiple/:hotel_ID",
+  validateTokenPartner,
+  putMultipleImages
+);
+imagesRouter.get(
+  "/delete/single/:hotel_ID",
+  validateTokenPartner,
+  deleteSingleImage
+);
+imagesRouter.get(
+  "/delete/multiple/:hotel_ID",
+  validateTokenPartner,
+  deleteMultipleImages
+);
 
 export default imagesRouter;

@@ -8,7 +8,7 @@ import { getAllHotelsRequest } from "../api/hotel.api";
 
 function Home() {
   const { isAuthenticated, user } = useUserContext();
-  const { hotels, setHotels, setRedirect, setErrorRedirect } =
+  const { hotels, setHotels, setRedirect, setErrorRedirect, setContent } =
     useHotelContext();
 
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ function Home() {
       try {
         const data = await getAllHotelsRequest();
         setHotels(data);
+        setContent(data);
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);

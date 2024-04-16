@@ -182,7 +182,8 @@ form {
   text-align: start;
 }
 
-.container-button-reserve {
+.container-button-reserve,
+.container-button-comment {
   text-align: center;
   margin: 10px;
 }
@@ -302,7 +303,8 @@ select,
   margin-right: 30px;
 }
 
-.delete-confirm-container {
+.delete-confirm-container,
+.comment-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -487,7 +489,56 @@ select,
   font-size: 18px;
 }
 
+.button-back {
+  float: right;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.button-back:hover {
+  background-color: rgb(216, 215, 215);
+}
+
 .content,
 .reviewed {
   padding: 5px 0px;
+}
+
+.delete-confirm,
+.comment {
+  text-align: center;
+  background-color: white;
+  width: 35%;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#create-comment {
+  height: 110px;
+  border: 1px solid black;
+  font-size: 18px;
+  resize: none;
+  padding: 10px;
+  margin: 20px 0px;
+}
+
+/* FOOTER */
+
+.footer {
+  width: 100%;
+  height: 100px;
+  background-color: #ff8a65;
+  margin: 20px 0px;
+  padding: 20px 0px;
+}
+
+#comment-form {
+  width: 100%;
+  margin-left: 0px;
+}
+
+.info-verify-PIN {
+  margin-top: 20px;
+  font-size: 12px;
 }

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-function NavbarMenu({ profile, logout }) {
+function NavbarMenu({ navigation, profile, logout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,13 +23,21 @@ function NavbarMenu({ profile, logout }) {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a onClick={() => navigate(`${navigation}/profile`)}>
+              <a
+                onClick={() =>
+                  navigate(`/${navigation}/${profile.first_name}/profile`)
+                }
+              >
                 Profile Data
               </a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
-              <a onClick={() => navigate(`${navigation}/password`)}>
+              <a
+                onClick={() =>
+                  navigate(`/${navigation}/${profile.first_name}/password`)
+                }
+              >
                 Change Password
               </a>
             </li>

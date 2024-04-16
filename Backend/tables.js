@@ -72,6 +72,7 @@ const createTables = async () => {
         room_type VARCHAR(255) NOT NULL,
         person_price DECIMAL(10,2) NOT NULL,
         total_price DECIMAL(10,2) NOT NULL,
+        PIN INT NOT NULL UNIQUE,
         user_ID INT NOT NULL,
         hotel_ID INT NOT NULL,
         FOREIGN KEY (user_ID) REFERENCES users(user_ID),

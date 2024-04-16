@@ -67,25 +67,23 @@ const Partners = () => {
     navigate(`update/${id}`);
   };
 
-  // const deleteMoreImages = async (id) => {
-  //   try {
-  //     const data = await deleteArrayImagesRequest(id);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError(error.response.data.message);
-  //   }
-  // };
+  const deleteMoreImages = async (id) => {
+    try {
+      await deleteArrayImagesRequest(id);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
 
-  // const deletePrincipal = async (id) => {
-  //   try {
-  //     const data = await deleteImageRequest(id);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError(error.response.data.message);
-  //   }
-  // };
+  const deletePrincipal = async (id) => {
+    try {
+      await deleteImageRequest(id);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
 
   const deleteHotel = async (id) => {
     try {
@@ -233,6 +231,8 @@ const Partners = () => {
                       onClick={() => {
                         deleteHotel(hotel.hotel_ID);
                         showConfirmDelete(hotel.hotel_ID);
+                        deletePrincipal(hotel.hotel_ID);
+                        deleteMoreImages(hotel.hotel_ID);
                       }}
                       className="button-delete-confirm waves-effect waves-light btn red darken-2"
                     >

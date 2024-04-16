@@ -29,7 +29,7 @@ export const register = z.object({
     .max(20, { message: "Nacionality must be no more than 20 characters" }),
   phone: z
     .number({ required_error: "Phone is required" })
-    .positive({ message: "Number should be positive" })
+    .positive({ message: "Phone should be positive" })
     .gt(1000000000, { message: "Phone must be at least than 10 characters" })
     .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });
@@ -68,7 +68,7 @@ export const update = z.object({
     .max(20, { message: "Nacionality must be no more than 20 characters" }),
   phone: z
     .number({ required_error: "Phone is required" })
-    .positive({ message: "Number should be positive" })
+    .positive({ message: "Phone should be positive" })
     .gt(1000000000, { message: "Phone must be at least than 10 characters" })
     .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });

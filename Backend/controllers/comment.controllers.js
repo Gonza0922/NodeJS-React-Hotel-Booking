@@ -1,4 +1,7 @@
 import { db } from "../tables.js";
+import { generateToken } from "../libs/jwt.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const getAllComments = async (req, res) => {
   //Select all comments
@@ -86,7 +89,7 @@ export const deleteComment = async (req, res) => {
     const { comment_ID } = req.params;
     const [deleteComment] = await db.query(
       "DELETE FROM comments WHERE comment_ID = ?",
-      comment_ID
+      [comment_ID]
     );
     if (deleteComment.affectedRows === 0)
       return res.status(400).json({ message: ["Comment doesn´t exists"] });
@@ -96,5 +99,54 @@ export const deleteComment = async (req, res) => {
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to delete Comment" });
+  }
+};
+
+export const verifyPIN = async (req, res) => {
+  //Check if the PIN exists in the database and create a cookie
+  try {
+    const { hotel_ID } = req.params;
+    const [findPIN] = await db.query(
+      "SELECT PIN FROM reservations WHERE reservation_ID = ? AND PIN = ? AND hotel_ID = ?",
+      [req.body.reservation_ID, req.body.PIN, hotel_ID]
+    );
+    if (findPIN.length === 0)
+      return res.status(400).json({
+        message: ["Reservation not found, try again"],
+      });
+    const token = await generateToken({ PIN: req.body.PIN });
+    res.cookie(`TokenPIN${hotel_ID}`, token);
+    res.status(200).json({
+      message: "User authorized",
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Failed to verify PIN" });
+  }
+};
+
+export const verifyTokenPIN = async (req, res) => {
+  //Check if the TokenPIN exists/matches to be able to write a review
+  try {
+    const { hotel_ID } = req.params;
+    const TokenPIN = req.cookies[`TokenPIN${hotel_ID}`];
+    if (!TokenPIN)
+      return res.status(400).json({ message: "Unauthorized, no PIN" });
+    jwt.verify(TokenPIN, process.env.TOKEN_SECURE, async (err, resultPIN) => {
+      if (err)
+        return res.status(400).json({ message: "PIN verification error" });
+      const [foundPIN] = await db.query(
+        "SELECT PIN FROM reservations WHERE PIN = ?",
+        [resultPIN.PIN]
+      );
+      if (foundPIN.length === 0)
+        return res.status(400).json({ message: "PIN not found" });
+      return res.status(200).json({
+        message: "User Authorized",
+      });
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Failed to verify TokenPIN" });
   }
 };

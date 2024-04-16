@@ -1,4 +1,8 @@
 import { db } from "../tables.js";
+import {
+  deleteSingleImage,
+  deleteMultipleImages,
+} from "./images.controllers.js";
 
 export const getAllHotels = async (req, res) => {
   //Select all hotels
@@ -50,8 +54,9 @@ export const getHotelPerPartner = async (req, res) => {
 export const postHotel = async (req, res) => {
   //Create a hotel
   try {
+    const { partner_ID } = req.partner;
     const q =
-      "INSERT INTO hotels(name, price_per_night, description, services, location, phone, principalImg) VALUES (?)";
+      "INSERT INTO hotels(name, price_per_night, description, services, location, phone, principalImg, partner_ID) VALUES (?)";
     const values = [
       req.body.name,
       req.body.price_per_night,
@@ -60,6 +65,7 @@ export const postHotel = async (req, res) => {
       req.body.location,
       req.body.phone,
       "none",
+      partner_ID,
     ];
     const [findName] = await db.query(
       "SELECT name FROM hotels WHERE name = ?",

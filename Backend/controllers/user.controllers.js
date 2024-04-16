@@ -1,5 +1,4 @@
 import { db } from "../tables.js";
-
 import { generateToken } from "../libs/jwt.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -19,8 +18,11 @@ export const getUserId = async (req, res) => {
   //Select the user that matches the user_ID sent by parameter
   try {
     const { user_ID } = req.params;
-    const [findUser] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user_ID]);
-    if (findUser.length === 0) return res.status(400).json({ message: "User not found" });
+    const [findUser] = await db.query("SELECT * FROM users WHERE user_ID = ?", [
+      user_ID,
+    ]);
+    if (findUser.length === 0)
+      return res.status(400).json({ message: "User not found" });
     res.status(200).json(findUser[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -45,13 +47,17 @@ export const registerUser = async (req, res) => {
       req.body.nacionality,
       req.body.phone,
     ];
-    const [findEmail] = await db.query("SELECT email FROM users WHERE email = ?", [
-      req.body.email,
-    ]);
-    if (findEmail.length > 0) return res.status(400).json({ message: ["Email already exists"] });
+    const [findEmail] = await db.query(
+      "SELECT email FROM users WHERE email = ?",
+      [req.body.email]
+    );
+    if (findEmail.length > 0)
+      return res.status(400).json({ message: ["Email already exists"] });
     const createUser = await db.query(q, [values]);
     const user_ID = createUser[0].insertId;
-    const [user] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user_ID]);
+    const [user] = await db.query("SELECT * FROM users WHERE user_ID = ?", [
+      user_ID,
+    ]);
     const token = await generateToken({ user_ID: user[0].user_ID });
     res.cookie("UserToken", token);
     res.status(201).json(user[0]);
@@ -74,12 +80,14 @@ export const putUser = async (req, res) => {
       req.body.nacionality,
       req.body.phone,
     ];
-    const [myData] = await db.query("SELECT email FROM users WHERE user_ID = ?", [
-      req.body.user_ID,
-    ]);
-    const [findEmail] = await db.query("SELECT email FROM users WHERE email = ?", [
-      req.body.email,
-    ]);
+    const [myData] = await db.query(
+      "SELECT email FROM users WHERE user_ID = ?",
+      [req.body.user_ID]
+    );
+    const [findEmail] = await db.query(
+      "SELECT email FROM users WHERE email = ?",
+      [req.body.email]
+    );
     if (findEmail.length > 0 && myData[0].email !== req.body.email)
       return res.status(400).json({ message: ["Email already exists"] });
     await db.query(q, [...values, req.body.user_ID]);
@@ -97,13 +105,18 @@ export const putUserPassword = async (req, res) => {
     const { user_ID } = req.params;
     if (newPassword !== againNewPassword)
       return res.status(400).json({ message: "New passwords don't match" });
-    const [findPassword] = await db.query("SELECT password FROM users WHERE user_ID = ?", [
+    const [findPassword] = await db.query(
+      "SELECT password FROM users WHERE user_ID = ?",
+      [user_ID]
+    );
+    const isMatch = await bcrypt.compare(oldPassword, findPassword[0].password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Old Password Incorrect" });
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await db.query("UPDATE users SET password = ? WHERE user_ID = ?", [
+      hashedPassword,
       user_ID,
     ]);
-    const isMatch = await bcrypt.compare(oldPassword, findPassword[0].password);
-    if (!isMatch) return res.status(400).json({ message: "Old Password Incorrect" });
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await db.query("UPDATE users SET password = ? WHERE user_ID = ?", [hashedPassword, user_ID]);
     res.status(200).json({
       message: `User password from user ${user_ID} updated`,
     });
@@ -117,10 +130,14 @@ export const loginUser = async (req, res) => {
   //Log in a user that matches the data sent
   try {
     const { email, password } = req.body;
-    const [user] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    if (user.length === 0) return res.status(400).json({ message: "User not found" });
+    const [user] = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    if (user.length === 0)
+      return res.status(400).json({ message: "User not found" });
     const isMatch = await bcrypt.compare(password, user[0].password);
-    if (!isMatch) return res.status(400).json({ message: "Incorrect Password" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Incorrect Password" });
     const token = await generateToken({ user_ID: user[0].user_ID });
     res.cookie("UserToken", token);
     res.status(200).json({
@@ -149,11 +166,16 @@ export const verifyUser = async (req, res) => {
   //Check if the UserToken exists/matches to enter the user account
   try {
     const { UserToken } = req.cookies;
-    if (!UserToken) return res.status(400).json({ message: "Unauthorized, no token" });
+    if (!UserToken)
+      return res.status(400).json({ message: "Unauthorized, no token" });
     jwt.verify(UserToken, process.env.TOKEN_SECURE, async (err, user) => {
       if (err) return res.status(400).json({ message: "Verification error" });
-      const [userFound] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user.user_ID]);
-      if (userFound.length === 0) return res.status(400).json({ message: "User not found" });
+      const [userFound] = await db.query(
+        "SELECT * FROM users WHERE user_ID = ?",
+        [user.user_ID]
+      );
+      if (userFound.length === 0)
+        return res.status(400).json({ message: "User not found" });
       return res.status(200).json({
         user_ID: userFound[0].user_ID,
         first_name: userFound[0].first_name,
@@ -171,7 +193,9 @@ export const deleteUser = async (req, res) => {
   try {
     const { user_ID } = req.params;
     await db.query("DELETE FROM reservations WHERE user_ID = ?", [user_ID]);
-    const [deleteUser] = await db.query("DELETE FROM users WHERE user_ID = ?", [user_ID]);
+    const [deleteUser] = await db.query("DELETE FROM users WHERE user_ID = ?", [
+      user_ID,
+    ]);
     if (deleteUser.affectedRows === 0)
       return res.status(400).json({ message: "User doesn´t exists" });
     res.cookie("UserToken", "", { expires: new Date(0) });

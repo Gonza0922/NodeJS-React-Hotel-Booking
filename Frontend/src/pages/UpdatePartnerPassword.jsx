@@ -32,9 +32,9 @@ function UpdatePartnerPassword() {
 
   return (
     <>
-      <NavbarMenu profile={partner} logout={logout} />
+      <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3>Update Password</h3>
+        <h3>Update Partner Password</h3>
         <div className="container-errors">
           {error === "Old Password Incorrect" ? (
             <div className="error">{error}</div>

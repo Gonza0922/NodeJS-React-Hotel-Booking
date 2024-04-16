@@ -42,7 +42,7 @@ function WhoReserved() {
 
   return (
     <>
-      <NavbarMenu profile={partner} logout={logout} />
+      <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <h3 className="title">Clients who reserved at {hotel.name}</h3>
       <div>
         {typeof reserved === "object" && !Array.isArray(reserved) ? (

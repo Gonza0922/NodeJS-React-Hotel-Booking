@@ -59,8 +59,7 @@ function UpdateHotel() {
 
   const deleteMoreImages = async (id) => {
     try {
-      const data = await deleteArrayImagesRequest(id);
-      console.log(data);
+      await deleteArrayImagesRequest(id);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
@@ -69,8 +68,7 @@ function UpdateHotel() {
 
   const deletePrincipal = async (id) => {
     try {
-      const data = await deleteImageRequest(id);
-      console.log(data);
+      await deleteImageRequest(id);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
@@ -118,7 +116,7 @@ function UpdateHotel() {
 
   return (
     <>
-      <NavbarMenu profile={partner} logout={logout} />
+      <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Hotel {hotel_ID}</h3>
         <div className="container-errors">

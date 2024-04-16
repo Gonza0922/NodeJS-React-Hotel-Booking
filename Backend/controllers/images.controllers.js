@@ -144,7 +144,7 @@ export const deleteSingleImage = async (req, res) => {
     } else {
       res.status(500).json({ message: "Couldn´t extract Public ID from URL" });
     }
-  } catch (error) {
+  } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to Delete Principal Image" });
   }
@@ -175,7 +175,7 @@ export const deleteMultipleImages = async (req, res) => {
     res.status(204).json({
       message: `${count} Images successfully removed from cloudinary`,
     });
-  } catch (error) {
+  } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to Delete Images" });
   }

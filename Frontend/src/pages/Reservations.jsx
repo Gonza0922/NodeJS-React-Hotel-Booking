@@ -58,7 +58,7 @@ function Reservations() {
 
   return (
     <div className="alfa">
-      <NavbarMenu profile={user} logout={logout} />
+      <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <h3 className="title">My Reservations</h3>
       {reservations.length === 0 ? (
         <div className="no-reservations">
@@ -75,6 +75,7 @@ function Reservations() {
           <div key={index} className="hotel-and-who-reserved">
             <div id="card-reservations" className="card">
               <div className="card-content">
+                <h6>Reservation ID: {reservation.reservation_ID}</h6>
                 <h6>
                   Reservation Date: {resetDate(reservation.reservation_date)}
                 </h6>
@@ -85,11 +86,12 @@ function Reservations() {
                 <h6>Room Type: {reservation.room_type}</h6>
                 <h6>Person Price: ${reservation.person_price}</h6>
                 <h6>Total Price: ${reservation.total_price}</h6>
+                <h6>PIN: {reservation.PIN}</h6>
                 {reservationHotel < 1 ? (
                   <p></p>
                 ) : (
                   <span id="title-reservation" className="card-title">
-                    Hotel: {reservationHotel[index].name}
+                    {reservationHotel[index].name}
                   </span>
                 )}
                 <button

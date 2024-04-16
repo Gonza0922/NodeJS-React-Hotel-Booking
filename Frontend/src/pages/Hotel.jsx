@@ -8,9 +8,15 @@ import { useUserContext } from "../context/UserContext.jsx";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import NavbarWithOutSearching from "../components/Navbars/NavbarWithOutSearching.jsx";
 import NavbarUserWithOutSearching from "../components/Navbars/NavbarUserWithOutSearching.jsx";
-import { getCommentPerHotelRequest } from "../api/comment.api.js";
+import {
+  getCommentPerHotelRequest,
+  postCommentRequest,
+  verifyPINRequest,
+} from "../api/comment.api.js";
 import { getUserIdRequest } from "../api/user.api.js";
 import { transformDateZ } from "../functions/dates.js";
+import { verifyTokenPINRequest } from "../api/comment.api";
+import Cookie from "js-cookie";
 
 function Home() {
   const { isAuthenticated, user, error, setError } = useUserContext();
@@ -29,11 +35,37 @@ function Home() {
     setErrorRedirect,
     commentsWithUser,
     setCommentsWithUser,
+    isPIN,
+    setIsPIN,
   } = useHotelContext();
   const [confirmation, setConfirmation] = useState(null);
   const [datosUsar, setDatosUsar] = useState(null);
+  const [comment, setComment] = useState("");
+  const [reservationData, setReservationData] = useState({
+    reservation_ID: undefined,
+    PIN: undefined,
+  });
   const { hotel_ID } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(isPIN);
+    const verifyPIN = async () => {
+      const cookies = Cookie.get();
+      if (!cookies[`TokenPIN${hotel_ID}`]) {
+        return setIsPIN(false);
+      }
+      try {
+        const PIN = await verifyTokenPINRequest(hotel_ID, cookies[`TokenPIN${hotel_ID}`]);
+        if (!PIN) return setIsPIN(false);
+        setIsPIN(true);
+      } catch (error) {
+        setIsPIN(false);
+        console.log(error);
+      }
+    };
+    verifyPIN();
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -55,7 +87,6 @@ function Home() {
           };
         });
         setCommentsWithUser(finalResult);
-        console.log(finalResult);
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
@@ -103,6 +134,43 @@ function Home() {
     setDatosUsar({ ...data, hotel_ID, doIt: false });
     createReservation({ ...data, hotel_ID, doIt: false });
   });
+
+  const verificationPIN = async (e, data) => {
+    e.preventDefault();
+    console.log(data);
+    try {
+      setIsPIN(true);
+      await verifyPINRequest(hotel_ID, data);
+      setConfirmation("Create Comment");
+    } catch (error) {
+      console.log(error);
+      document.body.style.overflowY = "auto";
+      setError(error.response.data.message[0]);
+    }
+  };
+
+  // const createComment = async () => {
+  //      //cargando la pagina
+  //   try {
+  //     await postCommentRequest({ content: comment, hotel_ID });
+  //   } catch (error) {
+  //     console.log(error);
+  //     setError(error.response.data.message);
+  //   }
+  // };
+
+  const createComment = async (e) => {
+    //sin cargar la pagina pero debemos crear un useffect para cargar comments cada vez q cambie el (confirmation)
+    e.preventDefault();
+    try {
+      await postCommentRequest({ content: comment, hotel_ID });
+      document.body.style.overflowY = "auto";
+      setConfirmation(null);
+    } catch (error) {
+      console.log(error);
+      setError(error.response.data.message[0]);
+    }
+  };
 
   return (
     <>
@@ -172,7 +240,7 @@ function Home() {
         {confirmation === "You have already made a reservation at that hotel" ? (
           <div className="delete-confirm-container">
             <div className="delete-confirm">
-              <h5>You have already made a reservation at that hotel</h5>
+              <h5>{confirmation}</h5>
               <div className="container-button-delete-confirm">
                 <button
                   onClick={() => navigate(`/users/${user.first_name}/reservations`)}
@@ -199,7 +267,7 @@ function Home() {
         ) : confirmation === "Correctly booked hotel" ? (
           <div className="delete-confirm-container">
             <div className="delete-confirm">
-              <h5>Correctly booked hotel</h5>
+              <h5>{confirmation}</h5>
               <button
                 onClick={() => navigate(`/users/${user.first_name}`)}
                 className="button-delete-confirm waves-effect waves-light btn blue darken-2"
@@ -312,6 +380,125 @@ function Home() {
           </div>
         </form>
       </div>
+      <div>
+        <div className="container-button-comment">
+          <button
+            type="submit"
+            id="comment"
+            onClick={() => {
+              if (!isAuthenticated) return navigate("/login");
+              document.body.style.overflowY = "hidden";
+              if (isPIN) return setConfirmation("Create Comment");
+              setConfirmation("Verify PIN");
+            }}
+            className="waves-effect waves-light btn"
+          >
+            Write a review
+          </button>
+        </div>
+      </div>
+      {confirmation === "Verify PIN" ? (
+        <div className="comment-container">
+          <div className="comment">
+            <button
+              className="button-back"
+              onClick={() => {
+                setConfirmation(null);
+                document.body.style.overflowY = "auto";
+              }}
+            >
+              {"X"}
+            </button>
+            <form
+              id="comment-form"
+              className="input-field col s12"
+              onSubmit={(e) => verificationPIN(e, reservationData)}
+            >
+              <h5>Enter your Reservation details</h5>
+              <div className="container-errors">
+                {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <label htmlFor="reservation_id">Reservation ID</label>
+                  <input
+                    id="reservation_id"
+                    type="number"
+                    onChange={(e) =>
+                      setReservationData({
+                        ...reservationData,
+                        reservation_ID: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <label htmlFor="PIN">PIN</label>
+                  <input
+                    id="PIN"
+                    type="number"
+                    onChange={(e) =>
+                      setReservationData({
+                        ...reservationData,
+                        PIN: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <button type="submit" id="comment" className="waves-effect waves-light btn">
+                Rate your stay
+              </button>
+              <p className="info-verify-PIN">
+                Only a customer who booked through Hotels.com and stayed at a specific property
+                can write a review. This lets us know our reviews come from real guests like you.
+              </p>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <p></p>
+      )}
+      {confirmation === "Create Comment" ? (
+        <div className="comment-container">
+          <div className="comment">
+            <button
+              className="button-back"
+              onClick={() => {
+                setConfirmation(null);
+                document.body.style.overflowY = "auto";
+              }}
+            >
+              {"<="}
+            </button>
+            <form
+              id="comment-form"
+              className="input-field col s12"
+              onSubmit={(e) => createComment(e)}
+            >
+              <h5>{confirmation}</h5>
+              <div className="container-errors">
+                {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
+              </div>
+              <textarea
+                id="create-comment"
+                type="text"
+                className="validate"
+                placeholder="Hotel was..."
+                spellCheck={false}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button type="submit" id="comment" className="waves-effect waves-light btn">
+                Create
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <p></p>
+      )}
       <div className="container-hotel-form">
         {commentsWithUser.map((comment, index) => (
           <div key={index} id="card-selected" className="card">
@@ -330,6 +517,7 @@ function Home() {
           </div>
         ))}
       </div>
+      <footer className="footer"></footer>
     </>
   );
 }

@@ -65,7 +65,7 @@ function CreateHotel() {
 
   return (
     <>
-      <NavbarMenu profile={partner} logout={logout} />
+      <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Register Hotel</h3>
         <div className="container-errors">
@@ -171,7 +171,7 @@ function CreateHotel() {
                 },
               })}
             />
-            <label htmlFor="description">Description</label>
+            <label htmlFor="create-description">Description</label>
             <div className="container-span">
               {errors.description && <span>{errors.description.message}</span>}
             </div>
@@ -193,7 +193,7 @@ function CreateHotel() {
                 },
               })}
             />
-            <label htmlFor="services">Services</label>
+            <label htmlFor="create-services">Services</label>
             <div className="container-span">
               {errors.services && <span>{errors.services.message}</span>}
             </div>
