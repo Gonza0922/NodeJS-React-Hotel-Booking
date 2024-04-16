@@ -1,0 +1,434 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+  /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
+}
+
+a {
+  color: white;
+}
+
+.linkToRegister,
+.linkToLogin {
+  color: blue;
+}
+
+.container-errors {
+  background-color: red;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.error {
+  padding: 5px;
+}
+
+.container-span {
+  color: red;
+}
+
+.alfa {
+  position: relative;
+  width: 100vw;
+}
+
+nav {
+  width: 100vw;
+  height: 85px;
+}
+
+.title {
+  margin: 20px;
+}
+
+.nav-wrapper {
+  padding: 10px;
+}
+
+form {
+  width: 30%;
+  margin-left: 350px;
+}
+
+#search {
+  border-bottom: 1px solid rgb(155, 155, 155);
+}
+
+.search-form {
+  border: none;
+}
+
+.brand-logo {
+  user-select: none;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+#nav-mobile {
+  margin-right: 20px;
+}
+
+.hotel-not-found {
+  font-size: 50px;
+  margin-left: -250px;
+  text-align: center;
+}
+
+.no-reservations {
+  text-align: center;
+}
+
+.row {
+  margin: 20px 0px 20px 250px;
+}
+
+.card {
+  display: flex;
+  cursor: pointer;
+  margin: 20px 0px;
+  color: black;
+}
+
+.card-image {
+  display: inline-block;
+}
+
+#img {
+  width: 400px;
+  height: 265px;
+  object-fit: cover;
+}
+
+.btn-floating {
+  margin-bottom: 40px;
+  border-radius: 10px;
+  padding-left: 33px;
+  width: 100px;
+  background-color: #ff8a65;
+}
+
+.btn-floating:hover {
+  background-color: #ff7044;
+}
+
+/* HOTEL */
+
+.images {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 10px 100px;
+}
+
+#image {
+  width: 380px;
+  height: 235px;
+  padding: 5px;
+}
+
+#image img {
+  width: 380px;
+  height: 235px;
+  margin: -5px;
+}
+
+.container-image-2 {
+  margin: 10px 15px 20px 15px;
+}
+
+.container-image-3 {
+  margin: 15px;
+}
+
+.container-image-4 {
+  margin: 10px 15px 20px 15px;
+  border-radius: 20px;
+}
+
+.container-image-5 {
+  margin: 15px;
+}
+
+.img-4 {
+  border-radius: 0 8px 0 0;
+}
+
+.img-5 {
+  border-radius: 0 0 8px 0;
+}
+
+.principal img {
+  object-fit: cover;
+  width: 915px;
+  height: 490px;
+  margin: 10px;
+  color: white;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.form {
+  padding: 20px;
+  margin: 20px 0px 20px 20px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.container-input .label {
+  text-align: start;
+}
+
+.container-button-reserve {
+  text-align: center;
+  margin: 10px;
+}
+
+.form h3 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+#card-selected,
+#card-reservations,
+#card-partners {
+  width: 60%;
+}
+
+#card-reservations {
+  margin: 20px 20px;
+}
+
+#card-partners {
+  margin: 20px 20px;
+}
+
+.container-hotel-form {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+select,
+#check_out,
+#check_in {
+  cursor: pointer;
+}
+
+.form-update-reservation {
+  padding: 0px 40px;
+  margin: 20px auto;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.form-update-reservation h3 {
+  text-align: center;
+}
+
+.form-login-register {
+  padding: 0px 40px;
+  margin: 20px auto;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.form-login-register h3 {
+  text-align: center;
+}
+
+.container-button-login-register {
+  text-align: center;
+  margin: 20px;
+}
+
+.row-inputs {
+  margin: 0;
+}
+
+.input-field {
+  border: none;
+  padding: 0px 10px;
+}
+
+.form-login-register-partner {
+  min-width: 500px;
+  padding: 0px 40px;
+  margin: 20px auto;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.form-login-register-partner h3 {
+  text-align: center;
+}
+
+.container-button-login-register-partner {
+  text-align: center;
+  margin: 20px;
+}
+
+.user {
+  border-bottom: 2px solid #4db6ac;
+  height: 50px;
+  margin-left: 30px;
+  margin-right: 20px;
+  cursor: default;
+  font-size: 20px;
+}
+
+.user:hover {
+  background-color: #ff8a65;
+}
+
+#title-reservation {
+  display: inline-block;
+}
+
+.delete,
+.delete-hotel {
+  float: right;
+}
+
+.delete {
+  margin-right: 20px;
+}
+
+.delete-hotel {
+  margin-right: 30px;
+}
+
+.delete-confirm-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+}
+
+.delete-confirm {
+  text-align: center;
+  background-color: white;
+  width: 350px;
+  padding: 40px 0;
+  border-radius: 10px;
+}
+
+.delete-confirm-hotelError {
+  text-align: center;
+  background-color: white;
+  width: 600px;
+  padding: 40px 15px;
+  border-radius: 10px;
+}
+
+.button-delete-confirm {
+  margin: 10px;
+}
+
+.button-decline {
+  float: right;
+  margin-right: 20px;
+  padding: 0 20px;
+}
+
+.card-content {
+  width: 100%;
+}
+
+.hotel-and-who-reserved {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.container-who-reserved {
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+#who-reserved {
+  margin-left: 50px;
+}
+
+.card-who-reserved {
+  display: flex;
+}
+
+.reservations {
+  float: right;
+  margin-right: 20px;
+}
+
+.phone {
+  display: inline-block;
+}
+
+.component-who-reserved {
+  padding: 20px;
+  margin: 10px;
+  width: 400px;
+  background-color: rgb(255, 255, 255);
+}
+
+.container-data h6 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container-components {
+  display: flex;
+  justify-content: start;
+  margin: 20px;
+}
+
+.file-select {
+  position: relative;
+}
+
+.file-select::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 3px;
+  content: "Select";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.file-select input[type="file"] {
+  opacity: 0;
+  width: 100%;
+  height: 32px;
+  display: inline-block;
+}
+
+#src-file1::before {
+  content: "Select Principal File";
+}
+
+#src-file2::before {
+  content: "Select Others Files";
+}
+
+.type-file {
+  margin: 10px 0px;
+}
+
+.dropdown-trigger {
+  font-size: 20px;
+  padding: 0px 40px;
+}
