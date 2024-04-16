@@ -1,6 +1,6 @@
 import axios from "./axios.js";
 
-export const getUsers = async () => {
+export const getAllUsersRequest = async () => {
   //Selecciona todos los usuarios
   const request = await axios.get("/auth/all/users");
   return request.data;
@@ -10,7 +10,7 @@ export const getUserIdRequest = async (user_ID) => {
   //Selecciona el usuario que coincida con el user_ID enviado por parametro
   const request = await axios.get(`/auth/users/get/${user_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[SE USA] 2
 
 export const putUserIdRequest = async (newData) => {
   //Actualiza un usuario

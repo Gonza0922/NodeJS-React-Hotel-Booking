@@ -1,4 +1,5 @@
 import { db } from "../tables.js";
+
 import { generateToken } from "../libs/jwt.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";

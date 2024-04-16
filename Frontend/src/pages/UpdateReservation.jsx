@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   getReservationIdRequest,
   putReservationRequest,
-} from "../api/reservations.api";
+} from "../api/reservation.api";
 import { transformDateZ } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import { useUserContext } from "../context/UserContext";
@@ -19,7 +19,7 @@ function UpdateReservation() {
   const [reservationData, setReservationData] = useState({
     check_in: "",
     check_out: "",
-    people: "",
+    guests: "",
     room_type: "",
   });
 
@@ -102,19 +102,19 @@ function UpdateReservation() {
         </div>
         <div className="row">
           <div className="input-field col s6">
-            <p className="p-update-reservation">People</p>
+            <p className="p-update-reservation">Guests</p>
             <select
               className="browser-default"
-              value={reservationData.people}
+              value={reservationData.guests}
               onChange={(e) =>
                 setReservationData({
                   ...reservationData,
-                  people: Number(e.target.value),
+                  guests: Number(e.target.value),
                 })
               }
             >
               <option value="" disabled>
-                People
+                Guests
               </option>
               <option value="1">1</option>
               <option value="2">2</option>

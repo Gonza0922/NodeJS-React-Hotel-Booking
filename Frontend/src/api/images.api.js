@@ -4,7 +4,7 @@ export const getImagesPerHotelRequest = async (hotel_ID) => {
   //Selecciona todas las imagenes del hotel enviado por parametro
   const request = await axios.get(`/images/all/${hotel_ID}`);
   return request.data;
-}; //[SE USA]
+}; //[SE USA] 2
 
 export const postImageRequest = async (hotel_ID, formData) => {
   //Guarda la imagen del hotel
@@ -71,7 +71,7 @@ export const deleteImageRequest = async (hotel_ID) => {
     console.log(error);
     throw error;
   }
-}; //[SE USA]
+}; //[SE USA] 2
 
 export const deleteArrayImagesRequest = async (hotel_ID) => {
   //Elimina la imagen de principal del hotel en clodinary
@@ -82,4 +82,4 @@ export const deleteArrayImagesRequest = async (hotel_ID) => {
     console.log(error);
     throw error;
   }
-}; //[SE USA]
+}; //[SE USA] 2

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { v2 as cloudinary } from "cloudinary";
+import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
 import {
   getAllImages,
   postSingleImage,
@@ -9,7 +10,6 @@ import {
   deleteSingleImage,
   deleteMultipleImages,
 } from "../controllers/images.controllers.js";
-import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
 
 const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
 

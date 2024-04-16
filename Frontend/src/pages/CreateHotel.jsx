@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { postHotelRequest } from "../api/hotels.api";
+import { postHotelRequest } from "../api/hotel.api";
 import { usePartnerContext } from "../context/PartnerContext";
 import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { useHotelContext } from "../context/HotelContext";

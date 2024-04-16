@@ -39,4 +39,4 @@ export const deleteReservationRequest = async (reservation_ID) => {
     `/user/delete/reservations/${reservation_ID}`
   );
   return request.data;
-}; //[SE USA]
+}; //[SE USA] 2

@@ -3,9 +3,9 @@ import { ResetDate } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 import { useParams, useNavigate } from "react-router-dom";
-import { getHotelIdRequest } from "../api/hotels.api.js";
+import { getHotelIdRequest } from "../api/hotel.api.js";
 import { useHotelContext } from "../context/HotelContext.jsx";
-import { deleteReservationRequest } from "../api/reservations.api.js";
+import { deleteReservationRequest } from "../api/reservation.api.js";
 
 function WhoReserved() {
   const { logout, partner, reserved, setReserved, users } = usePartnerContext();
@@ -73,7 +73,7 @@ function WhoReserved() {
                   <h6>Nights:</h6> {reserved.nights}
                 </div>
                 <div className="container-data">
-                  <h6>People:</h6> {reserved.people}
+                  <h6>Guests:</h6> {reserved.guests}
                 </div>
                 <div className="container-data">
                   <h6>Room Type:</h6> {reserved.room_type}
@@ -124,7 +124,7 @@ function WhoReserved() {
                     <h6>Nights:</h6> {reserve.nights}
                   </div>
                   <div className="container-data">
-                    <h6>People:</h6> {reserve.people}
+                    <h6>Guests:</h6> {reserve.guests}
                   </div>
                   <div className="container-data">
                     <h6>Room Type:</h6> {reserve.room_type}

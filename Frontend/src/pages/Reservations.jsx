@@ -1,8 +1,8 @@
 import {
   getReservationRequest,
   deleteReservationRequest,
-} from "../api/reservations.api";
-import { getHotelIdRequest } from "../api/hotels.api";
+} from "../api/reservation.api";
+import { getHotelIdRequest } from "../api/hotel.api";
 import { useEffect, useState } from "react";
 import { ResetDate } from "../functions/dates.js";
 import { useHotelContext } from "../context/HotelContext.jsx";
@@ -81,7 +81,7 @@ function Reservations() {
                 <h5>Check In: {ResetDate(reservation.check_in)}</h5>
                 <h5>Check Out: {ResetDate(reservation.check_out)}</h5>
                 <h6>Nights: {reservation.nights}</h6>
-                <h6>People: {reservation.people}</h6>
+                <h6>Guests: {reservation.guests}</h6>
                 <h6>Room Type: {reservation.room_type}</h6>
                 <h6>Person Price: ${reservation.person_price}</h6>
                 <h6>Total Price: ${reservation.total_price}</h6>

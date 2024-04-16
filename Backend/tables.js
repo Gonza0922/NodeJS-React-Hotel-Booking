@@ -62,11 +62,11 @@ const createTables = async () => {
     const reservationsSQL = `
       CREATE TABLE IF NOT EXISTS reservations (
         reservation_ID INT AUTO_INCREMENT PRIMARY KEY,
-        reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         check_in DATE NOT NULL,
         check_out DATE NOT NULL,
         nights INT NOT NULL,
-        people INT NOT NULL,
+        guests INT NOT NULL,
         room_type VARCHAR(255) NOT NULL,
         person_price DECIMAL(10,2) NOT NULL,
         total_price DECIMAL(10,2) NOT NULL,
@@ -87,6 +87,19 @@ const createTables = async () => {
       )
     `;
     await db.execute(imagesSQL);
+
+    const commentsSQL = `
+    CREATE TABLE IF NOT EXISTS comments (
+      comment_ID INT AUTO_INCREMENT PRIMARY KEY,
+      comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      content VARCHAR(255) NOT NULL,
+      user_ID INT NOT NULL,
+      hotel_ID INT NOT NULL,
+      FOREIGN KEY (user_ID) REFERENCES users(user_ID),
+      FOREIGN KEY (hotel_ID) REFERENCES hotels(hotel_ID) 
+    )
+  `;
+    await db.execute(commentsSQL);
 
     return "Tables created successfully";
   } catch (error) {

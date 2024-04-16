@@ -462,3 +462,32 @@ select,
   position: absolute;
   cursor: text;
 }
+
+/* COMMENT */
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.initial {
+  width: 35px;
+  height: 35px;
+  background-color: rgb(245, 153, 67);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.name {
+  font-size: 18px;
+}
+
+.content,
+.reviewed {
+  padding: 5px 0px;
+}

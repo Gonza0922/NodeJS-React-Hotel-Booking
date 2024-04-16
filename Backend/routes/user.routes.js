@@ -2,7 +2,6 @@ import { Router } from "express";
 import { register, login, update } from "../schemas/user.schema.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { validateTokenUser } from "../middlewares/validateTokenUser.js";
-import { chooseMiddleware } from "../middlewares/chooseMiddleware.js";
 import {
   getAllUsers,
   getUserId,
@@ -18,7 +17,7 @@ import {
 const userRouter = Router();
 
 userRouter.get("/all/users", getAllUsers);
-userRouter.get("/users/get/:user_ID", chooseMiddleware, getUserId);
+userRouter.get("/users/get/:user_ID", getUserId);
 userRouter.post("/users/register", validateSchema(register), registerUser);
 userRouter.put(
   "/users/update",

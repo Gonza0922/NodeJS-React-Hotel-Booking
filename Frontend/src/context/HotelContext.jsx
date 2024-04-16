@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { getAllHotelsRequest } from "../api/hotels.api";
+import { getAllHotelsRequest } from "../api/hotel.api";
 import {
   postImageRequest,
   postMoreImagesRequest,
@@ -19,6 +19,7 @@ const HotelProvider = (props) => {
   const [content, setContent] = useState([]);
   const [hotelSearch, setHotelSearch] = useState("");
   const [reservations, setReservations] = useState([]);
+  const [commentsWithUser, setCommentsWithUser] = useState([]);
   const [images, setImages] = useState({
     principalImg: null,
     moreImages: null,
@@ -135,6 +136,8 @@ const HotelProvider = (props) => {
         setErrorRedirect,
         load,
         setLoad,
+        commentsWithUser,
+        setCommentsWithUser,
       }}
     >
       {props.children}

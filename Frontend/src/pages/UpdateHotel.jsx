@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { usePartnerContext } from "../context/PartnerContext";
 import { useHotelContext } from "../context/HotelContext";
-import { getHotelIdRequest, putHotelRequest } from "../api/hotels.api";
+import { getHotelIdRequest, putHotelRequest } from "../api/hotel.api";
 import {
   getImagesPerHotelRequest,
   deleteImageRequest,

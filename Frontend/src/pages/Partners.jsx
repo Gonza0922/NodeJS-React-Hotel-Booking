@@ -1,8 +1,8 @@
 import { usePartnerContext } from "../context/PartnerContext";
 import { useEffect } from "react";
-import { getHotelPartnerRequest, deleteHotelRequest } from "../api/hotels.api";
+import { getHotelPartnerRequest, deleteHotelRequest } from "../api/hotel.api";
 import { useHotelContext } from "../context/HotelContext.jsx";
-import { getReservationFromHotelRequest } from "../api/reservations.api.js";
+import { getReservationFromHotelRequest } from "../api/reservation.api.js";
 import {
   deleteImageRequest,
   deleteArrayImagesRequest,

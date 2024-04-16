@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { getHotelIdRequest } from "../api/hotels.api";
-import { postReservationRequest } from "../api/reservations.api.js";
+import { getHotelIdRequest } from "../api/hotel.api";
+import { postReservationRequest } from "../api/reservation.api.js";
 import { getImagesPerHotelRequest } from "../api/images.api.js";
 import { useUserContext } from "../context/UserContext.jsx";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import NavbarWithOutSearching from "../components/Navbars/NavbarWithOutSearching.jsx";
 import NavbarUserWithOutSearching from "../components/Navbars/NavbarUserWithOutSearching.jsx";
+import { getCommentPerHotelRequest } from "../api/comment.api.js";
+import { getUserIdRequest } from "../api/user.api.js";
+import { transformDateZ } from "../functions/dates.js";
 
 function Home() {
   const { isAuthenticated, user, error, setError } = useUserContext();
@@ -17,7 +20,16 @@ function Home() {
     formState: { errors },
     control,
   } = useForm();
-  const { hotel, setHotel, images, setImages, setRedirect, setErrorRedirect } = useHotelContext();
+  const {
+    hotel,
+    setHotel,
+    images,
+    setImages,
+    setRedirect,
+    setErrorRedirect,
+    commentsWithUser,
+    setCommentsWithUser,
+  } = useHotelContext();
   const [confirmation, setConfirmation] = useState(null);
   const [datosUsar, setDatosUsar] = useState(null);
   const { hotel_ID } = useParams();
@@ -28,6 +40,27 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    const clickGetCommentsAndUser = async () => {
+      try {
+        const commentsData = await getCommentPerHotelRequest(hotel_ID);
+        const userPromise = commentsData.map(async (comment) => {
+          return await getUserIdRequest(comment.user_ID);
+        });
+        const usersData = await Promise.all(userPromise);
+        const finalResult = commentsData.map((comment, index) => {
+          return {
+            ...comment,
+            first_name: usersData[index].first_name,
+            last_name: usersData[index].last_name,
+          };
+        });
+        setCommentsWithUser(finalResult);
+        console.log(finalResult);
+      } catch (error) {
+        setRedirect(true);
+        setErrorRedirect(error.message);
+      }
+    };
     const clickGetHotel = async () => {
       try {
         const data = await getHotelIdRequest(hotel_ID);
@@ -45,6 +78,7 @@ function Home() {
         setImages([]);
       }
     };
+    clickGetCommentsAndUser();
     clickGetHotel();
     clickGetImagesPerHotel();
   }, []);
@@ -65,7 +99,7 @@ function Home() {
   };
 
   const onSubmit = handleSubmit((data) => {
-    data = { ...data, people: Number(data.people) };
+    data = { ...data, guests: Number(data.guests) };
     setDatosUsar({ ...data, hotel_ID, doIt: false });
     createReservation({ ...data, hotel_ID, doIt: false });
   });
@@ -219,14 +253,14 @@ function Home() {
           <div className="row">
             <div className="input-field col s6">
               <Controller
-                name="people"
+                name="guests"
                 control={control}
                 defaultValue=""
-                rules={{ required: "People is required" }}
+                rules={{ required: "guests is required" }}
                 render={({ field }) => (
                   <select {...field} className="browser-default">
                     <option value="" disabled>
-                      People
+                      Guests
                     </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -240,7 +274,7 @@ function Home() {
                 )}
               />
               <div className="container-span">
-                {errors.people && <span>{errors.people.message}</span>}
+                {errors.guests && <span>{errors.guests.message}</span>}
               </div>
             </div>
             <div className="input-field col s6">
@@ -277,6 +311,24 @@ function Home() {
             </button>
           </div>
         </form>
+      </div>
+      <div className="container-hotel-form">
+        {commentsWithUser.map((comment, index) => (
+          <div key={index} id="card-selected" className="card">
+            <div className="card-content">
+              {
+                <div className="profile">
+                  <div className="initial">{comment.first_name.split("")[0]}</div>
+                  <div className="name">
+                    {comment.first_name} {comment.last_name}
+                  </div>
+                </div>
+              }
+              <div className="reviewed">Reviewed: {transformDateZ(comment.comment_date)}</div>
+              <p className="content">"{comment.content}"</p>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

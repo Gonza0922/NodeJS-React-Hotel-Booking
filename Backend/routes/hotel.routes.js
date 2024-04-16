@@ -1,4 +1,7 @@
 import { Router } from "express";
+import { validateSchema } from "../middlewares/validateSchema.js";
+import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
+import { hotel } from "../schemas/hotel.schema.js";
 import {
   getAllHotels,
   getHotelId,
@@ -7,9 +10,6 @@ import {
   putHotel,
   deleteHotel,
 } from "../controllers/hotel.controllers.js";
-import { validateSchema } from "../middlewares/validateSchema.js";
-import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
-import { hotel } from "../schemas/hotel.schema.js";
 
 const hotelRouter = Router();
 

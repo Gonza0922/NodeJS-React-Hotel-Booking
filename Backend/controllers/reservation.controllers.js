@@ -71,15 +71,15 @@ export const postReservation = async (req, res) => {
     );
     const [calculateTotalPrice] = await db.query(
       "SELECT (? * ?) AS total_price",
-      [calculatePersonPrice[0].person_price, req.body.people]
+      [calculatePersonPrice[0].person_price, req.body.guests]
     );
     const q =
-      "INSERT INTO reservations(check_in, check_out, nights, people, room_type, person_price, total_price, user_ID, hotel_ID) VALUES (?)";
+      "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, user_ID, hotel_ID) VALUES (?)";
     const values = [
       req.body.check_in,
       req.body.check_out,
       calculateNights[0].nights,
-      req.body.people,
+      req.body.guests,
       req.body.room_type,
       calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
@@ -135,20 +135,18 @@ export const putReservation = async (req, res) => {
     );
     const [calculateTotalPrice] = await db.query(
       "SELECT (? * ?) AS total_price",
-      [calculatePersonPrice[0].person_price, req.body.people]
+      [calculatePersonPrice[0].person_price, req.body.guests]
     );
     const q =
-      "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, people  = ?, room_type = ?, person_price  = ?, total_price  = ?, user_ID = ?, hotel_ID = ? WHERE reservation_ID = ?";
+      "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, guests  = ?, room_type = ?, person_price  = ?, total_price  = ? WHERE reservation_ID = ?";
     const values = [
       req.body.check_in,
       req.body.check_out,
       calculateNights[0].nights,
-      req.body.people,
+      req.body.guests,
       req.body.room_type,
       calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
-      user_ID,
-      req.body.hotel_ID,
     ];
     const [ItsReserved] = await db.query(
       "SELECT user_ID, hotel_ID FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",

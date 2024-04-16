@@ -4,7 +4,7 @@ import Navbar from "../components/Navbars/Navbar.jsx";
 import NavbarUser from "../components/Navbars/NavbarUser.jsx";
 import { useUserContext } from "../context/UserContext";
 import { useHotelContext } from "../context/HotelContext.jsx";
-import { getAllHotelsRequest } from "../api/hotels.api";
+import { getAllHotelsRequest } from "../api/hotel.api";
 
 function Home() {
   const { isAuthenticated, user } = useUserContext();
