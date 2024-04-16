@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
-export const cloudinaryUploader = async (file) => {
+export const cloudinaryCreate = async (file) => {
   const buffer = fs.readFileSync(file.tempFilePath);
   const response = await new Promise((resolve, reject) => {
     cloudinary.uploader

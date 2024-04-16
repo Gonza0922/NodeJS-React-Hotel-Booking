@@ -2,14 +2,15 @@ import { Router } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
 import {
-  getAllImages,
+  getAllImagesHotel,
   postSingleImage,
   postMultipleImages,
-  putSingleImage,
   putMultipleImages,
+} from "../controllers/images.controllers.js";
+import {
   deleteSingleImage,
   deleteMultipleImages,
-} from "../controllers/images.controllers.js";
+} from "../middlewares/deleteImagesMiddlewares.js";
 
 const { CLOUD_NAME, API_KEY, API_SECRET } = process.env;
 
@@ -21,7 +22,7 @@ cloudinary.config({
 
 const imagesRouter = Router();
 
-imagesRouter.get("/all/:hotel_ID", getAllImages);
+imagesRouter.get("/all/:hotel_ID", getAllImagesHotel);
 imagesRouter.post(
   "/create/single/:hotel_ID",
   validateTokenPartner,
@@ -32,25 +33,28 @@ imagesRouter.post(
   validateTokenPartner,
   postMultipleImages
 );
-imagesRouter.post(
+imagesRouter.put(
   "/update/single/:hotel_ID",
   validateTokenPartner,
-  putSingleImage
+  deleteSingleImage,
+  postSingleImage
 );
-imagesRouter.post(
+imagesRouter.put(
   "/update/multiple/:hotel_ID",
   validateTokenPartner,
+  deleteMultipleImages,
   putMultipleImages
 );
-imagesRouter.get(
-  "/delete/single/:hotel_ID",
-  validateTokenPartner,
-  deleteSingleImage
-);
-imagesRouter.get(
-  "/delete/multiple/:hotel_ID",
-  validateTokenPartner,
-  deleteMultipleImages
-);
+// PODRIAMOS UTILIZARLOS
+// imagesRouter.get(
+//   "/delete/single/:hotel_ID",
+//   validateTokenPartner,
+//   deleteSingleImage
+// );
+// imagesRouter.get(
+//   "/delete/multiple/:hotel_ID",
+//   validateTokenPartner,
+//   deleteMultipleImages
+// );
 
 export default imagesRouter;

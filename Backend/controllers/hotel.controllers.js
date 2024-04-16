@@ -1,8 +1,4 @@
 import { db } from "../tables.js";
-import {
-  deleteSingleImage,
-  deleteMultipleImages,
-} from "./images.controllers.js";
 
 export const getAllHotels = async (req, res) => {
   //Select all hotels

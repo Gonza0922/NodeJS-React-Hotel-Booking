@@ -4,11 +4,8 @@ import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { usePartnerContext } from "../context/PartnerContext";
 import { useHotelContext } from "../context/HotelContext";
 import { getHotelIdRequest, putHotelRequest } from "../api/hotel.api";
-import {
-  getImagesPerHotelRequest,
-  deleteImageRequest,
-  deleteArrayImagesRequest,
-} from "../api/images.api";
+import { getImagesPerHotelRequest } from "../api/images.api";
+import { updateHotelSchema } from "../validations/hotel.validation.js";
 
 function UpdateHotel() {
   const { hotel_ID } = useParams();
@@ -57,54 +54,30 @@ function UpdateHotel() {
     clickGetImagesPerHotel();
   }, []);
 
-  const deleteMoreImages = async (id) => {
-    try {
-      await deleteArrayImagesRequest(id);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
-
-  const deletePrincipal = async (id) => {
-    try {
-      await deleteImageRequest(id);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
-
   const updateHotel = async (newData) => {
     try {
+      await updateHotelSchema.validate(newData);
+      if (typeof hotelData.principalImg !== "string") {
+        console.log("La principalImg es un file");
+        handleImageUpdate(hotel_ID, hotelData.principalImg);
+      }
+      if (!Array.isArray(hotelData.moreImages)) {
+        console.log(hotelData.moreImages);
+        console.log("moreImages es un fileList");
+        handleMoreImagesUpdate(hotel_ID, hotelData.moreImages);
+      }
       const data = await putHotelRequest(hotel_ID, newData);
-      setLoad("Updating...");
-      setTimeout(() => {
-        navigate("/loginProperty");
-        setLoad("Update");
-      }, 3000);
       return data;
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      error.response
+        ? setError(error.response.data.message[0])
+        : setError(error.errors[0]);
     }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (typeof hotelData.principalImg !== "string") {
-      deletePrincipal(hotel_ID);
-      console.log("La principalImg es un file");
-      handleImageUpdate(hotel_ID, hotelData.principalImg);
-    }
-    if (!Array.isArray(hotelData.moreImages)) {
-      if (hotelData.moreImages !== undefined) {
-        // no se porque a veces es undefined
-        deleteMoreImages(hotel_ID);
-      }
-      console.log("moreImages es un fileList");
-      handleMoreImagesUpdate(hotel_ID, hotelData.moreImages);
-    }
     const finalData = {
       ...hotelData,
       price_per_night: Number(hotelData.price_per_night),
@@ -112,6 +85,11 @@ function UpdateHotel() {
     };
     console.log(finalData);
     updateHotel(finalData); // info del hotel + imagenes nuevas en formato nombre
+    // setLoad("Updating...");
+    // setTimeout(() => {
+    //   navigate("/loginProperty");
+    //   setLoad("Update");
+    // }, 3000);
   };
 
   return (
@@ -282,8 +260,10 @@ function UpdateHotel() {
             <div className="message-files">
               {hotelData.moreImages === null ? (
                 <span>No files selected.</span>
+              ) : hotelData.moreImages instanceof FileList ? (
+                <span>New Files Selected.</span>
               ) : (
-                <span>Other Files Selected.</span>
+                <span>Old Files Selected.</span>
               )}
             </div>
           </div>

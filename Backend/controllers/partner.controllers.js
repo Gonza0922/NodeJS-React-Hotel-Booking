@@ -189,8 +189,8 @@ export const deletePartner = async (req, res) => {
       "SELECT hotel_ID FROM hotels WHERE partner_ID = ?",
       partner_ID
     );
-    //Delete principal image
     for (let i = 0; i < findHotel_ID.length; i++) {
+      //Delete principal image
       const [getUrl] = await db.query(
         "SELECT principalImg FROM hotels WHERE hotel_ID = ?",
         [findHotel_ID[i].hotel_ID]
@@ -217,18 +217,19 @@ export const deletePartner = async (req, res) => {
       if (getImagesUrl[0] === undefined) {
         console.log({ message: "There are no images to delete from images" });
       }
-      getImagesUrl.forEach(async (element) => {
-        const url = element.image_name;
-        const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
-        if (match && match[1]) {
-          count++;
-          const publicId = match[1];
-          await cloudinary.uploader.destroy(publicId);
-        } else {
-          console.error("Couldn´t extract Public ID from URL");
-        }
-      });
-      console.log(`${count} Images successfully removed from cloudinary`);
+      if (getImagesUrl[0])
+        // dejo o saco el if
+        getImagesUrl.forEach(async (element) => {
+          const url = element.image_name;
+          const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
+          if (match && match[1]) {
+            count++;
+            const publicId = match[1];
+            await cloudinary.uploader.destroy(publicId);
+          } else {
+            console.error("Couldn´t extract Public ID from URL");
+          }
+        });
       await db.query(
         "DELETE FROM images WHERE hotel_ID = ?",
         findHotel_ID[i].hotel_ID

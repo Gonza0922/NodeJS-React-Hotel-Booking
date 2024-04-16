@@ -10,6 +10,10 @@ import {
   putHotel,
   deleteHotel,
 } from "../controllers/hotel.controllers.js";
+import {
+  deleteSingleImage,
+  deleteMultipleImages,
+} from "../middlewares/deleteImagesMiddlewares.js";
 
 const hotelRouter = Router();
 
@@ -35,6 +39,8 @@ hotelRouter.put(
 hotelRouter.delete(
   "/delete/hotels/:hotel_ID",
   validateTokenPartner,
+  deleteSingleImage,
+  deleteMultipleImages,
   deleteHotel
 );
 

@@ -5,24 +5,23 @@ import { postHotelRequest } from "../api/hotel.api";
 import { usePartnerContext } from "../context/PartnerContext";
 import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { useHotelContext } from "../context/HotelContext";
+import { postImageRequest, postMoreImagesRequest } from "../api/images.api";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { createHotelSchema } from "../validations/hotel.validation.js";
 
 function CreateHotel() {
   const { logout, partner, error, setError } = usePartnerContext();
-  const {
-    images,
-    setImages,
-    hotelData,
-    setHotelData,
-    handleImageCreate,
-    handleMoreImagesCreate,
-    load,
-    setLoad,
-  } = useHotelContext();
+  const { images, setImages, hotelData, setHotelData, load, setLoad } =
+    useHotelContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(createHotelSchema) });
+  const [result, setResult] = useState({
+    principalImg: false,
+    moreImages: false,
+  });
 
   const navigate = useNavigate();
 
@@ -34,6 +33,72 @@ function CreateHotel() {
       moreImages: undefined,
     }));
   }, []);
+
+  const validandoTipoPrincipalImg = () => {
+    const file = hotelData.principalImg.name;
+    if (file) {
+      file.includes(".jpg") || file.includes(".jpeg")
+        ? setResult((prevElement) => ({
+            ...prevElement,
+            principalImg: false,
+          }))
+        : setResult((prevElement) => ({
+            ...prevElement,
+            principalImg: true,
+          }));
+    }
+  };
+
+  const validandoTipoMoreImages = () => {
+    for (let i = 0; i < hotelData.moreImages.length; i++) {
+      const file = hotelData.moreImages[i].name;
+      if (file) {
+        file.includes(".jpg") || file.includes(".jpeg")
+          ? setResult((prevElement) => ({
+              ...prevElement,
+              moreImages: false,
+            }))
+          : setResult((prevElement) => ({
+              ...prevElement,
+              moreImages: true,
+            }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    hotelData.principalImg && validandoTipoPrincipalImg();
+  }, [hotelData.principalImg]);
+
+  useEffect(() => {
+    hotelData.moreImages && validandoTipoMoreImages();
+  }, [hotelData.moreImages]);
+
+  const handleImageCreate = async (hotel_ID, image) => {
+    try {
+      const formData = new FormData();
+      formData.append("principalImg", image);
+      await postImageRequest(hotel_ID, formData);
+      console.log("Image successfully uploaded to cloudinary");
+    } catch (error) {
+      console.error("Failed to upload image:", error);
+      setError(error.response.data.message);
+    }
+  };
+
+  const handleMoreImagesCreate = async (hotel_ID, images) => {
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < images.length; i++) {
+        formData.append("moreImages", images[i]);
+      }
+      await postMoreImagesRequest(hotel_ID, formData);
+      console.log("Images successfully uploaded to cloudinary");
+    } catch (error) {
+      console.error("Failed to upload images:", error);
+      setError(error.response.data.message);
+    }
+  };
 
   const createHotel = async (hotel) => {
     try {
@@ -51,16 +116,20 @@ function CreateHotel() {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    data = {
-      ...data,
-      price_per_night: Number(data.price_per_night),
-      phone: Number(data.phone),
-    };
-    console.log(data);
-    data.principalImg = data.principalImg[0];
-    const hotelCreated = await createHotel(data);
-    handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
-    handleMoreImagesCreate(hotelCreated.hotel_ID, data.moreImages);
+    try {
+      data = {
+        ...data,
+        price_per_night: Number(data.price_per_night),
+        phone: Number(data.phone),
+      };
+      console.log(data);
+      data.principalImg = data.principalImg[0];
+      const hotelCreated = await createHotel(data);
+      await handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
+      await handleMoreImagesCreate(hotelCreated.hotel_ID, data.moreImages);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   return (
@@ -69,7 +138,7 @@ function CreateHotel() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Register Hotel</h3>
         <div className="container-errors">
-          {error === "Hotel already exists" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
@@ -83,17 +152,7 @@ function CreateHotel() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("name", {
-                required: { value: true, message: "Name is required" },
-                minLength: {
-                  value: 2,
-                  message: "Name must be at least 2 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Name must be no more than 20 characters.",
-                },
-              })}
+              {...register("name")}
             />
             <label htmlFor="name">Name</label>
             <div className="container-span">
@@ -109,21 +168,7 @@ function CreateHotel() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("price_per_night", {
-                required: {
-                  value: true,
-                  message: "Price per Night is required",
-                },
-                minLength: {
-                  value: 2,
-                  message: "Price per Night must be at least 2 characters",
-                },
-                maxLength: {
-                  value: 20,
-                  message:
-                    "Price per Night must be no more than 20 characters.",
-                },
-              })}
+              {...register("price_per_night")}
             />
             <label htmlFor="price_per_night">Price per Night</label>
             <div className="container-span">
@@ -141,13 +186,7 @@ function CreateHotel() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("location", {
-                required: { value: true, message: "Location is required" },
-                minLength: {
-                  value: 5,
-                  message: "Location must be at least 5 characters",
-                },
-              })}
+              {...register("location")}
             />
             <label htmlFor="location">Location</label>
             <div className="container-span">
@@ -163,13 +202,7 @@ function CreateHotel() {
               className="materialize-textarea"
               autoComplete="off"
               spellCheck={false}
-              {...register("description", {
-                required: { value: true, message: "Description is required" },
-                minLength: {
-                  value: 8,
-                  message: "Description must be 8 characters",
-                },
-              })}
+              {...register("description")}
             />
             <label htmlFor="create-description">Description</label>
             <div className="container-span">
@@ -185,13 +218,7 @@ function CreateHotel() {
               className="materialize-textarea"
               autoComplete="off"
               spellCheck={false}
-              {...register("services", {
-                required: { value: true, message: "Services is required" },
-                minLength: {
-                  value: 10,
-                  message: "Services must be at least 10 characters",
-                },
-              })}
+              {...register("services")}
             />
             <label htmlFor="create-services">Services</label>
             <div className="container-span">
@@ -207,17 +234,7 @@ function CreateHotel() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("phone", {
-                required: { value: true, message: "Phone is required" },
-                minLength: {
-                  value: 10,
-                  message: "Phone must be at least 10 characters",
-                },
-                maxLength: {
-                  value: 11,
-                  message: "Phone must be no more than 11 characters.",
-                },
-              })}
+              {...register("phone")}
             />
             <label htmlFor="phone">Phone</label>
             <div className="container-span">
@@ -233,12 +250,7 @@ function CreateHotel() {
                 id="principalImg"
                 type="file"
                 className="validate"
-                {...register("principalImg", {
-                  required: {
-                    value: true,
-                    message: "principalImg is required",
-                  },
-                })}
+                {...register("principalImg")}
                 onChange={(e) => {
                   setHotelData((prevElement) => ({
                     ...prevElement,
@@ -263,10 +275,10 @@ function CreateHotel() {
               )}
             </div>
             <div className="container-span">
-              {images.principalImg === null ? (
-                errors.principalImg && (
-                  <span>{errors.principalImg.message}</span>
-                )
+              {errors.principalImg && hotelData.principalImg === undefined ? (
+                <span>Principal Image is required</span>
+              ) : result.principalImg ? (
+                <span>Only JPEG and JPG files are allowed</span>
               ) : (
                 <p></p>
               )}
@@ -282,12 +294,7 @@ function CreateHotel() {
                 type="file"
                 multiple={true}
                 className="validate"
-                {...register("moreImages", {
-                  required: {
-                    value: true,
-                    message: "More Images are required",
-                  },
-                })}
+                {...register("moreImages")}
                 onChange={(e) => {
                   setHotelData((prevElement) => ({
                     ...prevElement,
@@ -308,8 +315,12 @@ function CreateHotel() {
               )}
             </div>
             <div className="container-span">
-              {images.moreImages === null ? (
-                errors.moreImages && <span>{errors.moreImages.message}</span>
+              {errors.moreImages && hotelData.moreImages === undefined ? (
+                <span>Other Files are required</span>
+              ) : errors.moreImages && hotelData.moreImages.length <= 1 ? (
+                <span>Enter more than 1 file</span>
+              ) : result.moreImages ? (
+                <span>Only JPEG and JPG files are allowed</span>
               ) : (
                 <p></p>
               )}

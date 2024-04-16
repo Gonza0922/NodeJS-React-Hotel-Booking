@@ -63,8 +63,7 @@ function UpdatePartnerProfile() {
 
   const deletePartner = async () => {
     try {
-      const data = await deletePartnerRequest(partner.partner_ID);
-      console.log(data);
+      await deletePartnerRequest(partner.partner_ID);
       window.location.reload();
     } catch (error) {
       setError(error.response.data.message);

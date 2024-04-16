@@ -5,10 +5,14 @@ export const hotel = z.object({
     .string({ required_error: "Name is required" })
     .min(1, { message: "Name is required" })
     .min(2, { message: "Name must be at least 2 characters" })
-    .max(20, { message: "Name must be no more than 25 characters" }),
+    .max(25, { message: "Name must be no more than 25 characters" }),
   price_per_night: z
     .number({ required_error: "Price per night is required" })
     .positive({ message: "Price per night should be positive" }),
+  location: z
+    .string({ required_error: "Location is required" })
+    .min(1, { message: "Location is required" })
+    .min(5, { message: "Location must be at least 5 characters" }),
   description: z
     .string({ required_error: "Description is required" })
     .min(1, { message: "Description is required" })
@@ -17,9 +21,6 @@ export const hotel = z.object({
     .string({ required_error: "Services are required" })
     .min(1, { message: "Services are required" })
     .min(10, { message: "Services must be at least 10 characters" }),
-  location: z
-    .string({ required_error: "Location is required" })
-    .min(1, { message: "Location is required" }),
   phone: z
     .number({ required_error: "Phone is required" })
     .positive({ message: "Phone should be positive" })

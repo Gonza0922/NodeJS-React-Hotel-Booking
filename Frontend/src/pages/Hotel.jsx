@@ -49,7 +49,6 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(isPIN);
     const verifyPIN = async () => {
       const cookies = Cookie.get();
       if (!cookies[`TokenPIN${hotel_ID}`]) {

@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { getHotelPartnerRequest, deleteHotelRequest } from "../api/hotel.api";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { getReservationFromHotelRequest } from "../api/reservation.api.js";
-import {
-  deleteImageRequest,
-  deleteArrayImagesRequest,
-} from "../api/images.api.js";
+// import {
+//   deleteImageRequest,
+//   deleteArrayImagesRequest,
+// } from "../api/images.api.js";
 import Element from "../components/Element.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -67,23 +67,23 @@ const Partners = () => {
     navigate(`update/${id}`);
   };
 
-  const deleteMoreImages = async (id) => {
-    try {
-      await deleteArrayImagesRequest(id);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
+  // const deleteMoreImages = async (id) => {
+  //   try {
+  //     await deleteArrayImagesRequest(id);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setError(error.response.data.message);
+  //   }
+  // };
 
-  const deletePrincipal = async (id) => {
-    try {
-      await deleteImageRequest(id);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
+  // const deletePrincipal = async (id) => {
+  //   try {
+  //     await deleteImageRequest(id);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setError(error.response.data.message);
+  //   }
+  // };
 
   const deleteHotel = async (id) => {
     try {
@@ -231,8 +231,6 @@ const Partners = () => {
                       onClick={() => {
                         deleteHotel(hotel.hotel_ID);
                         showConfirmDelete(hotel.hotel_ID);
-                        deletePrincipal(hotel.hotel_ID);
-                        deleteMoreImages(hotel.hotel_ID);
                       }}
                       className="button-delete-confirm waves-effect waves-light btn red darken-2"
                     >

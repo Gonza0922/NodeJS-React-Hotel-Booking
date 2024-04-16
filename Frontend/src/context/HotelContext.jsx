@@ -2,12 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { getAllHotelsRequest } from "../api/hotel.api";
 // import { verifyTokenPINRequest } from "../api/comment.api";
 // import Cookie from "js-cookie";
-import {
-  postImageRequest,
-  postMoreImagesRequest,
-  updateImageRequest,
-  updateMoreImagesRequest,
-} from "../api/images.api";
+import { updateImageRequest, updateMoreImagesRequest } from "../api/images.api";
 
 const hotelContext = createContext();
 
@@ -61,34 +56,10 @@ const HotelProvider = (props) => {
     setHotels(result);
   };
 
-  const handleImageCreate = async (hotel_ID, image) => {
-    const formData = new FormData();
-    formData.append("principalImg", image);
-    try {
-      await postImageRequest(hotel_ID, formData);
-      console.log("Image successfully uploaded to cloudinary");
-    } catch (error) {
-      console.error("Failed to upload image:", error);
-    }
-  };
-
-  const handleMoreImagesCreate = async (hotel_ID, images) => {
-    const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append("moreImages", images[i]);
-    }
-    try {
-      await postMoreImagesRequest(hotel_ID, formData);
-      console.log("Images successfully uploaded to cloudinary");
-    } catch (error) {
-      console.error("Failed to upload images:", error);
-    }
-  };
-
   const handleImageUpdate = async (hotel_ID, image) => {
-    const formData = new FormData();
-    formData.append("principalImg", image);
     try {
+      const formData = new FormData();
+      formData.append("principalImg", image);
       await updateImageRequest(hotel_ID, formData);
       console.log("Image updated successfully in cloudinary and database");
     } catch (error) {
@@ -99,10 +70,10 @@ const HotelProvider = (props) => {
   const handleMoreImagesUpdate = async (hotel_ID, images) => {
     const formData = new FormData();
     if (images) {
-      for (let i = 0; i < images.length; i++) {
-        formData.append("moreImages", images[i]);
-      }
       try {
+        for (let i = 0; i < images.length; i++) {
+          formData.append("moreImages", images[i]);
+        }
         await updateMoreImagesRequest(hotel_ID, formData);
         console.log("Images updated correctly in cloudinary and database");
       } catch (error) {
@@ -130,8 +101,6 @@ const HotelProvider = (props) => {
         setHotelData,
         reservations,
         setReservations,
-        handleImageCreate,
-        handleMoreImagesCreate,
         handleImageUpdate,
         handleMoreImagesUpdate,
         redirect,

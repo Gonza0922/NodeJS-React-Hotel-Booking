@@ -36,7 +36,7 @@ export const postMoreImagesRequest = async (hotel_ID, formData) => {
 
 export const updateImageRequest = async (hotel_ID, formData) => {
   //Guarda la imagen del hotel
-  const request = await axios.post(
+  const request = await axios.put(
     `/images/update/single/${hotel_ID}`,
     formData,
     {
@@ -50,7 +50,7 @@ export const updateImageRequest = async (hotel_ID, formData) => {
 
 export const updateMoreImagesRequest = async (hotel_ID, formData) => {
   //Guarda mas imagenes del hotel
-  const request = await axios.post(
+  const request = await axios.put(
     `/images/update/multiple/${hotel_ID}`,
     formData,
     {
@@ -62,24 +62,24 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
   return request.data;
 }; //[SE USA]
 
-export const deleteImageRequest = async (hotel_ID) => {
-  //Elimina la imagen de principal del hotel en clodinary
-  try {
-    const request = await axios.get(`/images/delete/single/${hotel_ID}`);
-    return request.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}; //[SE USA] 2
+// export const deleteImageRequest = async (hotel_ID) => {
+//   //Elimina la imagen de principal del hotel en clodinary
+//   try {
+//     const request = await axios.get(`/images/delete/single/${hotel_ID}`);
+//     return request.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// }; //PODRIAMOS UTILIZARLO
 
-export const deleteArrayImagesRequest = async (hotel_ID) => {
-  //Elimina la imagen de principal del hotel en clodinary
-  try {
-    const request = await axios.get(`/images/delete/multiple/${hotel_ID}`);
-    return request.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}; //[SE USA] 2
+// export const deleteArrayImagesRequest = async (hotel_ID) => {
+//   //Elimina la imagen de principal del hotel en clodinary
+//   try {
+//     const request = await axios.get(`/images/delete/multiple/${hotel_ID}`);
+//     return request.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// }; //PODRIAMOS UTILIZARLO
