@@ -3,16 +3,12 @@ import { useEffect } from "react";
 import { getHotelPartnerRequest, deleteHotelRequest } from "../api/hotels.api";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { getReservationFromHotelRequest } from "../api/reservations.api.js";
-import {
-  deleteImageRequest,
-  deleteArrayImagesRequest,
-} from "../api/images.api.js";
+import { deleteImageRequest, deleteArrayImagesRequest } from "../api/images.api.js";
 import Element from "../components/Element.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Partners = () => {
-  const { hotels, setHotels, setRedirect, setErrorRedirect } =
-    useHotelContext();
+  const { hotels, setHotels, setRedirect, setErrorRedirect } = useHotelContext();
   const {
     logout,
     partner,
@@ -124,9 +120,7 @@ const Partners = () => {
             <li>
               <a
                 className="waves-effect waves-light btn"
-                onClick={() =>
-                  navigate(`/partners/${partner.first_name}/create`)
-                }
+                onClick={() => navigate(`/partners/${partner.first_name}/create`)}
               >
                 Register Hotel
               </a>
@@ -139,21 +133,13 @@ const Partners = () => {
             </li>
             <ul id="dropdown1" className="dropdown-content">
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/profile`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
                   Profile Data
                 </a>
               </li>
               <li className="divider" tabIndex="-1"></li>
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/password`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
                   Change Password
                 </a>
               </li>
@@ -218,10 +204,7 @@ const Partners = () => {
             {hotel.hotel_ID === elementView.confirmDelete && (
               <div className="delete-confirm-container">
                 <div className="delete-confirm">
-                  <h5>
-                    If you delete the hotel, its reservations will also be
-                    deleted.
-                  </h5>
+                  <h5>If you delete the hotel, its reservations will also be deleted.</h5>
                   <div className="container-button-delete-confirm">
                     <button
                       onClick={() => showConfirmDelete(hotel.hotel_ID)}
@@ -231,8 +214,6 @@ const Partners = () => {
                     </button>
                     <button
                       onClick={() => {
-                        deleteMoreImages(hotel.hotel_ID);
-                        deletePrincipal(hotel.hotel_ID);
                         deleteHotel(hotel.hotel_ID);
                         showConfirmDelete(hotel.hotel_ID);
                       }}

@@ -6,7 +6,6 @@ import {
 } from "../api/user.api";
 import Cookie from "js-cookie";
 import { verifyTokenUserRequest } from "../api/user.api";
-import { getAllHotelsRequest } from "../api/hotels.api";
 
 const userContext = createContext();
 

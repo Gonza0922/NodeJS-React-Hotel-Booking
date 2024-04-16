@@ -1,4 +1,5 @@
 import { db } from "../tables.js";
+
 import { generateToken } from "../libs/jwt.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
@@ -127,7 +128,7 @@ export const verifyPartner = async (req, res) => {
   try {
     const { PartnerToken } = req.cookies;
     if (!PartnerToken) return res.status(400).json({ message: "Unauthorized, no token" });
-    jwt.verify(PartnerToken, process.env.process.env.TOKEN_SECURE, async (err, partner) => {
+    jwt.verify(PartnerToken, process.env.TOKEN_SECURE, async (err, partner) => {
       if (err) return res.status(400).json({ message: "Verification error" });
       const [partnerFound] = await db.query(
         "SELECT * FROM partners WHERE partner_ID = ?",
@@ -151,8 +152,12 @@ export const verifyPartner = async (req, res) => {
 export const deletePartner = async (req, res) => {
   //Elimina un partner que coincida con el partner_ID enviado por parametro y todas sus reservaciones
   try {
-    const id = req.params.partner_ID;
-    const [findHotel_ID] = await db.query("SELECT hotel_ID FROM hotels WHERE partner_ID = ?", id);
+    let count = 0;
+    const { partner_ID } = req.params;
+    const [findHotel_ID] = await db.query(
+      "SELECT hotel_ID FROM hotels WHERE partner_ID = ?",
+      partner_ID
+    );
     // eliminar principal
     for (let i = 0; i < findHotel_ID.length; i++) {
       const [getUrl] = await db.query("SELECT principalImg FROM hotels WHERE hotel_ID = ?", [
@@ -185,21 +190,26 @@ export const deletePartner = async (req, res) => {
         const url = element.image_name;
         const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
         if (match && match[1]) {
+          count++;
           const publicId = match[1];
           await cloudinary.uploader.destroy(publicId);
-          console.log("Image successfully removed from cloudinary");
         } else {
           console.error("Couldn´t extract Public ID from URL");
         }
       });
+      console.log(`${count} Images successfully removed from cloudinary`);
       await db.query("DELETE FROM images WHERE hotel_ID = ?", findHotel_ID[i].hotel_ID);
+      await db.query("DELETE FROM reservations WHERE hotel_ID = ?", findHotel_ID[i].hotel_ID);
     }
-    await db.query("DELETE FROM hotels WHERE partner_ID = ?", id);
-    const [deletePartner] = await db.query("DELETE FROM partners WHERE partner_ID = ?", id);
+    await db.query("DELETE FROM hotels WHERE partner_ID = ?", partner_ID);
+    const [deletePartner] = await db.query(
+      "DELETE FROM partners WHERE partner_ID = ?",
+      partner_ID
+    );
     if (deletePartner.affectedRows === 0)
       return res.status(400).json({ message: "Partner doesn´t exists" });
     res.cookie("PartnerToken", "", { expires: new Date(0) });
-    res.status(200).json({ message: `Partner ${id} and his hotels deleted` });
+    res.status(200).json({ message: `Partner ${partner_ID} and his hotels deleted` });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to delete Partner" });

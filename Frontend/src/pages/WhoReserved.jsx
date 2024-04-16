@@ -15,9 +15,7 @@ function WhoReserved() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (reserved.length === 0) {
-      navigate(`/partners/${partner.first_name}`);
-    }
+    if (reserved.length === 0) navigate(`/partners/${partner.first_name}`);
   }, [reserved, navigate, partner]);
 
   useEffect(() => {
@@ -35,7 +33,9 @@ function WhoReserved() {
 
   const deleteReservation = async (id) => {
     await deleteReservationRequest(id);
-    setReserved(reserved.filter((reserve) => reserve.reservation_ID !== id));
+    typeof reserved === "object" && !Array.isArray(reserved)
+      ? setReserved([])
+      : setReserved(reserved.filter((reserve) => reserve.reservation_ID !== id));
   };
 
   return (
@@ -45,8 +45,7 @@ function WhoReserved() {
         profile={partner}
         logout={logout}
       />
-      <h4 className="title">Who Reserved?</h4>
-      <h4 className="title">{hotel.name}</h4>
+      <h3 className="title">Clients who reserved at {hotel.name}</h3>
       <div>
         {typeof reserved === "object" && !Array.isArray(reserved) ? (
           <div className="container-components">
@@ -63,8 +62,7 @@ function WhoReserved() {
                 )}
                 <hr />
                 <div className="container-data">
-                  <h6>Reservation Date:</h6>{" "}
-                  {ResetDate(reserved.reservation_date)}
+                  <h6>Reservation Date:</h6> {ResetDate(reserved.reservation_date)}
                 </div>
                 <div className="container-data">
                   <h6>Check In:</h6> {ResetDate(reserved.check_in)}
@@ -82,7 +80,7 @@ function WhoReserved() {
                   <h6>Room Type:</h6> {reserved.room_type}
                 </div>
                 <div className="container-data">
-                  <h6>Total Price:</h6> ${reserved.total_price}
+                  <h6>Person Price:</h6> ${reserved.total_price}
                 </div>
                 <button
                   onClick={() => deleteReservation(reserved.reservation_ID)}
@@ -111,8 +109,7 @@ function WhoReserved() {
                   )}
                   <hr />
                   <div className="container-data">
-                    <h6>Reservation Date:</h6>{" "}
-                    {ResetDate(reserve.reservation_date)}
+                    <h6>Reservation Date:</h6> {ResetDate(reserve.reservation_date)}
                   </div>
                   <div className="container-data">
                     <h6>Check In:</h6> {ResetDate(reserve.check_in)}
@@ -130,7 +127,10 @@ function WhoReserved() {
                     <h6>Room Type:</h6> {reserve.room_type}
                   </div>
                   <div className="container-data">
-                    <h6>Total Price:</h6> ${reserve.total_price}
+                    <h6>Person Price:</h6> ${reserve.total_price}
+                  </div>
+                  <div className="container-data">
+                    <h6>Total Price:</h6> ${reserve.total_price * reserve.people}.00
                   </div>
                   <button
                     onClick={() => deleteReservation(reserve.reservation_ID)}

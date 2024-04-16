@@ -3,7 +3,7 @@ import "dotenv/config";
 
 const { NODE_ENV, HOST_DB, USER_DB, PASSWORD_DB, NAME_DB } = process.env;
 
-//const databaseName = NODE_ENV.trim() === "test" ? "test" : NAME_DB;
+// const databaseName = NODE_ENV.trim() === "test" ? "test" : NAME_DB;
 
 export const db = await mysql.createConnection({
   host: HOST_DB,
@@ -12,7 +12,8 @@ export const db = await mysql.createConnection({
   database: NAME_DB,
 });
 
-//await db.execute("SET autocommit = 0");
+// if (databaseName === "test") await db.execute("SET autocommit = 0");
+// await db.execute("SET autocommit = 0");
 
 const createTables = async () => {
   try {

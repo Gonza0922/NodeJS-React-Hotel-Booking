@@ -87,21 +87,13 @@ function PartnerProfile() {
             </li>
             <ul id="dropdown1" className="dropdown-content">
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/profile`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
                   Profile Data
                 </a>
               </li>
               <li className="divider" tabIndex="-1"></li>
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/password`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
                   Change Password
                 </a>
               </li>
@@ -116,11 +108,7 @@ function PartnerProfile() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Profile</h3>
         <div className="container-errors">
-          {error === "User already exists" ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {error === "User already exists" ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="col s12">
@@ -148,9 +136,7 @@ function PartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, first_name: e.target.value })
-              }
+              onChange={(e) => setPartnerData({ ...partnerData, first_name: e.target.value })}
             />
           </div>
         </div>
@@ -164,9 +150,7 @@ function PartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, last_name: e.target.value })
-              }
+              onChange={(e) => setPartnerData({ ...partnerData, last_name: e.target.value })}
             />
           </div>
         </div>
@@ -180,9 +164,7 @@ function PartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, DNI: e.target.value })
-              }
+              onChange={(e) => setPartnerData({ ...partnerData, DNI: e.target.value })}
             />
           </div>
         </div>
@@ -196,9 +178,7 @@ function PartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, phone: e.target.value })
-              }
+              onChange={(e) => setPartnerData({ ...partnerData, phone: e.target.value })}
             />
           </div>
         </div>
@@ -212,7 +192,7 @@ function PartnerProfile() {
         <div className="delete-confirm-container">
           <div className="delete-confirm">
             <h5>
-              If you delete your profile, your hotels will also be deleted.
+              If you delete your profile, your hotels and their reservations will also be deleted.
             </h5>
             <div className="container-button-delete-confirm">
               <button

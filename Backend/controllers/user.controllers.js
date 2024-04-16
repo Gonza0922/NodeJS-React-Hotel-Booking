@@ -1,4 +1,5 @@
 import { db } from "../tables.js";
+
 import { generateToken } from "../libs/jwt.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

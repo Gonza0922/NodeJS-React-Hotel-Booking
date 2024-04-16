@@ -18,7 +18,7 @@ export const getReservationPerUser = async (req, res) => {
 export const getReservationId = async (req, res) => {
   //Selecciona la reservacion que coincida con el reservation_ID enviado por parametro
   try {
-    const id = req.params.reservationId;
+    const id = req.params.reservation_ID;
     const [findReservation] = await db.query(
       "SELECT * FROM reservations WHERE reservation_ID = ?",
       id
@@ -118,7 +118,8 @@ export const postReservation = async (req, res) => {
 export const putReservation = async (req, res) => {
   //Actualiza una reservacion que coincida con el reservation_ID enviado
   try {
-    const id = req.params.reservationId;
+    const { user_ID } = req.user;
+    const id = req.params.reservation_ID;
     const [calculateNights] = await db.query(
       "SELECT DATEDIFF(?, ?) AS nights",
       [req.body.check_out, req.body.check_in]
@@ -141,7 +142,7 @@ export const putReservation = async (req, res) => {
       req.body.people,
       req.body.room_type,
       calculateTotalPrice[0].total_price,
-      req.body.user_ID,
+      user_ID,
       req.body.hotel_ID,
     ];
     if (
@@ -174,7 +175,7 @@ export const putReservation = async (req, res) => {
 export const deleteReservation = async (req, res) => {
   //Elimina una reservacion que coincida con el reservation_ID enviado
   try {
-    const id = req.params.reservationId;
+    const id = req.params.reservation_ID;
     const [deleteReservation] = await db.query(
       "DELETE FROM reservations WHERE reservation_ID = ?",
       id

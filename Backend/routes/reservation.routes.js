@@ -11,7 +11,7 @@ import {
   postReservation,
   putReservation,
   deleteReservation,
-} from "../controllers/reservations.controllers.js";
+} from "../controllers/reservation.controllers.js";
 
 const reservationRouter = Router();
 
@@ -21,7 +21,7 @@ reservationRouter.get(
   getReservationPerUser
 );
 reservationRouter.get(
-  "/reservations/:reservationId",
+  "/reservations/:reservation_ID",
   validateTokenUser,
   getReservationId
 );
@@ -37,12 +37,12 @@ reservationRouter.post(
   postReservation
 );
 reservationRouter.put(
-  "/update/reservations/:reservationId",
+  "/update/reservations/:reservation_ID",
   validateTokenUser,
   putReservation
 );
 reservationRouter.delete(
-  "/delete/reservations/:reservationId",
+  "/delete/reservations/:reservation_ID",
   chooseMiddleware,
   deleteReservation
 );
