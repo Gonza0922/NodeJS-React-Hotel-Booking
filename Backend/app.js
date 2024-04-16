@@ -9,7 +9,6 @@ import partnerRouter from "./routes/partner.routes.js";
 import imagesRouter from "./routes/images.routes.js";
 import commentRouter from "./routes/comment.routes.js";
 import fileUpload from "express-fileupload";
-import rateLimit from "express-rate-limit";
 
 const app = express();
 app.use(

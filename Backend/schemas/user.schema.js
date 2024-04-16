@@ -19,12 +19,14 @@ export const register = z.object({
     .min(1, { message: "Last Name is required" })
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
-  DNI: z
-    .number({ required_error: "DNI is required" })
-    .positive({ message: "Number should be positive" })
-    .gt(1, { message: "Phone is required" })
-    .gt(9999999, { message: "DNI must be at least than 8 characters" })
-    .lt(99999999, { message: "DNI must be no more 8 characters" }),
+  birthdate: z
+    .string({ required_error: "Check In is required" })
+    .min(1, { message: "Check In is required" }),
+  nacionality: z
+    .string({ required_error: "Nacionality is required" })
+    .min(1, { message: "Nacionality is required" })
+    .min(2, { message: "Nacionality must be at least 2 characters" })
+    .max(20, { message: "Nacionality must be no more than 20 characters" }),
   phone: z
     .number({ required_error: "Phone is required" })
     .positive({ message: "Number should be positive" })
@@ -56,11 +58,14 @@ export const update = z.object({
     .min(1, { message: "Last Name is required" })
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
-  DNI: z
-    .number({ required_error: "DNI is required" })
-    .positive({ message: "Number should be positive" })
-    .gt(9999999, { message: "DNI must be at least than 8 characters" })
-    .lt(99999999, { message: "DNI must be no more 8 characters" }),
+  birthdate: z
+    .string({ required_error: "Check In is required" })
+    .min(1, { message: "Check In is required" }),
+  nacionality: z
+    .string({ required_error: "Nacionality is required" })
+    .min(1, { message: "Nacionality is required" })
+    .min(2, { message: "Nacionality must be at least 2 characters" })
+    .max(20, { message: "Nacionality must be no more than 20 characters" }),
   phone: z
     .number({ required_error: "Phone is required" })
     .positive({ message: "Number should be positive" })

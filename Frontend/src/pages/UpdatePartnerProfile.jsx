@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePartnerContext } from "../context/PartnerContext";
+import { useHotelContext } from "../context/HotelContext";
+import { transformDateZ } from "../functions/dates";
+import { Countrys } from "../components/Countrys";
 import {
   getPartnerIdRequest,
   putPartnerIdRequest,
   deletePartnerRequest,
 } from "../api/partner.api";
-import { useHotelContext } from "../context/HotelContext";
 
-function PartnerProfile() {
+function UpdatePartnerProfile() {
   const { logout, partner, error, setError, confirmDelete, setConfirmDelete } =
     usePartnerContext();
   const { setRedirect, setErrorRedirect, load, setLoad } = useHotelContext();
@@ -17,7 +19,8 @@ function PartnerProfile() {
     email: "",
     first_name: "",
     last_name: "",
-    DNI: "",
+    birthdate: "",
+    nacionality: "",
     phone: "",
   });
 
@@ -27,7 +30,11 @@ function PartnerProfile() {
     const clickGetUser = async () => {
       try {
         const data = await getPartnerIdRequest(partner.partner_ID);
-        setPartnerData({ ...data, password: "" });
+        setPartnerData({
+          ...data,
+          password: "",
+          birthdate: transformDateZ(data.birthdate),
+        });
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
@@ -40,7 +47,6 @@ function PartnerProfile() {
     try {
       const data = await putPartnerIdRequest({
         ...partnerData,
-        DNI: Number(partnerData.DNI),
         phone: Number(partnerData.phone),
       });
       setLoad("Updating Profile...");
@@ -179,22 +185,6 @@ function PartnerProfile() {
         </div>
         <div className="row-input">
           <div className="col s12">
-            <label htmlFor="DNI">DNI</label>
-            <input
-              id="DNI"
-              type="number"
-              value={partnerData.DNI}
-              className="validate"
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(e) =>
-                setPartnerData({ ...partnerData, DNI: e.target.value })
-              }
-            />
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="col s12">
             <label htmlFor="phone">Phone</label>
             <input
               id="phone"
@@ -207,6 +197,38 @@ function PartnerProfile() {
                 setPartnerData({ ...partnerData, phone: e.target.value })
               }
             />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="col s12">
+            <label htmlFor="birthdate">Date of Birth</label>
+            <input
+              id="birthdate"
+              type="date"
+              value={partnerData.birthdate}
+              className="validate"
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) =>
+                setPartnerData({ ...partnerData, birthdate: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="col s12">
+            <select
+              className="browser-default"
+              value={partnerData.nacionality}
+              onChange={(e) =>
+                setPartnerData({
+                  ...partnerData,
+                  nacionality: e.target.value,
+                })
+              }
+            >
+              <Countrys />
+            </select>
           </div>
         </div>
         <div className="container-button-login-register-partner">
@@ -246,4 +268,4 @@ function PartnerProfile() {
   );
 }
 
-export default PartnerProfile;
+export default UpdatePartnerProfile;

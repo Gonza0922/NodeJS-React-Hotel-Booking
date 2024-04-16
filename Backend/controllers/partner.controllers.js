@@ -1,5 +1,4 @@
 import { db } from "../tables.js";
-
 import { generateToken } from "../libs/jwt.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
@@ -25,21 +24,20 @@ export const registerPartner = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const q =
-      "INSERT INTO partners(email, password, first_name, last_name, DNI, phone) VALUES (?)";
+      "INSERT INTO partners(email, password, first_name, last_name, birthdate, nacionality, phone) VALUES (?)";
     const values = [
       req.body.email,
       hashedPassword,
       req.body.first_name,
       req.body.last_name,
-      req.body.DNI,
+      req.body.birthdate,
+      req.body.nacionality,
       req.body.phone,
     ];
     const [findEmail] = await db.query("SELECT email FROM partners WHERE email = ?", [
       req.body.email,
     ]);
     if (findEmail.length > 0) return res.status(400).json({ message: ["Email already exists"] });
-    const [findDNI] = await db.query("SELECT DNI FROM partners WHERE DNI = ?", [req.body.DNI]);
-    if (findDNI.length > 0) return res.status(400).json({ message: ["DNI already exists"] });
     const createPartner = await db.query(q, [values]);
     const partner_ID = createPartner[0].insertId;
     const [partner] = await db.query("SELECT * FROM partners WHERE partner_ID = ?", [partner_ID]);
@@ -56,15 +54,16 @@ export const putPartner = async (req, res) => {
   //Update a partner
   try {
     const q =
-      "UPDATE partners SET email = ?, first_name = ?, last_name = ?, DNI = ?, phone = ? WHERE partner_ID = ?";
+      "UPDATE partners SET email = ?, first_name = ?, last_name = ?, birthdate = ?, nacionality = ?, phone = ? WHERE partner_ID = ?";
     const values = [
       req.body.email,
       req.body.first_name,
       req.body.last_name,
-      req.body.DNI,
+      req.body.birthdate,
+      req.body.nacionality,
       req.body.phone,
     ];
-    const [myData] = await db.query("SELECT DNI, email FROM partners WHERE partner_ID = ?", [
+    const [myData] = await db.query("SELECT email FROM partners WHERE partner_ID = ?", [
       req.body.partner_ID,
     ]);
     const [findEmail] = await db.query("SELECT email FROM partners WHERE email = ?", [
@@ -72,9 +71,6 @@ export const putPartner = async (req, res) => {
     ]);
     if (findEmail.length > 0 && myData[0].email !== req.body.email)
       return res.status(400).json({ message: ["Email already exists"] });
-    const [findDNI] = await db.query("SELECT DNI FROM partners WHERE DNI = ?", [req.body.DNI]);
-    if (findDNI.length > 0 && myData[0].DNI !== req.body.DNI)
-      return res.status(400).json({ message: ["DNI already exists"] });
     await db.query(q, [...values, req.body.partner_ID]);
     res.status(200).json({ message: `Partner ${req.body.partner_ID} updated` });
   } catch (err) {

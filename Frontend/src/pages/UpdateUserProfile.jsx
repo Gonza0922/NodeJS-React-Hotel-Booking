@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../context/UserContext";
-import { usePartnerContext } from "../context/PartnerContext";
-import { useHotelContext } from "../context/HotelContext";
+import { useUserContext } from "../context/UserContext.jsx";
+import { usePartnerContext } from "../context/PartnerContext.jsx";
+import { useHotelContext } from "../context/HotelContext.jsx";
+import { transformDateZ } from "../functions/dates.js";
+import { Countrys } from "../components/Countrys.jsx";
 import {
   deleteUserRequest,
   getUserIdRequest,
   putUserIdRequest,
-} from "../api/user.api";
+} from "../api/user.api.js";
 
-function Profile() {
+function UpdateUserProfile() {
   const { logout, user, error, setError } = useUserContext();
   const { confirmDelete, setConfirmDelete } = usePartnerContext();
   const { setRedirect, setErrorRedirect, load, setLoad } = useHotelContext();
@@ -18,7 +20,8 @@ function Profile() {
     email: "",
     first_name: "",
     last_name: "",
-    DNI: "",
+    birthdate: "",
+    nacionality: "",
     phone: "",
   });
 
@@ -28,7 +31,11 @@ function Profile() {
     const clickGetUser = async () => {
       try {
         const data = await getUserIdRequest(user.user_ID);
-        setUserData({ ...data, password: "" });
+        setUserData({
+          ...data,
+          password: "",
+          birthdate: transformDateZ(data.birthdate),
+        });
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
@@ -41,7 +48,6 @@ function Profile() {
     try {
       const data = await putUserIdRequest({
         ...userData,
-        DNI: Number(userData.DNI),
         phone: Number(userData.phone),
       });
       setLoad("Updating Profile...");
@@ -176,22 +182,6 @@ function Profile() {
         </div>
         <div className="row-input">
           <div className="col s12">
-            <label htmlFor="DNI">DNI</label>
-            <input
-              id="DNI"
-              type="number"
-              value={userData.DNI}
-              className="validate"
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(e) =>
-                setUserData({ ...userData, DNI: e.target.value })
-              }
-            />
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="col s12">
             <label htmlFor="phone">Phone</label>
             <input
               id="phone"
@@ -204,6 +194,38 @@ function Profile() {
                 setUserData({ ...userData, phone: e.target.value })
               }
             />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="col s12">
+            <label htmlFor="birthdate">Date of Birth</label>
+            <input
+              id="birthdate"
+              type="date"
+              value={userData.birthdate}
+              className="validate"
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) =>
+                setUserData({ ...userData, birthdate: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="col s12">
+            <select
+              className="browser-default"
+              value={userData.nacionality}
+              onChange={(e) =>
+                setUserData({
+                  ...userData,
+                  nacionality: e.target.value,
+                })
+              }
+            >
+              <Countrys />
+            </select>
           </div>
         </div>
         <div className="container-button-login-register-partner">
@@ -242,4 +264,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default UpdateUserProfile;

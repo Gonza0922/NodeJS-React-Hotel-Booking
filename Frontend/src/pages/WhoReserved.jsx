@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ResetDate } from "../functions/dates.js";
+import { resetDate } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 import { useParams, useNavigate } from "react-router-dom";
@@ -61,13 +61,13 @@ function WhoReserved() {
                 <hr />
                 <div className="container-data">
                   <h6>Reservation Date:</h6>{" "}
-                  {ResetDate(reserved.reservation_date)}
+                  {resetDate(reserved.reservation_date)}
                 </div>
                 <div className="container-data">
-                  <h6>Check In:</h6> {ResetDate(reserved.check_in)}
+                  <h6>Check In:</h6> {resetDate(reserved.check_in)}
                 </div>
                 <div className="container-data">
-                  <h6>Check Out:</h6> {ResetDate(reserved.check_out)}
+                  <h6>Check Out:</h6> {resetDate(reserved.check_out)}
                 </div>
                 <div className="container-data">
                   <h6>Nights:</h6> {reserved.nights}
@@ -112,13 +112,13 @@ function WhoReserved() {
                   <hr />
                   <div className="container-data">
                     <h6>Reservation Date:</h6>{" "}
-                    {ResetDate(reserve.reservation_date)}
+                    {resetDate(reserve.reservation_date)}
                   </div>
                   <div className="container-data">
-                    <h6>Check In:</h6> {ResetDate(reserve.check_in)}
+                    <h6>Check In:</h6> {resetDate(reserve.check_in)}
                   </div>
                   <div className="container-data">
-                    <h6>Check Out:</h6> {ResetDate(reserve.check_out)}
+                    <h6>Check Out:</h6> {resetDate(reserve.check_out)}
                   </div>
                   <div className="container-data">
                     <h6>Nights:</h6> {reserve.nights}

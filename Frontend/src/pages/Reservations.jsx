@@ -4,7 +4,7 @@ import {
 } from "../api/reservation.api";
 import { getHotelIdRequest } from "../api/hotel.api";
 import { useEffect, useState } from "react";
-import { ResetDate } from "../functions/dates.js";
+import { resetDate } from "../functions/dates.js";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { useUserContext } from "../context/UserContext.jsx";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
@@ -76,10 +76,10 @@ function Reservations() {
             <div id="card-reservations" className="card">
               <div className="card-content">
                 <h6>
-                  Reservation Date: {ResetDate(reservation.reservation_date)}
+                  Reservation Date: {resetDate(reservation.reservation_date)}
                 </h6>
-                <h5>Check In: {ResetDate(reservation.check_in)}</h5>
-                <h5>Check Out: {ResetDate(reservation.check_out)}</h5>
+                <h5>Check In: {resetDate(reservation.check_in)}</h5>
+                <h5>Check Out: {resetDate(reservation.check_out)}</h5>
                 <h6>Nights: {reservation.nights}</h6>
                 <h6>Guests: {reservation.guests}</h6>
                 <h6>Room Type: {reservation.room_type}</h6>

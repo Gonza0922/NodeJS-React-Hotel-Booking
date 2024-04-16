@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import NavbarLRP from "../../components/Navbars/NavbarLRP";
 import { useUserContext } from "../../context/UserContext";
 import { useHotelContext } from "../../context/HotelContext";
+import { Countrys } from "../../components/Countrys";
 
 export function Register() {
-  const { user, setUser, isAuthenticated, signUp, error } = useUserContext();
+  const { user, isAuthenticated, signUp, error } = useUserContext();
   const { load, setLoad } = useHotelContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
   const navigate = useNavigate();
@@ -31,10 +33,9 @@ export function Register() {
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit((data) => {
-    data = { ...data, DNI: Number(data.DNI), phone: Number(data.phone) };
+    data = { ...data, phone: Number(data.phone) };
     signUp(data);
     setLoad("Registering...");
-    // setUser(data);
   });
 
   return (
@@ -148,32 +149,6 @@ export function Register() {
         <div className="row-input">
           <div className="input-field col s12">
             <input
-              id="DNI"
-              type="number"
-              className="validate"
-              autoComplete="off"
-              spellCheck={false}
-              {...register("DNI", {
-                required: { value: true, message: "DNI is required" },
-                minLength: {
-                  value: 8,
-                  message: "DNI must be 8 characters",
-                },
-                maxLength: {
-                  value: 8,
-                  message: "DNI must be 8 characters",
-                },
-              })}
-            />
-            <label htmlFor="DNI">DNI</label>
-            <div className="container-span">
-              {errors.DNI && <span>{errors.DNI.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="input-field col s12">
-            <input
               id="phone"
               type="number"
               className="validate"
@@ -194,6 +169,50 @@ export function Register() {
             <label htmlFor="phone">Phone</label>
             <div className="container-span">
               {errors.phone && <span>{errors.phone.message}</span>}
+            </div>
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="input-field col s12">
+            <input
+              id="birthdate"
+              type="date"
+              className="validate"
+              autoComplete="off"
+              spellCheck={false}
+              {...register("birthdate", {
+                required: { value: true, message: "Date of Birth is required" },
+                minLength: {
+                  value: 10,
+                  message: "Date of Birth must be 10 characters",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Date of Birth must be 10 characters",
+                },
+              })}
+            />
+            <label htmlFor="birthdate">Date of Birth</label>
+            <div className="container-span">
+              {errors.birthdate && <span>{errors.birthdate.message}</span>}
+            </div>
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="input-field col s12">
+            <Controller
+              name="nacionality"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Nacionality is required" }}
+              render={({ field }) => (
+                <select {...field} className="browser-default">
+                  <Countrys />
+                </select>
+              )}
+            />
+            <div className="container-span">
+              {errors.nacionality && <span>{errors.nacionality.message}</span>}
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ const UserProvider = (props) => {
     } catch (error) {
       console.log(error);
       const e = error.response.data;
-      e.message ? setError(e.message[0]) : setError(e.error);
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 

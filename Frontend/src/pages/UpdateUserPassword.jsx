@@ -4,7 +4,7 @@ import { useUserContext } from "../context/UserContext";
 import { putUserIdPasswordRequest } from "../api/user.api";
 import NavbarMenu from "../components/Navbars/NavbarMenu";
 
-function UpdatePassword() {
+function UpdateUserPassword() {
   const { logout, user, error, setError } = useUserContext();
   const navigate = useNavigate();
   const {
@@ -124,4 +124,4 @@ function UpdatePassword() {
   );
 }
 
-export default UpdatePassword;
+export default UpdateUserPassword;

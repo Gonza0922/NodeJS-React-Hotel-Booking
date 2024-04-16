@@ -33,7 +33,7 @@ function UpdateReservation() {
           check_out: transformDateZ(data.check_out),
         });
       } catch (error) {
-        setErrorRedirect(true);
+        setRedirect(true);
         setErrorRedirect(error.message);
       }
     };

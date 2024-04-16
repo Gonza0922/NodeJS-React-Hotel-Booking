@@ -17,9 +17,9 @@ import CreateHotel from "./pages/CreateHotel.jsx";
 import WhoReserved from "./pages/WhoReserved.jsx";
 import UpdateHotel from "./pages/UpdateHotel.jsx";
 import UpdateReservation from "./pages/UpdateReservation.jsx";
-import Profile from "./pages/Profile.jsx";
-import UpdatePassword from "./pages/UpdatePassword.jsx";
-import PartnerProfile from "./pages/PartnerProfile.jsx";
+import UpdateUserProfile from "./pages/UpdateUserProfile.jsx";
+import UpdateUserPassword from "./pages/UpdateUserPassword.jsx";
+import UpdatePartnerProfile from "./pages/UpdatePartnerProfile.jsx";
 import UpdatePartnerPassword from "./pages/UpdatePartnerPassword.jsx";
 import ErrorHandling from "./components/ErrorHandling.jsx";
 
@@ -50,10 +50,13 @@ function App() {
                     path="/users/:name/reservations/update/:reservation_ID"
                     element={<UpdateReservation />}
                   />
-                  <Route path="/users/:name/profile" element={<Profile />} />
+                  <Route
+                    path="/users/:name/profile"
+                    element={<UpdateUserProfile />}
+                  />
                   <Route
                     path="/users/:name/password"
-                    element={<UpdatePassword />}
+                    element={<UpdateUserPassword />}
                   />
                 </Route>
                 <Route element={<PartnerProtectedPages />}>
@@ -72,7 +75,7 @@ function App() {
                   />
                   <Route
                     path="/partners/:name/profile"
-                    element={<PartnerProfile />}
+                    element={<UpdatePartnerProfile />}
                   />
                   <Route
                     path="/partners/:name/password"

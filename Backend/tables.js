@@ -24,7 +24,8 @@ const createTables = async () => {
       password VARCHAR(255) NOT NULL,
       first_name VARCHAR(255) NOT NULL,
       last_name VARCHAR(255) NOT NULL,
-      DNI INT NOT NULL UNIQUE,
+      birthdate DATE NOT NULL,
+      nacionality VARCHAR(255) NOT NULL,
       phone DECIMAL(11,0) NOT NULL  
     )
   `;
@@ -53,8 +54,9 @@ const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         first_name VARCHAR(255) NOT NULL,
         last_name VARCHAR(255) NOT NULL,
-        DNI INT NOT NULL UNIQUE,
-        phone DECIMAL(11,0) NOT NULL UNIQUE    
+        birthdate DATE NOT NULL,
+        nacionality VARCHAR(255) NOT NULL,
+        phone DECIMAL(11,0) NOT NULL
       )
     `;
     await db.execute(usersSQL);
