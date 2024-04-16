@@ -440,3 +440,25 @@ select,
 .p-update-reservation {
   margin: 0px 0px 10px 0px;
 }
+
+#create-description {
+  height: 110px;
+}
+
+#create-services {
+  height: 110px;
+}
+
+.my-input-field {
+  position: relative;
+  padding: 0px 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-input-field label {
+  transform: translateY(-14px);
+  top: 0;
+  position: absolute;
+  cursor: text;
+}

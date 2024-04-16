@@ -29,11 +29,7 @@ function UpdatePassword() {
 
   return (
     <>
-      <NavbarMenu
-        navigation={`/users/${user.first_name}`}
-        profile={user}
-        logout={logout}
-      />
+      <NavbarMenu profile={user} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Password</h3>
         <div className="container-errors">
@@ -54,6 +50,7 @@ function UpdatePassword() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("oldPassword", {
                 required: { value: true, message: "Old Password is required" },
                 minLength: {
@@ -75,6 +72,7 @@ function UpdatePassword() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("newPassword", {
                 required: { value: true, message: "New Password is required" },
                 minLength: {
@@ -96,6 +94,7 @@ function UpdatePassword() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("againNewPassword", {
                 required: {
                   value: true,

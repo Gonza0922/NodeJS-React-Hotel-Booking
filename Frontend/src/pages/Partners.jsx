@@ -67,25 +67,25 @@ const Partners = () => {
     navigate(`update/${id}`);
   };
 
-  const deleteMoreImages = async (id) => {
-    try {
-      const data = await deleteArrayImagesRequest(id);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
+  // const deleteMoreImages = async (id) => {
+  //   try {
+  //     const data = await deleteArrayImagesRequest(id);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setError(error.response.data.message);
+  //   }
+  // };
 
-  const deletePrincipal = async (id) => {
-    try {
-      const data = await deleteImageRequest(id);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-      setError(error.response.data.message);
-    }
-  };
+  // const deletePrincipal = async (id) => {
+  //   try {
+  //     const data = await deleteImageRequest(id);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setError(error.response.data.message);
+  //   }
+  // };
 
   const deleteHotel = async (id) => {
     try {
@@ -182,7 +182,7 @@ const Partners = () => {
             <div id="card-partners" className="card">
               <div className="card-content">
                 <span className="card-title">{hotel.name}</span>
-                <h5>${hotel.price_per_night}.00</h5>
+                <h5>${hotel.price_per_night}</h5>
                 <p>{hotel.description}</p>
                 <h6>{hotel.services}</h6>
                 <h6>{hotel.location}</h6>

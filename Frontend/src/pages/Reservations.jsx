@@ -58,11 +58,7 @@ function Reservations() {
 
   return (
     <div className="alfa">
-      <NavbarMenu
-        navigation={`/users/${user.first_name}`}
-        profile={user}
-        logout={logout}
-      />
+      <NavbarMenu profile={user} logout={logout} />
       <h3 className="title">My Reservations</h3>
       {reservations.length === 0 ? (
         <div className="no-reservations">

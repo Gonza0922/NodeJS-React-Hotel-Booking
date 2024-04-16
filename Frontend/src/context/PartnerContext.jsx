@@ -42,9 +42,9 @@ const PartnerProvider = (props) => {
       setIsAuthenticatedPartner(true);
       console.log(data);
     } catch (error) {
-      const e = error.response.data.message;
-      setError(e);
-      console.log(e);
+      console.log(error);
+      const e = error.response.data;
+      e.message ? setError(e.message[0]) : setError(e.error);
     }
   };
 
@@ -55,9 +55,9 @@ const PartnerProvider = (props) => {
       setIsAuthenticatedPartner(true);
       console.log(data);
     } catch (error) {
-      const e = error.response.data.message;
-      setError(e);
-      console.log(e);
+      console.log(error);
+      const e = error.response.data;
+      e.message ? setError(e.message[0]) : setError(e.error);
     }
   };
 

@@ -27,7 +27,7 @@ export function Login() {
 
   return (
     <>
-      <NavbarLRP navigation={"/"} />
+      <NavbarLRP />
       <form className="form-login-register col s12" onSubmit={onSubmit}>
         <h3>Login</h3>
         <div className="container-errors">
@@ -46,6 +46,7 @@ export function Login() {
               type="email"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("email", {
                 required: { value: true, message: "Email is required" },
                 pattern: {
@@ -67,6 +68,7 @@ export function Login() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("password", {
                 required: { value: true, message: "Password is required" },
               })}

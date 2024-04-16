@@ -43,8 +43,12 @@ export const registerUser = async (req, res) => {
       req.body.DNI,
       req.body.phone,
     ];
+    const [findEmail] = await db.query("SELECT email FROM users WHERE email = ?", [
+      req.body.email,
+    ]);
+    if (findEmail.length > 0) return res.status(400).json({ message: ["Email already exists"] });
     const [findDNI] = await db.query("SELECT DNI FROM users WHERE DNI = ?", [req.body.DNI]);
-    if (findDNI.length > 0) return res.status(400).json({ message: ["User already exists"] });
+    if (findDNI.length > 0) return res.status(400).json({ message: ["DNI already exists"] });
     const createUser = await db.query(q, [values]);
     const user_ID = createUser[0].insertId;
     const [user] = await db.query("SELECT * FROM users WHERE user_ID = ?", [user_ID]);
@@ -69,11 +73,17 @@ export const putUser = async (req, res) => {
       req.body.DNI,
       req.body.phone,
     ];
-    const [findDNI] = await db.query("SELECT DNI FROM users WHERE user_ID = ?", [
+    const [myData] = await db.query("SELECT DNI, email FROM users WHERE user_ID = ?", [
       req.body.user_ID,
     ]);
-    if (findDNI.length > 0 && findDNI[0].DNI !== req.body.DNI)
-      return res.status(400).json({ message: ["User already exists"] });
+    const [findEmail] = await db.query("SELECT email FROM users WHERE email = ?", [
+      req.body.email,
+    ]);
+    if (findEmail.length > 0 && myData[0].email !== req.body.email)
+      return res.status(400).json({ message: ["Email already exists"] });
+    const [findDNI] = await db.query("SELECT DNI FROM users WHERE DNI = ?", [req.body.DNI]);
+    if (findDNI.length > 0 && myData[0].DNI !== req.body.DNI)
+      return res.status(400).json({ message: ["DNI already exists"] });
     await db.query(q, [...values, req.body.user_ID]);
     res.status(200).json({ message: `User ${req.body.user_ID} updated` });
   } catch (err) {

@@ -35,6 +35,7 @@ const HotelProvider = (props) => {
   });
   const [redirect, setRedirect] = useState(false);
   const [errorRedirect, setErrorRedirect] = useState({});
+  const [load, setLoad] = useState("");
 
   useEffect(() => {
     const getHotels = async () => {
@@ -47,7 +48,9 @@ const HotelProvider = (props) => {
 
   const filtrar = (term) => {
     const result = content.filter((element) => {
-      if (element.name.toString().toLowerCase().includes(term.toLowerCase())) {
+      if (
+        element.location.toString().toLowerCase().includes(term.toLowerCase())
+      ) {
         return element;
       }
     });
@@ -130,6 +133,8 @@ const HotelProvider = (props) => {
         setRedirect,
         errorRedirect,
         setErrorRedirect,
+        load,
+        setLoad,
       }}
     >
       {props.children}

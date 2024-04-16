@@ -24,8 +24,8 @@ const createTables = async () => {
       password VARCHAR(255) NOT NULL,
       first_name VARCHAR(255) NOT NULL,
       last_name VARCHAR(255) NOT NULL,
-      DNI VARCHAR(255) NOT NULL UNIQUE,
-      phone VARCHAR(255) NOT NULL  
+      DNI INT NOT NULL UNIQUE,
+      phone DECIMAL(11,0) NOT NULL  
     )
   `;
     await db.execute(partnersSQL);
@@ -34,11 +34,11 @@ const createTables = async () => {
       CREATE TABLE IF NOT EXISTS hotels (
         hotel_ID INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL UNIQUE,
-        price_per_night VARCHAR(255) NOT NULL,
+        price_per_night DECIMAL(10,2) NOT NULL,
         description VARCHAR(255) NOT NULL,
         services VARCHAR(255) NOT NULL,
         location VARCHAR(255) NOT NULL UNIQUE,
-        phone VARCHAR(255) NOT NULL,
+        phone DECIMAL(11,0) NOT NULL,
         principalImg VARCHAR(255) NOT NULL,
         partner_ID INT NOT NULL,
         FOREIGN KEY (partner_ID) REFERENCES partners(partner_ID)
@@ -53,8 +53,8 @@ const createTables = async () => {
         password VARCHAR(255) NOT NULL,
         first_name VARCHAR(255) NOT NULL,
         last_name VARCHAR(255) NOT NULL,
-        DNI VARCHAR(255) NOT NULL UNIQUE,
-        phone VARCHAR(255) NOT NULL UNIQUE    
+        DNI INT NOT NULL UNIQUE,
+        phone DECIMAL(11,0) NOT NULL UNIQUE    
       )
     `;
     await db.execute(usersSQL);
@@ -65,7 +65,7 @@ const createTables = async () => {
         reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         check_in DATE NOT NULL,
         check_out DATE NOT NULL,
-        nights VARCHAR(255) NOT NULL,
+        nights INT NOT NULL,
         people INT NOT NULL,
         room_type VARCHAR(255) NOT NULL,
         person_price DECIMAL(10,2) NOT NULL,

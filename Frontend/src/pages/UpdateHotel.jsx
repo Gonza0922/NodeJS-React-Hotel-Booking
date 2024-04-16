@@ -22,12 +22,14 @@ function UpdateHotel() {
     handleMoreImagesUpdate,
     setRedirect,
     setErrorRedirect,
+    load,
+    setLoad,
   } = useHotelContext();
-  const [load, setLoad] = useState("Update");
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoad("Update");
     const clickGetHotel = async () => {
       try {
         const data = await getHotelIdRequest(hotel_ID);
@@ -78,7 +80,7 @@ function UpdateHotel() {
   const updateHotel = async (newData) => {
     try {
       const data = await putHotelRequest(hotel_ID, newData);
-      setLoad("Loading...");
+      setLoad("Updating...");
       setTimeout(() => {
         navigate("/loginProperty");
         setLoad("Update");
@@ -105,17 +107,18 @@ function UpdateHotel() {
       console.log("moreImages es un fileList");
       handleMoreImagesUpdate(hotel_ID, hotelData.moreImages);
     }
-    console.log(hotelData);
-    updateHotel(hotelData); // info del hotel + imagenes nuevas en formato nombre
+    const finalData = {
+      ...hotelData,
+      price_per_night: Number(hotelData.price_per_night),
+      phone: Number(hotelData.phone),
+    };
+    console.log(finalData);
+    updateHotel(finalData); // info del hotel + imagenes nuevas en formato nombre
   };
 
   return (
     <>
-      <NavbarMenu
-        navigation={`/partners/${partner.first_name}`}
-        profile={partner}
-        logout={logout}
-      />
+      <NavbarMenu profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Update Hotel {hotel_ID}</h3>
         <div className="container-errors">
@@ -126,7 +129,7 @@ function UpdateHotel() {
           )}
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="name">Name</label>
             <input
               id="name"
@@ -135,14 +138,14 @@ function UpdateHotel() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) => {
-                setHotelData({ ...hotelData, name: e.target.value });
-              }}
+              onChange={(e) =>
+                setHotelData({ ...hotelData, name: e.target.value })
+              }
             />
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="price_per_night">Price per Night</label>
             <input
               id="price_per_night"
@@ -152,45 +155,16 @@ function UpdateHotel() {
               autoComplete="off"
               spellCheck={false}
               onChange={(e) =>
-                setHotelData({ ...hotelData, price_per_night: e.target.value })
+                setHotelData({
+                  ...hotelData,
+                  price_per_night: e.target.value,
+                })
               }
             />
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
-            <label htmlFor="description">Description</label>
-            <input
-              id="description"
-              type="text"
-              value={hotelData.description}
-              className="validate"
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, description: e.target.value })
-              }
-            />
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="col s12">
-            <label htmlFor="services">Services</label>
-            <input
-              id="services"
-              type="text"
-              value={hotelData.services}
-              className="validate"
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(e) =>
-                setHotelData({ ...hotelData, services: e.target.value })
-              }
-            />
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
             <label htmlFor="location">Location</label>
             <input
               id="location"
@@ -206,7 +180,39 @@ function UpdateHotel() {
           </div>
         </div>
         <div className="row-input">
-          <div className="col s12">
+          <div className="my-input-field col s12">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              type="text"
+              value={hotelData.description}
+              className="materialize-textarea"
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) =>
+                setHotelData({ ...hotelData, description: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="my-input-field col s12">
+            <label htmlFor="services">Services</label>
+            <textarea
+              id="services"
+              type="text"
+              value={hotelData.services}
+              className="materialize-textarea"
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) =>
+                setHotelData({ ...hotelData, services: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="my-input-field col s12">
             <label htmlFor="phone">Phone</label>
             <input
               id="phone"

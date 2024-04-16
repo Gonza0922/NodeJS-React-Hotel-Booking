@@ -20,15 +20,16 @@ export const register = z.object({
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
   DNI: z
-    .string({ required_error: "DNI is required" })
-    .min(1, { message: "DNI is required" })
-    .min(8, { message: "DNI must be 8 characters" })
-    .max(8, { message: "DNI must be 8 characters" }),
+    .number({ required_error: "DNI is required" })
+    .positive({ message: "Number should be positive" })
+    .gt(1, { message: "Phone is required" })
+    .gt(9999999, { message: "DNI must be at least than 8 characters" })
+    .lt(99999999, { message: "DNI must be no more 8 characters" }),
   phone: z
-    .string({ required_error: "Phone is required" })
-    .min(1, { message: "Phone is required" })
-    .min(10, { message: "Phone must be at least 10 characters" })
-    .max(11, { message: "Phone must be no more than 11 characterss" }),
+    .number({ required_error: "Phone is required" })
+    .positive({ message: "Number should be positive" })
+    .gt(1000000000, { message: "Phone must be at least than 10 characters" })
+    .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });
 
 export const login = z.object({
@@ -56,13 +57,13 @@ export const update = z.object({
     .min(2, { message: "Last Name must be at least 2 characters" })
     .max(20, { message: "Last Name must be no more than 20 characters" }),
   DNI: z
-    .string({ required_error: "DNI is required" })
-    .min(1, { message: "DNI is required" })
-    .min(8, { message: "DNI must be 8 characters" })
-    .max(8, { message: "DNI must be 8 characters" }),
+    .number({ required_error: "DNI is required" })
+    .positive({ message: "Number should be positive" })
+    .gt(9999999, { message: "DNI must be at least than 8 characters" })
+    .lt(99999999, { message: "DNI must be no more 8 characters" }),
   phone: z
-    .string({ required_error: "Phone is required" })
-    .min(1, { message: "Phone is required" })
-    .min(10, { message: "Phone must be at least 10 characters" })
-    .max(11, { message: "Phone must be no more than 11 characterss" }),
+    .number({ required_error: "Phone is required" })
+    .positive({ message: "Number should be positive" })
+    .gt(1000000000, { message: "Phone must be at least than 10 characters" })
+    .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });

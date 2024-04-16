@@ -11,8 +11,7 @@ export const reservation = z.object({
     .number({ required_error: "People is required" })
     .int({ message: "Number should be integer" })
     .positive({ message: "Number should be positive" })
-    .gte(1, { message: "Minimun 1 people" })
-    .lte(8, { message: "Maximum 10 people" }),
+    .lte(8, { message: "Maximum 8 people" }),
   room_type: z
     .string({ required_error: "Room Type is required" })
     .min(1, { message: "Room Type is required" }),

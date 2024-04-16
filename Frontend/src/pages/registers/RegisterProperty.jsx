@@ -3,38 +3,47 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import NavbarLRP from "../../components/Navbars/NavbarLRP";
 import { usePartnerContext } from "../../context/PartnerContext";
+import { useHotelContext } from "../../context/HotelContext";
 
 export function RegisterProperty() {
   const { partner, setPartner, isAuthenticatedPartner, signUp, error } =
     usePartnerContext();
+  const { load, setLoad } = useHotelContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoad("Register");
+  }, []);
+
   useEffect(() => {
     if (isAuthenticatedPartner) {
       const timer = setTimeout(() => {
         navigate(`/partners/${partner.first_name}`);
+        if (load !== "Register") setLoad("Register");
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [isAuthenticatedPartner]);
 
   const onSubmit = handleSubmit((data) => {
+    data = { ...data, DNI: Number(data.DNI), phone: Number(data.phone) };
     signUp(data);
-    setPartner(data);
-    console.log(data);
+    setLoad("Registering...");
+    // setPartner(data);
   });
 
   return (
     <>
-      <NavbarLRP navigation={"/"} />
+      <NavbarLRP />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Register Partner</h3>
         <div className="container-errors">
-          {error === "The email already exists" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
@@ -47,6 +56,7 @@ export function RegisterProperty() {
               type="email"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("email", {
                 required: { value: true, message: "Email is required" },
                 pattern: {
@@ -68,6 +78,7 @@ export function RegisterProperty() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("password", {
                 required: { value: true, message: "Password is required" },
                 minLength: {
@@ -89,6 +100,7 @@ export function RegisterProperty() {
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("first_name", {
                 required: { value: true, message: "First Name is required" },
                 minLength: {
@@ -114,6 +126,7 @@ export function RegisterProperty() {
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("last_name", {
                 required: { value: true, message: "Last Name is required" },
                 minLength: {
@@ -139,6 +152,7 @@ export function RegisterProperty() {
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("DNI", {
                 required: { value: true, message: "DNI is required" },
                 minLength: {
@@ -164,6 +178,7 @@ export function RegisterProperty() {
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("phone", {
                 required: { value: true, message: "Phone is required" },
                 minLength: {
@@ -184,7 +199,7 @@ export function RegisterProperty() {
         </div>
         <div className="container-button-login-register-partner">
           <button type="submit" className="waves-effect waves-light btn">
-            Register
+            {load}
           </button>
         </div>
         <div className="container-button-login-register-partner">

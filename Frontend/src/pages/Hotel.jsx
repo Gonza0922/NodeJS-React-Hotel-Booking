@@ -128,7 +128,7 @@ function Home() {
         <div id="card-selected" className="card">
           <div className="card-content">
             <span className="card-title">{hotel.name}</span>
-            <h5>${hotel.price_per_night}.00</h5>
+            <h5>${hotel.price_per_night}</h5>
             <p>{hotel.description}</p>
             <h6>{hotel.services}</h6>
             <h6>{hotel.location}</h6>

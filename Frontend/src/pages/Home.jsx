@@ -60,7 +60,7 @@ function Home() {
                   <a className="btn-floating halfway-fab waves-effect waves-light">
                     View
                   </a>
-                  <h5>${hotel.price_per_night}.00</h5>
+                  <h5>${hotel.price_per_night}</h5>
                   <p>{hotel.description}</p>
                   <h6>{hotel.location}</h6>
                 </div>

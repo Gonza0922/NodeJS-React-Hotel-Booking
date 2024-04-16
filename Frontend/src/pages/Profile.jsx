@@ -12,7 +12,7 @@ import {
 function Profile() {
   const { logout, user, error, setError } = useUserContext();
   const { confirmDelete, setConfirmDelete } = usePartnerContext();
-  const { setRedirect, setErrorRedirect } = useHotelContext();
+  const { setRedirect, setErrorRedirect, load, setLoad } = useHotelContext();
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -24,6 +24,7 @@ function Profile() {
 
   useEffect(() => {
     M.AutoInit();
+    setLoad("Update Profile");
     const clickGetUser = async () => {
       try {
         const data = await getUserIdRequest(user.user_ID);
@@ -38,9 +39,17 @@ function Profile() {
 
   const updateUser = async () => {
     try {
-      const data = await putUserIdRequest(userData);
-      console.log(data);
-      navigate(`/users/${user.first_name}`);
+      const data = await putUserIdRequest({
+        ...userData,
+        DNI: Number(userData.DNI),
+        phone: Number(userData.phone),
+      });
+      setLoad("Updating Profile...");
+      setTimeout(() => {
+        navigate(`/users/${user.first_name}`);
+        setLoad("Update Profile");
+      }, 3000);
+      return data;
     } catch (error) {
       console.log(error);
       setError(error.response.data.message[0]);
@@ -127,9 +136,9 @@ function Profile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) => {
-                setUserData({ ...userData, email: e.target.value });
-              }}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
             />
           </div>
         </div>
@@ -199,7 +208,7 @@ function Profile() {
         </div>
         <div className="container-button-login-register-partner">
           <button type="submit" className="waves-effect waves-light btn">
-            Update Profile
+            {load}
           </button>
         </div>
       </form>

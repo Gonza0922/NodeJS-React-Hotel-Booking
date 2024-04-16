@@ -11,7 +11,7 @@ import { useHotelContext } from "../context/HotelContext";
 function PartnerProfile() {
   const { logout, partner, error, setError, confirmDelete, setConfirmDelete } =
     usePartnerContext();
-  const { setRedirect, setErrorRedirect } = useHotelContext();
+  const { setRedirect, setErrorRedirect, load, setLoad } = useHotelContext();
   const navigate = useNavigate();
   const [partnerData, setPartnerData] = useState({
     email: "",
@@ -23,6 +23,7 @@ function PartnerProfile() {
 
   useEffect(() => {
     M.AutoInit();
+    setLoad("Update Profile");
     const clickGetUser = async () => {
       try {
         const data = await getPartnerIdRequest(partner.partner_ID);
@@ -35,11 +36,19 @@ function PartnerProfile() {
     clickGetUser();
   }, []);
 
-  const updateUser = async () => {
+  const updatePartner = async () => {
     try {
-      const data = await putPartnerIdRequest(partnerData);
-      console.log(data);
-      navigate(`/partners/${partner.first_name}`);
+      const data = await putPartnerIdRequest({
+        ...partnerData,
+        DNI: Number(partnerData.DNI),
+        phone: Number(partnerData.phone),
+      });
+      setLoad("Updating Profile...");
+      setTimeout(() => {
+        navigate(`/partners/${partner.first_name}`);
+        setLoad("Update Profile");
+      }, 3000);
+      return data;
     } catch (error) {
       console.log(error);
       setError(error.response.data.message[0]);
@@ -58,17 +67,14 @@ function PartnerProfile() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    updateUser();
+    updatePartner();
   };
 
   return (
     <>
       <nav>
         <div className="nav-wrapper deep-orange lighten-2">
-          <a
-            className="brand-logo left"
-            onClick={() => navigate(`/partners/${partner.first_name}`)}
-          >
+          <a className="brand-logo left" onClick={() => navigate("/")}>
             Hotels.com
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -133,9 +139,9 @@ function PartnerProfile() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              onChange={(e) => {
-                setPartnerData({ ...partnerData, email: e.target.value });
-              }}
+              onChange={(e) =>
+                setPartnerData({ ...partnerData, email: e.target.value })
+              }
             />
           </div>
         </div>
@@ -205,7 +211,7 @@ function PartnerProfile() {
         </div>
         <div className="container-button-login-register-partner">
           <button type="submit" className="waves-effect waves-light btn">
-            Update Profile
+            {load}
           </button>
         </div>
       </form>

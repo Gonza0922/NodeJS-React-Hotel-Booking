@@ -3,36 +3,47 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import NavbarLRP from "../../components/Navbars/NavbarLRP";
 import { useUserContext } from "../../context/UserContext";
+import { useHotelContext } from "../../context/HotelContext";
 
 export function Register() {
   const { user, setUser, isAuthenticated, signUp, error } = useUserContext();
+  const { load, setLoad } = useHotelContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoad("Sign Up");
+  }, []);
+
   useEffect(() => {
     if (isAuthenticated) {
       const timer = setTimeout(() => {
         navigate(`/users/${user.first_name}`);
+        if (load !== "Sign Up") setLoad("Sign Up");
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit((data) => {
+    data = { ...data, DNI: Number(data.DNI), phone: Number(data.phone) };
     signUp(data);
-    setUser(data);
+    setLoad("Registering...");
+    // setUser(data);
   });
 
   return (
     <>
-      <NavbarLRP navigation={"/"} />
+      <NavbarLRP />
       <form className="form-login-register col s12" onSubmit={onSubmit}>
         <h3>Register</h3>
         <div className="container-errors">
-          {error === "The email already exists" ? (
+          {!Array.isArray(error) ? (
             <div className="error">{error}</div>
           ) : (
             <div></div>
@@ -45,6 +56,7 @@ export function Register() {
               type="email"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("email", {
                 required: { value: true, message: "Email is required" },
                 pattern: {
@@ -66,6 +78,7 @@ export function Register() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("password", {
                 required: { value: true, message: "Password is required" },
                 minLength: {
@@ -87,6 +100,7 @@ export function Register() {
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("first_name", {
                 required: { value: true, message: "First Name is required" },
                 minLength: {
@@ -112,6 +126,7 @@ export function Register() {
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("last_name", {
                 required: { value: true, message: "Last Name is required" },
                 minLength: {
@@ -137,6 +152,7 @@ export function Register() {
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("DNI", {
                 required: { value: true, message: "DNI is required" },
                 minLength: {
@@ -162,6 +178,7 @@ export function Register() {
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("phone", {
                 required: { value: true, message: "Phone is required" },
                 minLength: {
@@ -192,7 +209,7 @@ export function Register() {
             id="reserve"
             className="waves-effect waves-light btn"
           >
-            Sign Up
+            {load}
           </button>
         </div>
       </form>

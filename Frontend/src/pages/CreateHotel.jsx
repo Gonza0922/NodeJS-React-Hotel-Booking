@@ -15,17 +15,19 @@ function CreateHotel() {
     setHotelData,
     handleImageCreate,
     handleMoreImagesCreate,
+    load,
+    setLoad,
   } = useHotelContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [load, setLoad] = useState("Create");
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoad("Create");
     setHotelData((prevElement) => ({
       ...prevElement,
       principalImg: undefined,
@@ -36,18 +38,25 @@ function CreateHotel() {
   const createHotel = async (hotel) => {
     try {
       const data = await postHotelRequest(hotel);
-      setLoad("Loading...");
+      setLoad("Creating...");
       setTimeout(() => {
         navigate(`/partners/${partner.first_name}`);
         setLoad("Create");
       }, 3000);
       return data;
     } catch (error) {
+      console.log(error);
       setError(error.response.data.message);
     }
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    data = {
+      ...data,
+      price_per_night: Number(data.price_per_night),
+      phone: Number(data.phone),
+    };
+    console.log(data);
     data.principalImg = data.principalImg[0];
     const hotelCreated = await createHotel(data);
     handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
@@ -56,11 +65,7 @@ function CreateHotel() {
 
   return (
     <>
-      <NavbarMenu
-        navigation={`/partners/${partner.first_name}`}
-        profile={partner}
-        logout={logout}
-      />
+      <NavbarMenu profile={partner} logout={logout} />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Register Hotel</h3>
         <div className="container-errors">
@@ -77,6 +82,7 @@ function CreateHotel() {
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("name", {
                 required: { value: true, message: "Name is required" },
                 minLength: {
@@ -102,6 +108,7 @@ function CreateHotel() {
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("price_per_night", {
                 required: {
                   value: true,
@@ -129,10 +136,33 @@ function CreateHotel() {
         <div className="row-input">
           <div className="input-field col s12">
             <input
-              id="description"
+              id="location"
               type="text"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
+              {...register("location", {
+                required: { value: true, message: "Location is required" },
+                minLength: {
+                  value: 5,
+                  message: "Location must be at least 5 characters",
+                },
+              })}
+            />
+            <label htmlFor="location">Location</label>
+            <div className="container-span">
+              {errors.location && <span>{errors.location.message}</span>}
+            </div>
+          </div>
+        </div>
+        <div className="row-input">
+          <div className="input-field col s12">
+            <textarea
+              id="create-description"
+              type="text"
+              className="materialize-textarea"
+              autoComplete="off"
+              spellCheck={false}
               {...register("description", {
                 required: { value: true, message: "Description is required" },
                 minLength: {
@@ -149,11 +179,12 @@ function CreateHotel() {
         </div>
         <div className="row-input">
           <div className="input-field col s12">
-            <input
-              id="services"
+            <textarea
+              id="create-services"
               type="text"
-              className="validate"
+              className="materialize-textarea"
               autoComplete="off"
+              spellCheck={false}
               {...register("services", {
                 required: { value: true, message: "Services is required" },
                 minLength: {
@@ -171,31 +202,11 @@ function CreateHotel() {
         <div className="row-input">
           <div className="input-field col s12">
             <input
-              id="location"
-              type="text"
-              className="validate"
-              autoComplete="off"
-              {...register("location", {
-                required: { value: true, message: "Location is required" },
-                minLength: {
-                  value: 5,
-                  message: "Location must be at least 5 characters",
-                },
-              })}
-            />
-            <label htmlFor="location">Location</label>
-            <div className="container-span">
-              {errors.location && <span>{errors.location.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="input-field col s12">
-            <input
               id="phone"
               type="number"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("phone", {
                 required: { value: true, message: "Phone is required" },
                 minLength: {

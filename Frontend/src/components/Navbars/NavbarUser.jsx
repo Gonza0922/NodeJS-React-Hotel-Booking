@@ -68,6 +68,7 @@ function NavbarUser() {
               placeholder="Where to?"
               onChange={handleClick}
               autoComplete="off"
+              spellCheck={false}
             ></input>
             <label className="label-icon">
               <i className="material-icons">search</i>

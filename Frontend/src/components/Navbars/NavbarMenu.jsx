@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-function NavbarMenu({ navigation, profile, logout }) {
+function NavbarMenu({ profile, logout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ function NavbarMenu({ navigation, profile, logout }) {
   return (
     <nav>
       <div className="nav-wrapper deep-orange lighten-2">
-        <a className="brand-logo left" onClick={() => navigate(navigation)}>
+        <a className="brand-logo left" onClick={() => navigate("/")}>
           Hotels.com
         </a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">

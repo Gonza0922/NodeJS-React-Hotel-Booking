@@ -11,5 +11,6 @@ export const cloudinaryUploader = async (file) => {
       })
       .end(buffer);
   });
+  fs.unlinkSync(file.tempFilePath);
   return response;
 };

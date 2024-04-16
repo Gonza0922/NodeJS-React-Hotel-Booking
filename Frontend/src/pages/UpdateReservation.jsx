@@ -58,11 +58,7 @@ function UpdateReservation() {
 
   return (
     <>
-      <NavbarMenu
-        navigation={`/users/${user.first_name}`}
-        profile={user}
-        logout={logout}
-      />
+      <NavbarMenu profile={user} logout={logout} />
       <form className="form-update-reservation col s12" onSubmit={handleClick}>
         <h3 className="title">Update Reservation {reservation_ID}</h3>
         <div className="container-errors">

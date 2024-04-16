@@ -28,7 +28,7 @@ export function LoginProperty() {
 
   return (
     <>
-      <NavbarLRP navigation={"/"} />
+      <NavbarLRP />
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Login Partner</h3>
         <div className="container-errors">
@@ -47,6 +47,7 @@ export function LoginProperty() {
               type="email"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("email", {
                 required: { value: true, message: "Email is required" },
                 // pattern: {
@@ -68,6 +69,7 @@ export function LoginProperty() {
               type="password"
               className="validate"
               autoComplete="off"
+              spellCheck={false}
               {...register("password", {
                 required: { value: true, message: "Password is required" },
               })}
