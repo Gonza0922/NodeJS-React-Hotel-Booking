@@ -5,40 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "set NODE_ENV=development && nodemon Backend/server.js",
-    "test": "set NODE_ENV=test && set NODE_OPTIONS=--experimental-vm-modules && jest --detectOpenHandles",
-    "back": "set NODE_ENV=development && node Backend/server.js",
+    "back": "set NODE_ENV=development && cd Backend && node src/server.js",
     "front": "cd Frontend && npm run dev",
     "start": "npm-run-all --parallel front back"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
-    "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.41.0",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.2",
-    "express-fileupload": "^1.4.3",
-    "express-rate-limit": "^7.1.5",
-    "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "mysql2": "^3.6.2",
-    "yup": "^1.4.0",
-    "zod": "^3.22.4"
-  },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.1",
-    "npm-run-all": "^4.1.5",
-    "sinon": "^17.0.1",
-    "supertest": "^6.3.3"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "npm-run-all": "^4.1.5"
   }
 }

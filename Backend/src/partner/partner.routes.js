@@ -11,7 +11,7 @@ import {
   logoutPartner,
   verifyPartner,
   deletePartner,
-} from "../partner/partner.controllers.js";
+} from "./partner.controllers.js";
 
 const partnerRouter = Router();
 

@@ -6,7 +6,7 @@ import {
   postSingleImage,
   postMultipleImages,
   putMultipleImages,
-} from "../images/images.controllers.js";
+} from "./images.controllers.js";
 import {
   deleteSingleImage,
   deleteMultipleImages,
