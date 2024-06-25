@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { validateSchema } from "../middlewares/validateSchema.js";
-import { validateTokenUser } from "../middlewares/validateTokenUser.js";
-import { validatePIN } from "../middlewares/validatePIN.js";
-import { PIN, comment } from "../schemas/comment.schema.js";
+import { validateSchema } from "../middlewares/validates/validateSchema.js";
+import { validateTokenUser } from "../middlewares/validates/validateTokenUser.js";
+import { validatePIN } from "../middlewares/validates/validatePIN.js";
+import { PIN, comment } from "../comment/comment.schema.js";
 import {
   getAllComments,
   getCommentPerId,
@@ -12,7 +12,7 @@ import {
   deleteComment,
   verifyPIN,
   verifyTokenPIN,
-} from "../controllers/comment.controllers.js";
+} from "../comment/comment.controllers.js";
 
 const commentRouter = Router();
 
@@ -32,11 +32,7 @@ commentRouter.put(
   validatePIN,
   putComment
 );
-commentRouter.delete(
-  "/delete/comments/:comment_ID",
-  validatePIN,
-  deleteComment
-);
+commentRouter.delete("/delete/comments/:comment_ID", validatePIN, deleteComment);
 commentRouter.post(
   "/verify/PIN/comments/:hotel_ID",
   validateSchema(PIN),

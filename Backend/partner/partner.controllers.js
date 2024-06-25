@@ -1,5 +1,5 @@
 import { db } from "../tables.js";
-import { generateToken } from "../libs/jwt.js";
+import { generateToken } from "../jwt/jwt.js";
 import { v2 as cloudinary } from "cloudinary";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -8,12 +8,10 @@ export const getPartner = async (req, res) => {
   //Select the partner that matches the partner_ID sent by parameter
   try {
     const { partner_ID } = req.params;
-    const [findPartner] = await db.query(
-      "SELECT * FROM partners WHERE partner_ID = ?",
-      [partner_ID]
-    );
-    if (findPartner.length === 0)
-      return res.status(400).json({ message: "Partner not found" });
+    const [findPartner] = await db.query("SELECT * FROM partners WHERE partner_ID = ?", [
+      partner_ID,
+    ]);
+    if (findPartner.length === 0) return res.status(400).json({ message: "Partner not found" });
     res.json(findPartner[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -36,18 +34,13 @@ export const registerPartner = async (req, res) => {
       req.body.nacionality,
       req.body.phone,
     ];
-    const [findEmail] = await db.query(
-      "SELECT email FROM partners WHERE email = ?",
-      [req.body.email]
-    );
-    if (findEmail.length > 0)
-      return res.status(400).json({ message: ["Email already exists"] });
+    const [findEmail] = await db.query("SELECT email FROM partners WHERE email = ?", [
+      req.body.email,
+    ]);
+    if (findEmail.length > 0) return res.status(400).json({ message: ["Email already exists"] });
     const createPartner = await db.query(q, [values]);
     const partner_ID = createPartner[0].insertId;
-    const [partner] = await db.query(
-      "SELECT * FROM partners WHERE partner_ID = ?",
-      [partner_ID]
-    );
+    const [partner] = await db.query("SELECT * FROM partners WHERE partner_ID = ?", [partner_ID]);
     const token = await generateToken({ partner_ID: partner[0].partner_ID });
     res.cookie("PartnerToken", token);
     res.status(201).json(partner[0]);
@@ -70,14 +63,12 @@ export const putPartner = async (req, res) => {
       req.body.nacionality,
       req.body.phone,
     ];
-    const [myData] = await db.query(
-      "SELECT email FROM partners WHERE partner_ID = ?",
-      [req.body.partner_ID]
-    );
-    const [findEmail] = await db.query(
-      "SELECT email FROM partners WHERE email = ?",
-      [req.body.email]
-    );
+    const [myData] = await db.query("SELECT email FROM partners WHERE partner_ID = ?", [
+      req.body.partner_ID,
+    ]);
+    const [findEmail] = await db.query("SELECT email FROM partners WHERE email = ?", [
+      req.body.email,
+    ]);
     if (findEmail.length > 0 && myData[0].email !== req.body.email)
       return res.status(400).json({ message: ["Email already exists"] });
     await db.query(q, [...values, req.body.partner_ID]);
@@ -95,13 +86,11 @@ export const putPartnerPassword = async (req, res) => {
     const { partner_ID } = req.params;
     if (newPassword !== againNewPassword)
       return res.status(400).json({ message: "New passwords don't match" });
-    const [findPassword] = await db.query(
-      "SELECT password FROM partners WHERE partner_ID = ?",
-      [partner_ID]
-    );
+    const [findPassword] = await db.query("SELECT password FROM partners WHERE partner_ID = ?", [
+      partner_ID,
+    ]);
     const isMatch = await bcrypt.compare(oldPassword, findPassword[0].password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Old Password Incorrect" });
+    if (!isMatch) return res.status(400).json({ message: "Old Password Incorrect" });
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await db.query("UPDATE partners SET password = ? WHERE partner_ID = ?", [
       hashedPassword,
@@ -120,14 +109,10 @@ export const loginPartner = async (req, res) => {
   //Log in a partner that matches the data sent
   try {
     const { email, password } = req.body;
-    const [partner] = await db.query("SELECT * FROM partners WHERE email = ?", [
-      email,
-    ]);
-    if (partner.length === 0)
-      return res.status(400).json({ message: "Partner not found" });
+    const [partner] = await db.query("SELECT * FROM partners WHERE email = ?", [email]);
+    if (partner.length === 0) return res.status(400).json({ message: "Partner not found" });
     const isMatch = await bcrypt.compare(password, partner[0].password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Incorrect Password" });
+    if (!isMatch) return res.status(400).json({ message: "Incorrect Password" });
     const token = await generateToken({ partner_ID: partner[0].partner_ID });
     res.cookie("PartnerToken", token);
     res.status(200).json({
@@ -157,8 +142,7 @@ export const verifyPartner = async (req, res) => {
   //Check if the PartnerToken exists/matches to enter the partner account
   try {
     const { PartnerToken } = req.cookies;
-    if (!PartnerToken)
-      return res.status(400).json({ message: "Unauthorized, no token" });
+    if (!PartnerToken) return res.status(400).json({ message: "Unauthorized, no token" });
     jwt.verify(PartnerToken, process.env.TOKEN_SECURE, async (err, partner) => {
       if (err) return res.status(400).json({ message: "Verification error" });
       const [partnerFound] = await db.query(
@@ -191,10 +175,9 @@ export const deletePartner = async (req, res) => {
     );
     for (let i = 0; i < findHotel_ID.length; i++) {
       //Delete principal image
-      const [getUrl] = await db.query(
-        "SELECT principalImg FROM hotels WHERE hotel_ID = ?",
-        [findHotel_ID[i].hotel_ID]
-      );
+      const [getUrl] = await db.query("SELECT principalImg FROM hotels WHERE hotel_ID = ?", [
+        findHotel_ID[i].hotel_ID,
+      ]);
       if (getUrl[0].principalImg === "none")
         console.log({
           message: "There are no images to delete from Principal_Img",
@@ -210,10 +193,9 @@ export const deletePartner = async (req, res) => {
         }
       }
       //Delete multiple images
-      const [getImagesUrl] = await db.query(
-        "SELECT image_name FROM images WHERE hotel_ID = ?",
-        [findHotel_ID[i].hotel_ID]
-      );
+      const [getImagesUrl] = await db.query("SELECT image_name FROM images WHERE hotel_ID = ?", [
+        findHotel_ID[i].hotel_ID,
+      ]);
       if (getImagesUrl[0] === undefined) {
         console.log({ message: "There are no images to delete from images" });
       }
@@ -229,14 +211,8 @@ export const deletePartner = async (req, res) => {
             console.error("Couldn´t extract Public ID from URL");
           }
         });
-      await db.query(
-        "DELETE FROM images WHERE hotel_ID = ?",
-        findHotel_ID[i].hotel_ID
-      );
-      await db.query(
-        "DELETE FROM reservations WHERE hotel_ID = ?",
-        findHotel_ID[i].hotel_ID
-      );
+      await db.query("DELETE FROM images WHERE hotel_ID = ?", findHotel_ID[i].hotel_ID);
+      await db.query("DELETE FROM reservations WHERE hotel_ID = ?", findHotel_ID[i].hotel_ID);
     }
     await db.query("DELETE FROM hotels WHERE partner_ID = ?", partner_ID);
     const [deletePartner] = await db.query(

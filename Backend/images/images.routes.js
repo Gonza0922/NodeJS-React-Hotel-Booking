@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { v2 as cloudinary } from "cloudinary";
-import { validateTokenPartner } from "../middlewares/validateTokenPartner.js";
+import { validateTokenPartner } from "../middlewares/validates/validateTokenPartner.js";
 import {
   getAllImagesHotel,
   postSingleImage,
   postMultipleImages,
   putMultipleImages,
-} from "../controllers/images.controllers.js";
+} from "../images/images.controllers.js";
 import {
   deleteSingleImage,
   deleteMultipleImages,
@@ -23,16 +23,8 @@ cloudinary.config({
 const imagesRouter = Router();
 
 imagesRouter.get("/all/:hotel_ID", getAllImagesHotel);
-imagesRouter.post(
-  "/create/single/:hotel_ID",
-  validateTokenPartner,
-  postSingleImage
-);
-imagesRouter.post(
-  "/create/multiple/:hotel_ID",
-  validateTokenPartner,
-  postMultipleImages
-);
+imagesRouter.post("/create/single/:hotel_ID", validateTokenPartner, postSingleImage);
+imagesRouter.post("/create/multiple/:hotel_ID", validateTokenPartner, postMultipleImages);
 imagesRouter.put(
   "/update/single/:hotel_ID",
   validateTokenPartner,

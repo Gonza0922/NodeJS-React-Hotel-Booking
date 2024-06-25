@@ -3,13 +3,13 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import hotelRouter from "./routes/hotel.routes.js";
-import userRouter from "./routes/user.routes.js";
-import reservationRouter from "./routes/reservation.routes.js";
-import partnerRouter from "./routes/partner.routes.js";
-import imagesRouter from "./routes/images.routes.js";
-import commentRouter from "./routes/comment.routes.js";
 import fileUpload from "express-fileupload";
+import hotelRouter from "./hotel/hotel.routes.js";
+import userRouter from "./user/user.routes.js";
+import reservationRouter from "./reservation/reservation.routes.js";
+import partnerRouter from "./partner/partner.routes.js";
+import imagesRouter from "./images/images.routes.js";
+import commentRouter from "./comment/comment.routes.js";
 
 dotenv.config();
 

@@ -5,10 +5,9 @@ export const deleteSingleImage = async (req, res, next) => {
   //Delete the principal image
   try {
     const { hotel_ID } = req.params;
-    const [getUrl] = await db.query(
-      "SELECT principalImg FROM hotels WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [getUrl] = await db.query("SELECT principalImg FROM hotels WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     if (getUrl[0] === undefined)
       return res.status(400).json({ message: "There is no image to delete" });
     const url = getUrl[0].principalImg;
@@ -31,10 +30,9 @@ export const deleteMultipleImages = async (req, res, next) => {
   try {
     let count = 0;
     const { hotel_ID } = req.params;
-    const [getUrl] = await db.query(
-      "SELECT image_name FROM images WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [getUrl] = await db.query("SELECT image_name FROM images WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     if (getUrl[0] === undefined)
       return res.status(400).json({ message: "There are no images to delete" });
     getUrl.forEach(async (element) => {

@@ -4,10 +4,9 @@ export const getReservationPerUser = async (req, res) => {
   //Select the reservation that matches the user_ID, selected when validating the UserToken
   try {
     const { user_ID } = req.user;
-    const [findReservation] = await db.query(
-      "SELECT * FROM reservations WHERE user_ID = ?",
-      [user_ID]
-    );
+    const [findReservation] = await db.query("SELECT * FROM reservations WHERE user_ID = ?", [
+      user_ID,
+    ]);
     res.status(200).json(findReservation);
   } catch (err) {
     console.error("Error:", err);
@@ -40,10 +39,9 @@ export const getReservationPerHotel = async (req, res) => {
   //Select the reservation that matches the hotel_ID sent by parameter
   try {
     const { hotel_ID } = req.params;
-    const [findReservation] = await db.query(
-      "SELECT * FROM reservations WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [findReservation] = await db.query("SELECT * FROM reservations WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     if (!findReservation)
       return res.status(400).json({
         message: `In reservations the hotel with id ${hotel_ID} is not found`,
@@ -61,23 +59,20 @@ export const postReservation = async (req, res) => {
   //Create a reservation
   try {
     const { user_ID } = req.user;
-    const [calculateNights] = await db.query(
-      "SELECT DATEDIFF(?, ?) AS nights",
-      [req.body.check_out, req.body.check_in]
-    );
+    const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
+      req.body.check_out,
+      req.body.check_in,
+    ]);
     const [calculatePersonPrice] = await db.query(
       "SELECT ((SELECT price_per_night from hotels WHERE hotel_ID = ?) * ?) AS person_price",
       [req.body.hotel_ID, calculateNights[0].nights]
     );
-    const [calculateTotalPrice] = await db.query(
-      "SELECT (? * ?) AS total_price",
-      [calculatePersonPrice[0].person_price, req.body.guests]
-    );
+    const [calculateTotalPrice] = await db.query("SELECT (? * ?) AS total_price", [
+      calculatePersonPrice[0].person_price,
+      req.body.guests,
+    ]);
     let PIN = Math.floor(Math.random() * 900000) + 100000;
-    const [findPIN] = await db.query(
-      "SELECT PIN from reservations WHERE PIN = ? ",
-      [PIN]
-    );
+    const [findPIN] = await db.query("SELECT PIN from reservations WHERE PIN = ? ", [PIN]);
     if (findPIN.length > 0) PIN = Math.floor(Math.random() * 900000) + 100000;
     const q =
       "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, PIN, user_ID, hotel_ID) VALUES (?)";
@@ -95,12 +90,7 @@ export const postReservation = async (req, res) => {
     ];
     const [ItsReserved] = await db.query(
       "SELECT check_in, check_out FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
-      [
-        req.body.check_in,
-        req.body.check_out,
-        req.body.room_type,
-        req.body.hotel_ID,
-      ]
+      [req.body.check_in, req.body.check_out, req.body.room_type, req.body.hotel_ID]
     );
     if (ItsReserved.length > 0)
       return res.status(400).json({
@@ -116,10 +106,9 @@ export const postReservation = async (req, res) => {
       });
     const createReservation = await db.query(q, [values]);
     const reservation_ID = createReservation[0].insertId;
-    const [reservation] = await db.query(
-      "SELECT * FROM reservations WHERE reservation_ID = ?",
-      [reservation_ID]
-    );
+    const [reservation] = await db.query("SELECT * FROM reservations WHERE reservation_ID = ?", [
+      reservation_ID,
+    ]);
     res.status(201).json(reservation[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -132,18 +121,18 @@ export const putReservation = async (req, res) => {
   try {
     const { user_ID } = req.user;
     const { reservation_ID } = req.params;
-    const [calculateNights] = await db.query(
-      "SELECT DATEDIFF(?, ?) AS nights",
-      [req.body.check_out, req.body.check_in]
-    );
+    const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
+      req.body.check_out,
+      req.body.check_in,
+    ]);
     const [calculatePersonPrice] = await db.query(
       "SELECT ((SELECT price_per_night from hotels WHERE hotel_ID = ?) * ?) AS person_price",
       [req.body.hotel_ID, calculateNights[0].nights]
     );
-    const [calculateTotalPrice] = await db.query(
-      "SELECT (? * ?) AS total_price",
-      [calculatePersonPrice[0].person_price, req.body.guests]
-    );
+    const [calculateTotalPrice] = await db.query("SELECT (? * ?) AS total_price", [
+      calculatePersonPrice[0].person_price,
+      req.body.guests,
+    ]);
     const q =
       "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, guests  = ?, room_type = ?, person_price  = ?, total_price  = ? WHERE reservation_ID = ?";
     const values = [
@@ -157,12 +146,7 @@ export const putReservation = async (req, res) => {
     ];
     const [ItsReserved] = await db.query(
       "SELECT user_ID, hotel_ID FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
-      [
-        req.body.check_in,
-        req.body.check_out,
-        req.body.room_type,
-        req.body.hotel_ID,
-      ]
+      [req.body.check_in, req.body.check_out, req.body.room_type, req.body.hotel_ID]
     );
     if (
       ItsReserved.length > 0 &&

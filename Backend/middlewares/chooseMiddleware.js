@@ -1,5 +1,5 @@
-import { validateTokenPartner } from "./validateTokenPartner.js";
-import { validateTokenUser } from "./validateTokenUser.js";
+import { validateTokenPartner } from "./validates/validateTokenPartner.js";
+import { validateTokenUser } from "./validates/validateTokenUser.js";
 
 export const chooseMiddleware = (req, res, next) => {
   req.cookies.PartnerToken

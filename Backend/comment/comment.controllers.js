@@ -1,5 +1,5 @@
 import { db } from "../tables.js";
-import { generateToken } from "../libs/jwt.js";
+import { generateToken } from "../jwt/jwt.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -18,12 +18,10 @@ export const getCommentPerId = async (req, res) => {
   //Select the comment that matches the comment_ID sent by parameter
   try {
     const { comment_ID } = req.params;
-    const [findComment] = await db.query(
-      "SELECT * FROM comments WHERE comment_ID = ?",
-      [comment_ID]
-    );
-    if (findComment.length === 0)
-      return res.status(400).json({ message: "Comment not found" });
+    const [findComment] = await db.query("SELECT * FROM comments WHERE comment_ID = ?", [
+      comment_ID,
+    ]);
+    if (findComment.length === 0) return res.status(400).json({ message: "Comment not found" });
     res.status(200).json(findComment[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -37,10 +35,9 @@ export const getCommentPerHotel = async (req, res) => {
   //Select the comment(s) created by the Hotel_ID sent by parameter
   try {
     const { hotel_ID } = req.params;
-    const [findComments] = await db.query(
-      "SELECT * FROM comments WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [findComments] = await db.query("SELECT * FROM comments WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     res.status(200).json(findComments);
   } catch (err) {
     console.error("Error:", err);
@@ -58,10 +55,7 @@ export const postComment = async (req, res) => {
     const values = [req.body.content, user_ID, req.body.hotel_ID];
     const createComment = await db.query(q, [values]);
     const comment_ID = createComment[0].insertId;
-    const [comment] = await db.query(
-      "SELECT * FROM comments WHERE comment_ID = ?",
-      [comment_ID]
-    );
+    const [comment] = await db.query("SELECT * FROM comments WHERE comment_ID = ?", [comment_ID]);
     res.status(201).json(comment[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -87,10 +81,9 @@ export const deleteComment = async (req, res) => {
   //Delete a comment that matches the comment_ID sent by parameter
   try {
     const { comment_ID } = req.params;
-    const [deleteComment] = await db.query(
-      "DELETE FROM comments WHERE comment_ID = ?",
-      [comment_ID]
-    );
+    const [deleteComment] = await db.query("DELETE FROM comments WHERE comment_ID = ?", [
+      comment_ID,
+    ]);
     if (deleteComment.affectedRows === 0)
       return res.status(400).json({ message: ["Comment doesn´t exists"] });
     res.status(204).json({
@@ -130,17 +123,13 @@ export const verifyTokenPIN = async (req, res) => {
   try {
     const { hotel_ID } = req.params;
     const TokenPIN = req.cookies[`TokenPIN${hotel_ID}`];
-    if (!TokenPIN)
-      return res.status(400).json({ message: "Unauthorized, no PIN" });
+    if (!TokenPIN) return res.status(400).json({ message: "Unauthorized, no PIN" });
     jwt.verify(TokenPIN, process.env.TOKEN_SECURE, async (err, resultPIN) => {
-      if (err)
-        return res.status(400).json({ message: "PIN verification error" });
-      const [foundPIN] = await db.query(
-        "SELECT PIN FROM reservations WHERE PIN = ?",
-        [resultPIN.PIN]
-      );
-      if (foundPIN.length === 0)
-        return res.status(400).json({ message: "PIN not found" });
+      if (err) return res.status(400).json({ message: "PIN verification error" });
+      const [foundPIN] = await db.query("SELECT PIN FROM reservations WHERE PIN = ?", [
+        resultPIN.PIN,
+      ]);
+      if (foundPIN.length === 0) return res.status(400).json({ message: "PIN not found" });
       return res.status(200).json({
         message: "User Authorized",
       });

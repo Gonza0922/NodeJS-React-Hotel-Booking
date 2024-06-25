@@ -15,12 +15,8 @@ export const getHotelId = async (req, res) => {
   //Select the hotel that matches the hotel_ID sent by parameter
   try {
     const { hotel_ID } = req.params;
-    const [findHotel] = await db.query(
-      "SELECT * FROM hotels WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
-    if (findHotel.length === 0)
-      return res.status(400).json({ message: "Hotel not found" });
+    const [findHotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [hotel_ID]);
+    if (findHotel.length === 0) return res.status(400).json({ message: "Hotel not found" });
     res.status(200).json(findHotel[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -34,10 +30,9 @@ export const getHotelPerPartner = async (req, res) => {
   //Select the hotel(s) created by the partner_ID, selected when validating the PartnerToken
   try {
     const { partner_ID } = req.partner;
-    const [findHotels] = await db.query(
-      "SELECT * FROM hotels WHERE partner_ID = ?",
-      [partner_ID]
-    );
+    const [findHotels] = await db.query("SELECT * FROM hotels WHERE partner_ID = ?", [
+      partner_ID,
+    ]);
     res.status(200).json(findHotels);
   } catch (err) {
     console.error("Error:", err);
@@ -63,17 +58,11 @@ export const postHotel = async (req, res) => {
       "none",
       partner_ID,
     ];
-    const [findName] = await db.query(
-      "SELECT name FROM hotels WHERE name = ?",
-      [req.body.name]
-    );
-    if (findName.length > 0)
-      return res.status(400).json({ message: "Hotel already exists" });
+    const [findName] = await db.query("SELECT name FROM hotels WHERE name = ?", [req.body.name]);
+    if (findName.length > 0) return res.status(400).json({ message: "Hotel already exists" });
     const createHotel = await db.query(q, [values]);
     const hotel_ID = createHotel[0].insertId;
-    const [hotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [
-      hotel_ID,
-    ]);
+    const [hotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [hotel_ID]);
     res.status(201).json(hotel[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -95,14 +84,10 @@ export const putHotel = async (req, res) => {
       req.body.location,
       req.body.phone,
     ];
-    const [findName] = await db.query(
-      "SELECT name FROM hotels WHERE name = ?",
-      [req.body.name]
-    );
-    const [findNamePerHotelId] = await db.query(
-      "SELECT name FROM hotels WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [findName] = await db.query("SELECT name FROM hotels WHERE name = ?", [req.body.name]);
+    const [findNamePerHotelId] = await db.query("SELECT name FROM hotels WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
       return res.status(400).json({ message: ["Hotel already exists"] });
     await db.query(q, [...values, hotel_ID]);
@@ -123,21 +108,11 @@ export const deleteHotel = async (req, res) => {
     );
     if (hasReservation.length > 0)
       for (let i = 0; i < hasReservation.length; i++) {
-        await db.query(
-          "DELETE FROM reservations WHERE hotel_ID = ?",
-          hasReservation[i].hotel_ID
-        );
+        await db.query("DELETE FROM reservations WHERE hotel_ID = ?", hasReservation[i].hotel_ID);
       }
-    const [deleteHotelImages] = await db.query(
-      "DELETE FROM images WHERE hotel_ID = ?",
-      hotel_ID
-    );
-    if (deleteHotelImages.affectedRows === 0)
-      console.log({ message: "Hotel hasn´t images" });
-    const [deleteHotel] = await db.query(
-      "DELETE FROM hotels WHERE hotel_ID = ?",
-      hotel_ID
-    );
+    const [deleteHotelImages] = await db.query("DELETE FROM images WHERE hotel_ID = ?", hotel_ID);
+    if (deleteHotelImages.affectedRows === 0) console.log({ message: "Hotel hasn´t images" });
+    const [deleteHotel] = await db.query("DELETE FROM hotels WHERE hotel_ID = ?", hotel_ID);
     if (deleteHotel.affectedRows === 0)
       return res.status(400).json({ message: ["Hotel doesn´t exists"] });
     res.status(204).json({

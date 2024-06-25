@@ -5,12 +5,10 @@ export const getAllImagesHotel = async (req, res) => {
   //Select all images of the hotel sent by parameter
   try {
     const { hotel_ID } = req.params;
-    const [findHotel] = await db.query(
-      "SELECT image_name FROM images WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
-    if (findHotel.length === 0)
-      return res.status(400).json({ message: "Images not found" });
+    const [findHotel] = await db.query("SELECT image_name FROM images WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
+    if (findHotel.length === 0) return res.status(400).json({ message: "Images not found" });
     res.status(200).json(findHotel);
   } catch (err) {
     console.error("Error:", err);
@@ -23,13 +21,11 @@ export const postSingleImage = async (req, res) => {
   try {
     const { hotel_ID } = req.params;
     const file = req.files.principalImg;
-    if (!file)
-      return res.status(400).json({ message: "No image has been uploaded" });
+    if (!file) return res.status(400).json({ message: "No image has been uploaded" });
     const response = await cloudinaryCreate(file); // Create principal image in cloudinary
-    const [findUrl] = await db.query(
-      "SELECT principalImg FROM hotels WHERE principalImg = ?",
-      [response.secure_url]
-    );
+    const [findUrl] = await db.query("SELECT principalImg FROM hotels WHERE principalImg = ?", [
+      response.secure_url,
+    ]);
     if (findUrl.length > 0)
       return res.status(400).json({ message: "PrincipalImg already exists" });
     await db.query(
@@ -51,8 +47,7 @@ export const postMultipleImages = async (req, res) => {
     const { hotel_ID } = req.params;
     const files = req.files.moreImages;
     console.log(files);
-    if (!files)
-      return res.status(400).json({ message: "No images have been uploaded" });
+    if (!files) return res.status(400).json({ message: "No images have been uploaded" });
     files.forEach(async (file) => {
       const response = await cloudinaryCreate(file); // Create multiple images in cloudinary
       await db.query(
@@ -74,13 +69,11 @@ export const putMultipleImages = async (req, res) => {
   try {
     const { hotel_ID } = req.params;
     const files = req.files.moreImages;
-    const [findImage_ID] = await db.query(
-      "SELECT image_ID FROM images WHERE hotel_ID = ?",
-      [hotel_ID]
-    );
+    const [findImage_ID] = await db.query("SELECT image_ID FROM images WHERE hotel_ID = ?", [
+      hotel_ID,
+    ]);
     const image_ID = findImage_ID[0].image_ID;
-    if (!files)
-      return res.status(400).json({ message: "No images have been uploaded" });
+    if (!files) return res.status(400).json({ message: "No images have been uploaded" });
     files.forEach(async (file, index) => {
       const response = await cloudinaryCreate(file); // Create multiple images in cloudinary
       await db.query(
