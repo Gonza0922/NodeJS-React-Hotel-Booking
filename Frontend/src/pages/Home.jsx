@@ -8,8 +8,7 @@ import { getAllHotelsRequest } from "../api/hotel.api";
 
 function Home() {
   const { isAuthenticated, user } = useUserContext();
-  const { hotels, setHotels, setRedirect, setErrorRedirect, setContent } =
-    useHotelContext();
+  const { hotels, setHotels, setRedirect, setErrorRedirect, setContent } = useHotelContext();
 
   const navigate = useNavigate();
 
@@ -54,13 +53,16 @@ function Home() {
                 }}
               >
                 <div className="card-image">
-                  <img id="img" src={hotel.principalImg} />
+                  <img
+                    id="img"
+                    src={
+                      hotel.principalImg ? hotel.principalImg : import.meta.env.VITE_NONE_IMAGE
+                    }
+                  />
                 </div>
                 <div className="card-content">
                   <span className="card-title">{hotel.name}</span>
-                  <a className="btn-floating halfway-fab waves-effect waves-light">
-                    View
-                  </a>
+                  <a className="btn-floating halfway-fab waves-effect waves-light">View</a>
                   <h5>${hotel.price_per_night}</h5>
                   <p>{hotel.description}</p>
                   <h6>{hotel.location}</h6>
