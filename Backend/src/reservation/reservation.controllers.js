@@ -170,8 +170,8 @@ export const putReservation = async (req, res) => {
     const q =
       "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, guests  = ?, room_type = ?, person_price  = ?, total_price  = ? WHERE reservation_ID = ?";
     const values = [
-      req.body.check_in,
-      req.body.check_out,
+      req.body.check_in.replace("T", " ").substring(0, 19),
+      req.body.check_out.replace("T", " ").substring(0, 19),
       calculateNights[0].nights,
       req.body.guests,
       req.body.room_type,

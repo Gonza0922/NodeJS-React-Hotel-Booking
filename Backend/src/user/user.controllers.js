@@ -40,7 +40,7 @@ export const registerUser = async (req, res) => {
       hashedPassword,
       req.body.first_name,
       req.body.last_name,
-      req.body.birthdate,
+      req.body.birthdate.replace("T", " ").substring(0, 19),
       req.body.nacionality,
       req.body.phone,
     ];
@@ -69,7 +69,7 @@ export const putUser = async (req, res) => {
       req.body.email,
       req.body.first_name,
       req.body.last_name,
-      req.body.birthdate,
+      req.body.birthdate.replace("T", " ").substring(0, 19),
       req.body.nacionality,
       req.body.phone,
     ];
