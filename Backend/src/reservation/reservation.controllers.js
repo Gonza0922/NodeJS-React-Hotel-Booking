@@ -1,5 +1,6 @@
 import { db } from "../tables.js";
 import { Resend } from "resend";
+import bcrypt from "bcryptjs";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -77,6 +78,7 @@ export const postReservation = async (req, res) => {
     let PIN = Math.floor(Math.random() * 900000) + 100000;
     const [findPIN] = await db.query("SELECT PIN from reservations WHERE PIN = ? ", [PIN]);
     if (findPIN.length > 0) PIN = Math.floor(Math.random() * 900000) + 100000;
+    const hashedPIN = await bcrypt.hash(PIN.toString(), 10);
     const q =
       "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, PIN, user_ID, hotel_ID) VALUES (?)";
     const values = [
@@ -87,7 +89,7 @@ export const postReservation = async (req, res) => {
       req.body.room_type,
       calculatePersonPrice[0].person_price,
       calculateTotalPrice[0].total_price,
-      PIN,
+      hashedPIN,
       user_ID,
       req.body.hotel_ID,
     ];
@@ -117,7 +119,8 @@ export const postReservation = async (req, res) => {
     //send mail
     const data = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
-      to: [userEmail[0].email],
+      // to: [userEmail[0].email],
+      to: ["gonzalo.nieto0922@gmail.com"],
       subject: "Correctly booked hotel", //title
       html: `<div>
         <h4>Reservation ID: ${reservation_ID}</h4>
