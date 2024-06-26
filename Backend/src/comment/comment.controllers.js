@@ -108,7 +108,7 @@ export const verifyPIN = async (req, res) => {
         message: ["Reservation not found, try again"],
       });
     const token = await generateToken({ PIN: req.body.PIN });
-    res.cookie(`TokenPIN${hotel_ID}`, token);
+    res.cookie(`TokenPIN`, token);
     res.status(200).json({
       message: "User authorized",
     });

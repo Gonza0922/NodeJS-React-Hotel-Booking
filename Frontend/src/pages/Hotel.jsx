@@ -385,6 +385,7 @@ function Home() {
               onSubmit={(e) => verificationPIN(e, reservationData)}
             >
               <h5>Enter your Reservation details</h5>
+              <p>Check your booking confirmation email to find your booking number and PIN</p>
               <div className="container-errors">
                 {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
               </div>

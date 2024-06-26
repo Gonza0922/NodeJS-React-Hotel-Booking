@@ -17,6 +17,8 @@ export const profileSchema = yup.object().shape({
     .max(20, "Last Name must be no more than 20 characters"),
   birthdate: yup
     .date()
+    .nullable()
+    .transform((curr, orig) => (orig === "" ? null : curr))
     .required("Birthdate is required")
     .max(new Date("2022-01-01"), "Invalid Date"),
   nacionality: yup

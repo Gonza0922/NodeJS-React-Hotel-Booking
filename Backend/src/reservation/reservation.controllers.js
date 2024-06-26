@@ -77,8 +77,8 @@ export const postReservation = async (req, res) => {
     const q =
       "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, PIN, user_ID, hotel_ID) VALUES (?)";
     const values = [
-      req.body.check_in,
-      req.body.check_out,
+      req.body.check_in.replace("T", " ").substring(0, 19),
+      req.body.check_out.replace("T", " ").substring(0, 19),
       calculateNights[0].nights,
       req.body.guests,
       req.body.room_type,
