@@ -1,4 +1,7 @@
 import { db } from "../tables.js";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const getReservationPerUser = async (req, res) => {
   //Select the reservation that matches the user_ID, selected when validating the UserToken
@@ -106,6 +109,34 @@ export const postReservation = async (req, res) => {
       });
     const createReservation = await db.query(q, [values]);
     const reservation_ID = createReservation[0].insertId;
+    const [userEmail] = await db.query("SELECT email from users WHERE user_ID = ? ", [user_ID]);
+    const [hotelName] = await db.query("SELECT name FROM hotels WHERE hotel_ID = ?", [
+      req.body.hotel_ID,
+    ]);
+
+    //send mail
+    const data = await resend.emails.send({
+      from: "Acme <onboarding@resend.dev>",
+      to: [userEmail[0].email],
+      subject: "Correctly booked hotel", //title
+      html: `<div>
+        <h4>Reservation ID: ${reservation_ID}</h4>
+        <h4>Check In: ${req.body.check_in.substring(0, 10)}</h4>
+        <h4>Check Out: ${req.body.check_out.substring(0, 10)}</h4>
+        <h4>Nights: ${calculateNights[0].nights}</h4>
+        <h4>Guests: ${req.body.guests}</h4>
+        <h4>Room Type: ${req.body.room_type}</h4>
+        <h4>Person Price: $${calculatePersonPrice[0].person_price}</h4>
+        <h4>Total Price: $${calculateTotalPrice[0].total_price}.00</h4>
+        <h4>PIN: ${PIN}</h4>
+        <h4>Hotel: ${hotelName[0].name}</h4>
+      <div>`,
+    });
+    if (data.error) {
+      console.log("error al enviar mail");
+      return res.status(400).json({ error: data.error });
+    }
+
     const [reservation] = await db.query("SELECT * FROM reservations WHERE reservation_ID = ?", [
       reservation_ID,
     ]);

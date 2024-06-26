@@ -3,7 +3,7 @@ import { z } from "zod";
 export const reservation = z.object({
   check_in: z
     .string({ required_error: "Check In is required" })
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    //.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "tiene que ser exactamente a yyyy-mm-dd" })
     .refine(
       (value) => {
         const selectedDate = new Date(value);
@@ -18,7 +18,7 @@ export const reservation = z.object({
     ),
   check_out: z
     .string({ required_error: "Check Out is required" })
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    //.regex(/^\d{4}-\d{2}-\d{2}$/, { message: "tiene que ser exactamente a yyyy-mm-dd" })
     .refine(
       (value) => {
         const selectedDate = new Date(value);
