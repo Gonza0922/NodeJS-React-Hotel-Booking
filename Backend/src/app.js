@@ -10,6 +10,7 @@ import reservationRouter from "./reservation/reservation.routes.js";
 import partnerRouter from "./partner/partner.routes.js";
 import imagesRouter from "./images/images.routes.js";
 import commentRouter from "./comment/comment.routes.js";
+import emailRouter from "./email/email.routes.js";
 
 dotenv.config();
 
@@ -31,5 +32,6 @@ app.use("/user", reservationRouter);
 app.use("/user", commentRouter);
 app.use("/partner", hotelRouter);
 app.use("/images", imagesRouter);
+app.use("/email", emailRouter);
 
 export default app;
