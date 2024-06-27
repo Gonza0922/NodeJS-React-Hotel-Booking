@@ -2,20 +2,21 @@ import { useEffect } from "react";
 import { resetDate } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { getHotelIdRequest } from "../api/hotel.api.js";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { deleteReservationRequest } from "../api/reservation.api.js";
 
 function WhoReserved() {
-  const { logout, partner, reserved, setReserved, users } = usePartnerContext();
+  const { logout, partner, reserved, setReserved, users, showReservationsNumber } =
+    usePartnerContext();
   const { hotel, setHotel, setRedirect, setErrorRedirect } = useHotelContext();
   const { hotel_ID } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (reserved.length === 0) navigate(`/partners/${partner.first_name}`);
+    if (reserved && reserved.length === 0) navigate(`/partners/${partner.first_name}`);
   }, [reserved, navigate, partner]);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function WhoReserved() {
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
+        console.log(error);
       }
     };
     clickGetHotelId();
@@ -35,9 +37,7 @@ function WhoReserved() {
     await deleteReservationRequest(id);
     typeof reserved === "object" && !Array.isArray(reserved)
       ? setReserved([])
-      : setReserved(
-          reserved.filter((reserve) => reserve.reservation_ID !== id)
-        );
+      : setReserved(reserved.filter((reserve) => reserve.reservation_ID !== id));
   };
 
   return (
@@ -56,12 +56,11 @@ function WhoReserved() {
                 ) : Array.isArray(users) ? (
                   <h5>Hay mas de 1 usuario</h5>
                 ) : (
-                  <h1>Error</h1>
+                  <Navigate to={`/partners/${partner.first_name}`} replace />
                 )}
                 <hr />
                 <div className="container-data">
-                  <h6>Reservation Date:</h6>{" "}
-                  {resetDate(reserved.reservation_date)}
+                  <h6>Reservation Date:</h6> {resetDate(reserved.reservation_date)}
                 </div>
                 <div className="container-data">
                   <h6>Check In:</h6> {resetDate(reserved.check_in)}
@@ -107,12 +106,11 @@ function WhoReserved() {
                       {users[index].first_name} {users[index].last_name}
                     </h5>
                   ) : (
-                    <h1>Error</h1>
+                    <Navigate to={`/partners/${partner.first_name}`} replace />
                   )}
                   <hr />
                   <div className="container-data">
-                    <h6>Reservation Date:</h6>{" "}
-                    {resetDate(reserve.reservation_date)}
+                    <h6>Reservation Date:</h6> {resetDate(reserve.reservation_date)}
                   </div>
                   <div className="container-data">
                     <h6>Check In:</h6> {resetDate(reserve.check_in)}
@@ -146,7 +144,7 @@ function WhoReserved() {
             ))}
           </div>
         ) : (
-          <h1>Error</h1>
+          <Navigate to={`/partners/${partner.first_name}`} replace />
         )}
       </div>
     </>

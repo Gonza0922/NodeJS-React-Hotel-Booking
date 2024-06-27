@@ -1,7 +1,4 @@
-import {
-  getReservationRequest,
-  deleteReservationRequest,
-} from "../api/reservation.api";
+import { getReservationRequest, deleteReservationRequest } from "../api/reservation.api";
 import { getHotelIdRequest } from "../api/hotel.api";
 import { useEffect, useState } from "react";
 import { resetDate } from "../functions/dates.js";
@@ -12,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 
 function Reservations() {
-  const { reservations, setReservations, setRedirect, setErrorRedirect } =
-    useHotelContext();
+  const { reservations, setReservations, setRedirect, setErrorRedirect } = useHotelContext();
   const { logout, user } = useUserContext();
-  const { elementView, setElementView, styles, setStyles } =
-    usePartnerContext();
+  const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [reservationHotel, setReservationHotel] = useState([]);
 
   useEffect(() => {
@@ -42,9 +37,7 @@ function Reservations() {
 
   const deleteReservation = async (id) => {
     await deleteReservationRequest(id);
-    setReservations(
-      reservations.filter((reservation) => reservation.reservation_ID !== id)
-    );
+    setReservations(reservations.filter((reservation) => reservation.reservation_ID !== id));
   };
 
   const showConfirmDelete = (id) => {
@@ -63,10 +56,7 @@ function Reservations() {
       {reservations.length === 0 ? (
         <div className="no-reservations">
           <h4>THERE ARE NO RESERVATIONS...</h4>
-          <button
-            onClick={() => navigate("/login")}
-            className="waves-effect waves-light btn"
-          >
+          <button onClick={() => navigate("/login")} className="waves-effect waves-light btn">
             Start by making a reservation
           </button>
         </div>
@@ -75,10 +65,7 @@ function Reservations() {
           <div key={index} className="hotel-and-who-reserved">
             <div id="card-reservations" className="card">
               <div className="card-content">
-                <h6>Reservation ID: {reservation.reservation_ID}</h6>
-                <h6>
-                  Reservation Date: {resetDate(reservation.reservation_date)}
-                </h6>
+                <h6>Reservation Date: {resetDate(reservation.reservation_date)}</h6>
                 <h5>Check In: {resetDate(reservation.check_in)}</h5>
                 <h5>Check Out: {resetDate(reservation.check_out)}</h5>
                 <h6>Nights: {reservation.nights}</h6>
@@ -86,7 +73,6 @@ function Reservations() {
                 <h6>Room Type: {reservation.room_type}</h6>
                 <h6>Person Price: ${reservation.person_price}</h6>
                 <h6>Total Price: ${reservation.total_price}</h6>
-                <h6>PIN: {reservation.PIN}</h6>
                 {reservationHotel < 1 ? (
                   <p></p>
                 ) : (
@@ -101,9 +87,7 @@ function Reservations() {
                   Delete Reservation
                 </button>
                 <button
-                  onClick={() =>
-                    navigate(`update/${reservation.reservation_ID}`)
-                  }
+                  onClick={() => navigate(`update/${reservation.reservation_ID}`)}
                   className="delete waves-effect waves-light btn "
                 >
                   Edit Reservation
@@ -116,9 +100,7 @@ function Reservations() {
                   <h5>Delete reservation?</h5>
                   <div className="container-button-delete-confirm">
                     <button
-                      onClick={() =>
-                        showConfirmDelete(reservation.reservation_ID)
-                      }
+                      onClick={() => showConfirmDelete(reservation.reservation_ID)}
                       className="button-delete-confirm waves-effect waves-light btn blue darken-2"
                     >
                       Cancel

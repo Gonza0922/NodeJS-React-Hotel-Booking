@@ -42,7 +42,7 @@ const Element = ({ reserved, hotel_ID }) => {
               Who reserved? {"=>"}
             </button>
           </div>
-        ) : (
+        ) : typeof reserved === "object" ? (
           <div className="container-who-reserved">
             <h5>There´s 1 Reservation</h5>
             <button
@@ -52,6 +52,8 @@ const Element = ({ reserved, hotel_ID }) => {
               Who reserved? {"=>"}
             </button>
           </div>
+        ) : (
+          <h1>Error in Element</h1>
         )}
       </div>
     </>
