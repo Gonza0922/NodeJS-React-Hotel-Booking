@@ -10,8 +10,8 @@ import NotFound from "./pages/NotFound.jsx";
 import Reservations from "./pages/Reservations.jsx";
 import Login from "./pages/logins/Login.jsx";
 import Register from "./pages/registers/Register.jsx";
-import LoginProperty from "./pages/logins/LoginProperty.jsx";
-import RegisterProperty from "./pages/registers/RegisterProperty.jsx";
+import LoginPartner from "./pages/logins/LoginPartner.jsx";
+import RegisterPartner from "./pages/registers/RegisterPartner.jsx";
 import Partners from "./pages/Partners.jsx";
 import CreateHotel from "./pages/CreateHotel.jsx";
 import WhoReserved from "./pages/WhoReserved.jsx";
@@ -35,52 +35,25 @@ function App() {
                 <Route path="/hotel/:hotel_ID" element={<Hotel />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/loginProperty" element={<LoginProperty />} />
-                <Route
-                  path="/registerProperty"
-                  element={<RegisterProperty />}
-                />
+                <Route path="/LoginPartner" element={<LoginPartner />} />
+                <Route path="/RegisterPartner" element={<RegisterPartner />} />
                 <Route element={<UserProtectedPages />}>
                   <Route path="/users/:name" element={<Home />} />
-                  <Route
-                    path="/users/:name/reservations"
-                    element={<Reservations />}
-                  />
+                  <Route path="/users/:name/reservations" element={<Reservations />} />
                   <Route
                     path="/users/:name/reservations/update/:reservation_ID"
                     element={<UpdateReservation />}
                   />
-                  <Route
-                    path="/users/:name/profile"
-                    element={<UpdateUserProfile />}
-                  />
-                  <Route
-                    path="/users/:name/password"
-                    element={<UpdateUserPassword />}
-                  />
+                  <Route path="/users/:name/profile" element={<UpdateUserProfile />} />
+                  <Route path="/users/:name/password" element={<UpdateUserPassword />} />
                 </Route>
                 <Route element={<PartnerProtectedPages />}>
                   <Route path="/partners/:name" element={<Partners />} />
-                  <Route
-                    path="/partners/:name/create"
-                    element={<CreateHotel />}
-                  />
-                  <Route
-                    path="/partners/:name/update/:hotel_ID"
-                    element={<UpdateHotel />}
-                  />
-                  <Route
-                    path="/partners/:name/reservation/:hotel_ID"
-                    element={<WhoReserved />}
-                  />
-                  <Route
-                    path="/partners/:name/profile"
-                    element={<UpdatePartnerProfile />}
-                  />
-                  <Route
-                    path="/partners/:name/password"
-                    element={<UpdatePartnerPassword />}
-                  />
+                  <Route path="/partners/:name/create" element={<CreateHotel />} />
+                  <Route path="/partners/:name/update/:hotel_ID" element={<UpdateHotel />} />
+                  <Route path="/partners/:name/reservation/:hotel_ID" element={<WhoReserved />} />
+                  <Route path="/partners/:name/profile" element={<UpdatePartnerProfile />} />
+                  <Route path="/partners/:name/password" element={<UpdatePartnerPassword />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Route>

@@ -25,7 +25,7 @@ function NavbarUser() {
         </a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           <li>
-            <a onClick={() => navigate("/loginProperty")}>Publish</a>
+            <a onClick={() => navigate("/LoginPartner")}>Publish</a>
           </li>
           <li>
             <a
@@ -43,9 +43,7 @@ function NavbarUser() {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>
-                Profile Data
-              </a>
+              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>

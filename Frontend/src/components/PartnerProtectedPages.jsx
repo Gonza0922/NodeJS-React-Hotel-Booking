@@ -4,8 +4,7 @@ import { usePartnerContext } from "../context/PartnerContext";
 function PartnerProtectedPages() {
   const { isAuthenticatedPartner } = usePartnerContext();
 
-  if (!isAuthenticatedPartner)
-    return <Navigate to={"/loginProperty"} replace />;
+  if (!isAuthenticatedPartner) return <Navigate to={"/LoginPartner"} replace />;
 
   return (
     <>

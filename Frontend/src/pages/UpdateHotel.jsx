@@ -149,7 +149,7 @@ function UpdateHotel() {
       updateHotel(data); // hotel info + new images in name format
       setLoad("Updating...");
       setTimeout(() => {
-        navigate("/loginProperty");
+        navigate("/LoginPartner");
         setLoad("Update");
       }, 3000);
     } catch (error) {
@@ -163,11 +163,7 @@ function UpdateHotel() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update Hotel {hotel_ID}</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="my-input-field col s12">
@@ -210,9 +206,7 @@ function UpdateHotel() {
               })}
             />
             <div className="container-span">
-              {errors.price_per_night && (
-                <span>{errors.price_per_night.message}</span>
-              )}
+              {errors.price_per_night && <span>{errors.price_per_night.message}</span>}
             </div>
           </div>
         </div>

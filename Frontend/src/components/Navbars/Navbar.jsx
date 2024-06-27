@@ -18,21 +18,15 @@ function Navbar() {
         </a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           <li>
-            <a onClick={() => navigate("/loginProperty")}>Publish</a>
+            <a onClick={() => navigate("/LoginPartner")}>Publish</a>
           </li>
           <li>
-            <a
-              className="waves-effect waves-light btn"
-              onClick={() => navigate("/login")}
-            >
+            <a className="waves-effect waves-light btn" onClick={() => navigate("/login")}>
               Login
             </a>
           </li>
           <li>
-            <a
-              className="waves-effect waves-light btn"
-              onClick={() => navigate("/register")}
-            >
+            <a className="waves-effect waves-light btn" onClick={() => navigate("/register")}>
               Register
             </a>
           </li>

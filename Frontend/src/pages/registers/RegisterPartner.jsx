@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import NavbarLRP from "../../components/Navbars/NavbarLRP";
-import { usePartnerContext } from "../../context/PartnerContext";
-import { useHotelContext } from "../../context/HotelContext";
-import { Countrys } from "../../components/Countrys";
+import NavbarLRP from "../../components/Navbars/NavbarLRP.jsx";
+import { usePartnerContext } from "../../context/PartnerContext.jsx";
+import { useHotelContext } from "../../context/HotelContext.jsx";
+import { Countrys } from "../../components/Countrys.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../../validations/profile.validation.js";
 
-export function RegisterProperty() {
-  const { partner, isAuthenticatedPartner, signUp, error } =
-    usePartnerContext();
+export function RegisterPartner() {
+  const { partner, isAuthenticatedPartner, signUp, error } = usePartnerContext();
   const { load, setLoad } = useHotelContext();
   const {
     register,
@@ -46,11 +45,7 @@ export function RegisterProperty() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Register Partner</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="input-field col s12">
@@ -179,7 +174,7 @@ export function RegisterProperty() {
         <div className="container-button-login-register-partner">
           <button
             type="button"
-            onClick={() => navigate("/loginProperty")}
+            onClick={() => navigate("/LoginPartner")}
             className="waves-effect waves-light btn"
           >
             Login yor partner account
@@ -190,4 +185,4 @@ export function RegisterProperty() {
   );
 }
 
-export default RegisterProperty;
+export default RegisterPartner;

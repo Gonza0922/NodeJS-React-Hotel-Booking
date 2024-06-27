@@ -4,9 +4,8 @@ import { useForm } from "react-hook-form";
 import NavbarLRP from "../../components/Navbars/NavbarLRP";
 import { usePartnerContext } from "../../context/PartnerContext";
 
-export function LoginProperty() {
-  const { partner, setPartner, isAuthenticatedPartner, login, error } =
-    usePartnerContext();
+export function LoginPartner() {
+  const { partner, setPartner, isAuthenticatedPartner, login, error } = usePartnerContext();
   const {
     register,
     handleSubmit,
@@ -87,7 +86,7 @@ export function LoginProperty() {
           <div className="container-button-login-register-partner">
             <button
               type="button"
-              onClick={() => navigate("/registerProperty")}
+              onClick={() => navigate("/RegisterPartner")}
               className="waves-effect waves-light btn"
             >
               Create yor partner account
@@ -99,4 +98,4 @@ export function LoginProperty() {
   );
 }
 
-export default LoginProperty;
+export default LoginPartner;

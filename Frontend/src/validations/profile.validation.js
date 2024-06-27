@@ -20,7 +20,7 @@ export const profileSchema = yup.object().shape({
     .nullable()
     .transform((curr, orig) => (orig === "" ? null : curr))
     .required("Birthdate is required")
-    .max(new Date("2022-01-01"), "Invalid Date"),
+    .max(new Date("2007-01-01"), "Invalid Date, you must be +18"),
   nacionality: yup
     .string()
     .required("Nacionality is required")
