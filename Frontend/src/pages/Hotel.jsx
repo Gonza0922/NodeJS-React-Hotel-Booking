@@ -53,11 +53,11 @@ function Home() {
   useEffect(() => {
     const verifyPIN = async () => {
       const cookies = Cookie.get();
-      if (!cookies[`TokenPIN${hotel_ID}`]) {
+      if (!cookies.TokenPIN) {
         return setIsPIN(false);
       }
       try {
-        const PIN = await verifyTokenPINRequest(hotel_ID, cookies[`TokenPIN${hotel_ID}`]);
+        const PIN = await verifyTokenPINRequest(hotel_ID, cookies.TokenPIN);
         if (!PIN) return setIsPIN(false);
         setIsPIN(true);
       } catch (error) {
@@ -72,27 +72,28 @@ function Home() {
     window.scrollTo(0, 0);
   }, []);
 
+  const clickGetCommentsAndUser = async () => {
+    try {
+      const commentsData = await getCommentPerHotelRequest(hotel_ID);
+      const userPromise = commentsData.map(async (comment) => {
+        return await getUserIdRequest(comment.user_ID);
+      });
+      const usersData = await Promise.all(userPromise);
+      const finalResult = commentsData.map((comment, index) => {
+        return {
+          ...comment,
+          first_name: usersData[index].first_name,
+          last_name: usersData[index].last_name,
+        };
+      });
+      setCommentsWithUser(finalResult);
+    } catch (error) {
+      setRedirect(true);
+      setErrorRedirect(error.message);
+    }
+  };
+
   useEffect(() => {
-    const clickGetCommentsAndUser = async () => {
-      try {
-        const commentsData = await getCommentPerHotelRequest(hotel_ID);
-        const userPromise = commentsData.map(async (comment) => {
-          return await getUserIdRequest(comment.user_ID);
-        });
-        const usersData = await Promise.all(userPromise);
-        const finalResult = commentsData.map((comment, index) => {
-          return {
-            ...comment,
-            first_name: usersData[index].first_name,
-            last_name: usersData[index].last_name,
-          };
-        });
-        setCommentsWithUser(finalResult);
-      } catch (error) {
-        setRedirect(true);
-        setErrorRedirect(error.message);
-      }
-    };
     const clickGetHotel = async () => {
       try {
         const data = await getHotelIdRequest(hotel_ID);
@@ -114,6 +115,12 @@ function Home() {
     clickGetHotel();
     clickGetImagesPerHotel();
   }, []);
+
+  useEffect(() => {
+    if (confirmation === null) {
+      clickGetCommentsAndUser();
+    }
+  }, [confirmation]);
 
   const createReservation = async (reservation, doIt) => {
     try {
@@ -479,6 +486,7 @@ function Home() {
                   <div className="initial">{comment.first_name.split("")[0]}</div>
                   <div className="name">
                     {comment.first_name} {comment.last_name}
+                    <p className="comment-nacionality">Argentina</p>
                   </div>
                 </div>
               }

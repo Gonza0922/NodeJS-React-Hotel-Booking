@@ -474,6 +474,7 @@ select,
 .profile {
   display: flex;
   align-items: center;
+  margin: 5px 0px;
 }
 
 .initial {
@@ -525,6 +526,10 @@ select,
   resize: none;
   padding: 10px;
   margin: 20px 0px;
+}
+
+.comment-nacionality {
+  font-size: 12px;
 }
 
 /* FOOTER */
