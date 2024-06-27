@@ -39,6 +39,6 @@ commentRouter.post(
   validateTokenUser,
   verifyPIN
 ); //Check PIN in data base and create a cookie
-commentRouter.get("/verify/token/PIN/:hotel_ID", verifyTokenPIN); //Check PIN in the cookie
+commentRouter.get("/verify/token/PIN/:hotel_ID", validateTokenUser, verifyTokenPIN); //Check PIN in the cookie
 
 export default commentRouter;

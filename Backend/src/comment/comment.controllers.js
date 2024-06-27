@@ -123,15 +123,17 @@ export const verifyPIN = async (req, res) => {
 export const verifyTokenPIN = async (req, res) => {
   //Check if the TokenPIN exists/matches to be able to write a review
   try {
-    const { hotel_ID } = req.params;
-    const TokenPIN = req.cookies[`TokenPIN${hotel_ID}`];
+    const { user_ID } = req.user;
+    const TokenPIN = req.cookies.TokenPIN; //encriptado
     if (!TokenPIN) return res.status(400).json({ message: "Unauthorized, no PIN" });
     jwt.verify(TokenPIN, process.env.TOKEN_SECURE, async (err, resultPIN) => {
       if (err) return res.status(400).json({ message: "PIN verification error" });
-      const [foundPIN] = await db.query("SELECT PIN FROM reservations WHERE PIN = ?", [
-        resultPIN.PIN,
+      const [findPIN] = await db.query("SELECT PIN FROM reservations WHERE user_ID = ?", [
+        user_ID,
       ]);
-      if (foundPIN.length === 0) return res.status(400).json({ message: "PIN not found" });
+      if (findPIN.length === 0) return res.status(400).json({ message: "PIN not found" });
+      const isMatch = await bcrypt.compare(resultPIN.PIN.toString(), findPIN[0].PIN);
+      if (!isMatch) return res.status(400).json({ message: "Incorrect PIN" });
       return res.status(200).json({
         message: "User Authorized",
       });
