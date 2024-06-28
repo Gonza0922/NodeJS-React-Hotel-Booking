@@ -89,7 +89,7 @@ export const putHotel = async (req, res) => {
       hotel_ID,
     ]);
     if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
-      return res.status(400).json({ message: ["Hotel already exists"] });
+      return res.status(400).json({ message: "Hotel already exists" });
     await db.query(q, [...values, hotel_ID]);
     res.status(200).json({ message: `Hotel ${hotel_ID} updated` });
   } catch (err) {
@@ -114,7 +114,7 @@ export const deleteHotel = async (req, res) => {
     if (deleteHotelImages.affectedRows === 0) console.log({ message: "Hotel hasn´t images" });
     const [deleteHotel] = await db.query("DELETE FROM hotels WHERE hotel_ID = ?", hotel_ID);
     if (deleteHotel.affectedRows === 0)
-      return res.status(400).json({ message: ["Hotel doesn´t exists"] });
+      return res.status(400).json({ message: "Hotel doesn´t exists" });
     res.status(204).json({
       message: `Hotel ${hotel_ID} deleted with its images`,
     });

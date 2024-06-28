@@ -102,15 +102,17 @@ function CreateHotel() {
   const createHotel = async (hotel) => {
     try {
       const data = await postHotelRequest(hotel);
-      setLoad("Creating...");
-      setTimeout(() => {
-        navigate(`/partners/${partner.first_name}`);
-        setLoad("Create");
-      }, 3000);
+      if (data) {
+        setLoad("Creating...");
+        setTimeout(() => {
+          navigate(`/partners/${partner.first_name}`);
+        }, 3000);
+      }
       return data;
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -124,8 +126,10 @@ function CreateHotel() {
       console.log(data);
       data.principalImg = data.principalImg[0];
       const hotelCreated = await createHotel(data);
-      await handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
-      await handleMoreImagesCreate(hotelCreated.hotel_ID, data.moreImages);
+      if (hotelCreated) {
+        await handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
+        await handleMoreImagesCreate(hotelCreated.hotel_ID, data.moreImages);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -137,11 +141,7 @@ function CreateHotel() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3>Register Hotel</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="input-field col s12">
@@ -171,9 +171,7 @@ function CreateHotel() {
             />
             <label htmlFor="price_per_night">Price per Night</label>
             <div className="container-span">
-              {errors.price_per_night && (
-                <span>{errors.price_per_night.message}</span>
-              )}
+              {errors.price_per_night && <span>{errors.price_per_night.message}</span>}
             </div>
           </div>
         </div>
@@ -263,9 +261,7 @@ function CreateHotel() {
                 <span>No file selected</span>
               ) : (
                 <span>
-                  {hotelData.principalImg.name
-                    ? hotelData.principalImg.name
-                    : "Principal File"}
+                  {hotelData.principalImg.name ? hotelData.principalImg.name : "Principal File"}
                 </span>
               )}
             </div>

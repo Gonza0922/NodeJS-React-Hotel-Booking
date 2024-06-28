@@ -134,7 +134,8 @@ function UpdateHotel() {
       return data;
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -146,12 +147,11 @@ function UpdateHotel() {
         phone: Number(data.phone),
       };
       console.log(data);
-      updateHotel(data); // hotel info + new images in name format
-      setLoad("Updating...");
-      setTimeout(() => {
-        navigate("/LoginPartner");
-        setLoad("Update");
-      }, 3000);
+      const hotelUpdated = await updateHotel(data); // hotel info + new images in name format
+      if (hotelUpdated) {
+        navigate("/partners/Hotel");
+        window.scrollTo(0, 0);
+      }
     } catch (error) {
       console.log(error);
     }
