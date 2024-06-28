@@ -70,7 +70,7 @@ export const putPartner = async (req, res) => {
       req.body.email,
     ]);
     if (findEmail.length > 0 && myData[0].email !== req.body.email)
-      return res.status(400).json({ message: ["Email already exists"] });
+      return res.status(400).json({ message: "Email already exists" });
     await db.query(q, [...values, req.body.partner_ID]);
     res.status(200).json({ message: `Partner ${req.body.partner_ID} updated` });
   } catch (err) {

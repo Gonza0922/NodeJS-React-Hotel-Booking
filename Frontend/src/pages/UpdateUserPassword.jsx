@@ -19,7 +19,9 @@ function UpdateUserPassword() {
       console.log(data);
       navigate(`/users/${user.first_name}`);
     } catch (error) {
-      setError(error.response.data.message);
+      console.log(error);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -33,15 +35,7 @@ function UpdateUserPassword() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update User Password</h3>
         <div className="container-errors">
-          {error === "Old Password Incorrect" ? (
-            <div className="error">{error}</div>
-          ) : error === "New passwords don't match" ? (
-            <div className="error">{error}</div>
-          ) : error === "" ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="input-field col s12">
@@ -108,9 +102,7 @@ function UpdateUserPassword() {
             />
             <label htmlFor="againNewPassword">Again New Password</label>
             <div className="container-span">
-              {errors.againNewPassword && (
-                <span>{errors.againNewPassword.message}</span>
-              )}
+              {errors.againNewPassword && <span>{errors.againNewPassword.message}</span>}
             </div>
           </div>
         </div>

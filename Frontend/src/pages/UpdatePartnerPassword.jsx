@@ -15,14 +15,13 @@ function UpdatePartnerPassword() {
 
   const updatePassword = async (dataPassword) => {
     try {
-      const data = await putPartnerIdPasswordRequest(
-        partner.partner_ID,
-        dataPassword
-      );
+      const data = await putPartnerIdPasswordRequest(partner.partner_ID, dataPassword);
       console.log(data);
       navigate(`/partners/${partner.first_name}`);
     } catch (error) {
-      setError(error.response.data.message);
+      console.log(error);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -36,15 +35,7 @@ function UpdatePartnerPassword() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update Partner Password</h3>
         <div className="container-errors">
-          {error === "Old Password Incorrect" ? (
-            <div className="error">{error}</div>
-          ) : error === "New passwords don't match" ? (
-            <div className="error">{error}</div>
-          ) : error === "" ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="input-field col s12">
@@ -111,9 +102,7 @@ function UpdatePartnerPassword() {
             />
             <label htmlFor="againNewPassword">Again New Password</label>
             <div className="container-span">
-              {errors.againNewPassword && (
-                <span>{errors.againNewPassword.message}</span>
-              )}
+              {errors.againNewPassword && <span>{errors.againNewPassword.message}</span>}
             </div>
           </div>
         </div>

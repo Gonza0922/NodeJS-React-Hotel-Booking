@@ -8,11 +8,7 @@ import { transformDateZ } from "../functions/dates.js";
 import { Countrys } from "../components/Countrys.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../validations/profile.validation.js";
-import {
-  deleteUserRequest,
-  getUserIdRequest,
-  putUserIdRequest,
-} from "../api/user.api.js";
+import { deleteUserRequest, getUserIdRequest, putUserIdRequest } from "../api/user.api.js";
 
 function UpdateUserProfile() {
   const { logout, user, error, setError } = useUserContext();
@@ -68,7 +64,8 @@ function UpdateUserProfile() {
       return data;
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -82,19 +79,18 @@ function UpdateUserProfile() {
     }
   };
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     try {
       data = {
         ...data,
         birthdate: transformDateZ(data.birthdate),
       };
       console.log(data);
-      updateUser(data);
-      setLoad("Updating Profile...");
-      setTimeout(() => {
-        navigate(`/users/${user.first_name}`);
-        setLoad("Update Profile");
-      }, 3000);
+      const newUser = await updateUser(data);
+      if (newUser) {
+        setLoad("Updating Profile...");
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -124,17 +120,11 @@ function UpdateUserProfile() {
             </li>
             <ul id="dropdown1" className="dropdown-content">
               <li>
-                <a
-                  onClick={() => navigate(`/users/${user.first_name}/profile`)}
-                >
-                  Profile Data
-                </a>
+                <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
               </li>
               <li className="divider" tabIndex="-1"></li>
               <li>
-                <a
-                  onClick={() => navigate(`/users/${user.first_name}/password`)}
-                >
+                <a onClick={() => navigate(`/users/${user.first_name}/password`)}>
                   Change Password
                 </a>
               </li>
@@ -149,11 +139,7 @@ function UpdateUserProfile() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update Profile</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="my-input-field col s12">
@@ -286,9 +272,7 @@ function UpdateUserProfile() {
       {confirmDelete && (
         <div className="delete-confirm-container">
           <div className="delete-confirm">
-            <h5>
-              If you delete your profile, the Reservations will also be deleted.
-            </h5>
+            <h5>If you delete your profile, the Reservations will also be deleted.</h5>
             <div className="container-button-delete-confirm">
               <button
                 onClick={() => setConfirmDelete(false)}

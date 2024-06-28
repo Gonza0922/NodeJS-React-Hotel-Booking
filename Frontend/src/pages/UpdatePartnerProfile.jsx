@@ -67,7 +67,8 @@ function UpdatePartnerProfile() {
       return data;
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -80,19 +81,18 @@ function UpdatePartnerProfile() {
     }
   };
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     try {
       data = {
         ...data,
         birthdate: transformDateZ(data.birthdate),
       };
       console.log(data);
-      updatePartner(data);
-      setLoad("Updating Profile...");
-      setTimeout(() => {
-        navigate(`/partners/${partner.first_name}`);
-        setLoad("Update Profile");
-      }, 3000);
+      const newPartner = await updatePartner(data);
+      if (newPartner) {
+        setLoad("Updating Profile...");
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -122,21 +122,13 @@ function UpdatePartnerProfile() {
             </li>
             <ul id="dropdown1" className="dropdown-content">
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/profile`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
                   Profile Data
                 </a>
               </li>
               <li className="divider" tabIndex="-1"></li>
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/password`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
                   Change Password
                 </a>
               </li>
@@ -151,11 +143,7 @@ function UpdatePartnerProfile() {
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update Profile</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="my-input-field col s12">
@@ -292,8 +280,7 @@ function UpdatePartnerProfile() {
         <div className="delete-confirm-container">
           <div className="delete-confirm">
             <h5>
-              If you delete your profile, your hotels and their reservations
-              will also be deleted.
+              If you delete your profile, your hotels and their reservations will also be deleted.
             </h5>
             <div className="container-button-delete-confirm">
               <button

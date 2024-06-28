@@ -80,7 +80,7 @@ export const putUser = async (req, res) => {
       req.body.email,
     ]);
     if (findEmail.length > 0 && myData[0].email !== req.body.email)
-      return res.status(400).json({ message: ["Email already exists"] });
+      return res.status(400).json({ message: "Email already exists" });
     await db.query(q, [...values, req.body.user_ID]);
     res.status(200).json({ message: `User ${req.body.user_ID} updated` });
   } catch (err) {
