@@ -63,6 +63,8 @@ export const postReservation = async (req, res) => {
   //Create a reservation
   try {
     const { user_ID } = req.user;
+    const check_in = req.body.check_in.substring(0, 10);
+    const check_out = req.body.check_out.substring(0, 10);
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
       req.body.check_out,
       req.body.check_in,
@@ -82,8 +84,8 @@ export const postReservation = async (req, res) => {
     const q =
       "INSERT INTO reservations(check_in, check_out, nights, guests, room_type, person_price, total_price, PIN, user_ID, hotel_ID) VALUES (?)";
     const values = [
-      req.body.check_in.replace("T", " ").substring(0, 19),
-      req.body.check_out.replace("T", " ").substring(0, 19),
+      check_in,
+      check_out,
       calculateNights[0].nights,
       req.body.guests,
       req.body.room_type,
@@ -95,11 +97,11 @@ export const postReservation = async (req, res) => {
     ];
     const [ItsReserved] = await db.query(
       "SELECT check_in, check_out FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
-      [req.body.check_in, req.body.check_out, req.body.room_type, req.body.hotel_ID]
+      [check_in, check_out, req.body.room_type, req.body.hotel_ID]
     );
     if (ItsReserved.length > 0)
       return res.status(400).json({
-        message: "Sorry, the hotel is already booked for those dates",
+        message: "Sorry, the room is already booked for those dates",
       });
     const [iHaveReservation] = await db.query(
       "SELECT user_ID, hotel_ID FROM reservations WHERE user_ID = ? AND hotel_ID = ?",
@@ -119,13 +121,12 @@ export const postReservation = async (req, res) => {
     //send mail
     const data = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
-      // to: [userEmail[0].email],
-      to: ["gonzalo.nieto0922@gmail.com"],
-      subject: "Correctly booked hotel", //title
+      to: [userEmail[0].email],
+      subject: "Correctly booked hotel",
       html: `<div>
         <h4>Reservation ID: ${reservation_ID}</h4>
-        <h4>Check In: ${req.body.check_in.substring(0, 10)}</h4>
-        <h4>Check Out: ${req.body.check_out.substring(0, 10)}</h4>
+        <h4>Check In: ${check_in}</h4>
+        <h4>Check Out: ${check_out}</h4>
         <h4>Nights: ${calculateNights[0].nights}</h4>
         <h4>Guests: ${req.body.guests}</h4>
         <h4>Room Type: ${req.body.room_type}</h4>
@@ -136,7 +137,7 @@ export const postReservation = async (req, res) => {
       <div>`,
     });
     if (data.error) {
-      console.log("error al enviar mail");
+      console.error("error to send email");
       return res.status(400).json({ error: data.error });
     }
 
@@ -153,7 +154,8 @@ export const postReservation = async (req, res) => {
 export const putReservation = async (req, res) => {
   //Update reservation
   try {
-    const { user_ID } = req.user;
+    const check_in = req.body.check_in.substring(0, 10);
+    const check_out = req.body.check_out.substring(0, 10);
     const { reservation_ID } = req.params;
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
       req.body.check_out,
@@ -170,8 +172,8 @@ export const putReservation = async (req, res) => {
     const q =
       "UPDATE reservations SET check_in = ?, check_out  = ?, nights  = ?, guests  = ?, room_type = ?, person_price  = ?, total_price  = ? WHERE reservation_ID = ?";
     const values = [
-      req.body.check_in.replace("T", " ").substring(0, 19),
-      req.body.check_out.replace("T", " ").substring(0, 19),
+      check_in,
+      check_out,
       calculateNights[0].nights,
       req.body.guests,
       req.body.room_type,
@@ -179,16 +181,12 @@ export const putReservation = async (req, res) => {
       calculateTotalPrice[0].total_price,
     ];
     const [ItsReserved] = await db.query(
-      "SELECT user_ID, hotel_ID FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
-      [req.body.check_in, req.body.check_out, req.body.room_type, req.body.hotel_ID]
+      "SELECT reservation_ID FROM reservations WHERE check_in = ? AND check_out = ? AND room_type = ? AND hotel_ID = ?",
+      [check_in, check_out, req.body.room_type, req.body.hotel_ID]
     );
-    if (
-      ItsReserved.length > 0 &&
-      user_ID !== ItsReserved[0].user_ID &&
-      req.body.hotel_ID !== ItsReserved[0].hotel_ID
-    )
+    if (ItsReserved.length > 0 && reservation_ID != ItsReserved[0].reservation_ID)
       return res.status(400).json({
-        message: ["Sorry, the hotel is already booked for those dates"],
+        message: "Sorry, the room is already booked for those dates",
       });
     await db.query(q, [...values, reservation_ID]);
     res.status(200).json({ message: `Reservation ${reservation_ID} updated` });
