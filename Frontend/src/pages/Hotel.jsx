@@ -53,9 +53,7 @@ function Home() {
   useEffect(() => {
     const verifyPIN = async () => {
       const cookies = Cookie.get();
-      if (!cookies.TokenPIN) {
-        return setIsPIN(false);
-      }
+      if (!cookies.TokenPIN) return setIsPIN(false);
       try {
         const PIN = await verifyTokenPINRequest(hotel_ID, cookies.TokenPIN);
         if (!PIN) return setIsPIN(false);
@@ -150,13 +148,15 @@ function Home() {
     e.preventDefault();
     console.log(data);
     try {
-      setIsPIN(true);
-      await verifyPINRequest(hotel_ID, data);
-      setConfirmation("Create Comment");
+      const result = await verifyPINRequest(hotel_ID, data);
+      if (result) {
+        setIsPIN(true);
+        setConfirmation("Create Comment");
+      }
     } catch (error) {
-      console.log(error);
-      document.body.style.overflowY = "auto";
-      setError(error.response.data.message[0]);
+      console.log(error.response.data.message);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError([e.error]);
     }
   };
 
@@ -168,7 +168,8 @@ function Home() {
       setConfirmation(null);
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError([e.error]);
     }
   };
 
@@ -388,7 +389,7 @@ function Home() {
               <h5>Enter your Reservation details</h5>
               <p>Check your booking confirmation email to find your booking number and PIN</p>
               <div className="container-errors">
-                {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
+                {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
               </div>
               <div className="row">
                 <div className="input-field col s12">
@@ -420,7 +421,7 @@ function Home() {
                   />
                 </div>
               </div>
-              <button type="submit" id="comment" className="waves-effect waves-light btn">
+              <button id="comment" className="waves-effect waves-light btn">
                 Rate your stay
               </button>
               <p className="info-verify-PIN">
@@ -452,7 +453,7 @@ function Home() {
             >
               <h5>{confirmation}</h5>
               <div className="container-errors">
-                {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
+                {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
               </div>
               <textarea
                 id="create-comment"
