@@ -128,8 +128,11 @@ function Home() {
       setConfirmation("Correctly booked hotel");
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message);
-      setConfirmation(error.response.data.message);
+      const e = error.response.data;
+      if (e.message === "You have already made a reservation at that hotel") {
+        setError([]);
+      } else e.message ? setError(e.message) : setError(e.error);
+      setConfirmation(e.message);
     }
   };
 
@@ -157,18 +160,7 @@ function Home() {
     }
   };
 
-  // const createComment = async () => {
-  //      //cargando la pagina
-  //   try {
-  //     await postCommentRequest({ content: comment, hotel_ID });
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError(error.response.data.message);
-  //   }
-  // };
-
   const createComment = async (e) => {
-    //sin cargar la pagina pero debemos crear un useffect para cargar comments cada vez q cambie el (confirmation)
     e.preventDefault();
     try {
       await postCommentRequest({ content: comment, hotel_ID });
@@ -253,6 +245,12 @@ function Home() {
                 >
                   Reserve Now
                 </button>
+                <button
+                  onClick={() => setConfirmation(null)}
+                  className="button-delete-confirm waves-effect waves-light btn red darken-2"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
@@ -274,11 +272,7 @@ function Home() {
         <form className="form col s12" onSubmit={onSubmit}>
           <h3>Reservation</h3>
           <div className="container-errors">
-            {error === "Sorry, the hotel is already booked for those dates" ? (
-              <div className="error">{error}</div>
-            ) : (
-              <div></div>
-            )}
+            {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
           </div>
           <div className="row">
             <div className="input-field col s6">

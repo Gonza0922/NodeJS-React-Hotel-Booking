@@ -34,10 +34,10 @@ export function Register() {
     }
   }, [isAuthenticated]);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     data = { ...data, phone: Number(data.phone) };
-    signUp(data);
-    setLoad("Registering...");
+    const result = await signUp(data);
+    if (result) setLoad("Registering...");
   });
 
   return (
@@ -46,11 +46,7 @@ export function Register() {
       <form className="form-login-register col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Register</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row-input">
           <div className="input-field col s12">
@@ -178,11 +174,7 @@ export function Register() {
           </Link>
         </div>
         <div className="container-button-login-register">
-          <button
-            type="submit"
-            id="reserve"
-            className="waves-effect waves-light btn"
-          >
+          <button type="submit" id="reserve" className="waves-effect waves-light btn">
             {load}
           </button>
         </div>

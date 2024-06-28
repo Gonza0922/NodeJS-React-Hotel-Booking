@@ -33,10 +33,10 @@ export function RegisterPartner() {
     }
   }, [isAuthenticatedPartner]);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     data = { ...data, phone: Number(data.phone) };
-    signUp(data);
-    setLoad("Registering...");
+    const result = await signUp(data);
+    if (result) setLoad("Registering...");
   });
 
   return (

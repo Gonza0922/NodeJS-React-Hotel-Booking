@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import {
-  getReservationIdRequest,
-  putReservationRequest,
-} from "../api/reservation.api";
+import { getReservationIdRequest, putReservationRequest } from "../api/reservation.api";
 import { transformDateZ } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import { useUserContext } from "../context/UserContext";
@@ -62,7 +59,8 @@ function UpdateReservation() {
       navigate(`/users/${user.first_name}/reservations`);
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message[0]);
+      const e = error.response.data;
+      e.message ? setError(e.message) : setError(e.error);
     }
   };
 
@@ -86,11 +84,7 @@ function UpdateReservation() {
       <form className="form-update-reservation col s12" onSubmit={handleClick}>
         <h3 className="title-update">Update Reservation {reservation_ID}</h3>
         <div className="container-errors">
-          {!Array.isArray(error) ? (
-            <div className="error">{error}</div>
-          ) : (
-            <div></div>
-          )}
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="row">
           <div className="my-input-field col s6">

@@ -1,9 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import {
-  registerUserRequest,
-  loginUserRequest,
-  logoutUserRequest,
-} from "../api/user.api";
+import { registerUserRequest, loginUserRequest, logoutUserRequest } from "../api/user.api";
 import Cookie from "js-cookie";
 import { verifyTokenUserRequest } from "../api/user.api";
 
@@ -46,6 +42,7 @@ const UserProvider = (props) => {
       setUser(data);
       setIsAuthenticated(true);
       console.log(data);
+      return true;
     } catch (error) {
       console.log(error);
       const e = error.response.data;

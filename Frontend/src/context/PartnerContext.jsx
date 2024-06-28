@@ -54,6 +54,7 @@ const PartnerProvider = (props) => {
       setPartner(data);
       setIsAuthenticatedPartner(true);
       console.log(data);
+      return true;
     } catch (error) {
       console.log(error);
       const e = error.response.data;
