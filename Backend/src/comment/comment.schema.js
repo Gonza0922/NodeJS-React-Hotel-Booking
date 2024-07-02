@@ -14,5 +14,5 @@ export const comment = z.object({
     .string({ required_error: "Comment is required" })
     .min(1, { message: "Comment is required" })
     .min(5, { message: "Comment must be at least 5 characters" })
-    .max(80, { message: "Comment must be no more than 80 characters" }),
+    .max(200, { message: "Comment must be no more than 200 characters" }),
 });

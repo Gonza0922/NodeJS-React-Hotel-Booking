@@ -81,8 +81,9 @@ export const putComment = async (req, res) => {
   //Update a comment that matches the comment_ID sent by parameter
   try {
     const { comment_ID } = req.params;
-    const q = "UPDATE comments SET content = ? WHERE comment_ID = ?";
-    const values = [req.body.content];
+    const currentDate = new Date().toISOString().substring(0, 10);
+    const q = "UPDATE comments SET comment_date = ?, content = ? WHERE comment_ID = ?";
+    const values = [currentDate, req.body.content];
     await db.query(q, [...values, comment_ID]);
     res.status(200).json({ message: `Comment ${comment_ID} updated` });
   } catch (err) {
