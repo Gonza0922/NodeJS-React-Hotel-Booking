@@ -33,9 +33,7 @@ function NavbarUserWithOutSearching() {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>
-                Profile Data
-              </a>
+              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
@@ -43,7 +41,11 @@ function NavbarUserWithOutSearching() {
                 Change Password
               </a>
             </li>
-            <li className="divider" tabIndex="-1"></li>
+            <li className="divider" tabIndex="-2"></li>
+            <li>
+              <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
+            </li>
+            <li className="divider" tabIndex="-3"></li>
             <li>
               <a onClick={logout}>Logout</a>
             </li>

@@ -23,25 +23,23 @@ function NavbarMenu({ navigation, profile, logout }) {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a
-                onClick={() =>
-                  navigate(`/${navigation}/${profile.first_name}/profile`)
-                }
-              >
+              <a onClick={() => navigate(`/${navigation}/${profile.first_name}/profile`)}>
                 Profile Data
               </a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
-              <a
-                onClick={() =>
-                  navigate(`/${navigation}/${profile.first_name}/password`)
-                }
-              >
+              <a onClick={() => navigate(`/${navigation}/${profile.first_name}/password`)}>
                 Change Password
               </a>
             </li>
-            <li className="divider" tabIndex="-1"></li>
+            <li className="divider" tabIndex="-2"></li>
+            <li>
+              <a onClick={() => navigate(`/${navigation}/${profile.first_name}/reviews`)}>
+                Reviews
+              </a>
+            </li>
+            <li className="divider" tabIndex="-3"></li>
             <li>
               <a onClick={logout}>Logout</a>
             </li>

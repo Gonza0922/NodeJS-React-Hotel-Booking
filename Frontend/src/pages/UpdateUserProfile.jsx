@@ -128,7 +128,11 @@ function UpdateUserProfile() {
                   Change Password
                 </a>
               </li>
-              <li className="divider" tabIndex="-1"></li>
+              <li className="divider" tabIndex="-2"></li>
+              <li>
+                <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
+              </li>
+              <li className="divider" tabIndex="-3"></li>
               <li>
                 <a onClick={logout}>Logout</a>
               </li>
