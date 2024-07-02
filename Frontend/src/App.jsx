@@ -22,6 +22,7 @@ import UpdateUserPassword from "./pages/UpdateUserPassword.jsx";
 import UpdatePartnerProfile from "./pages/UpdatePartnerProfile.jsx";
 import UpdatePartnerPassword from "./pages/UpdatePartnerPassword.jsx";
 import ErrorHandling from "./components/ErrorHandling.jsx";
+import UserComments from "./pages/UserComments.jsx";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
                   />
                   <Route path="/users/:name/profile" element={<UpdateUserProfile />} />
                   <Route path="/users/:name/password" element={<UpdateUserPassword />} />
+                  <Route path="/users/:name/reviews" element={<UserComments />} />
                 </Route>
                 <Route element={<PartnerProtectedPages />}>
                   <Route path="/partners/:name" element={<Partners />} />
