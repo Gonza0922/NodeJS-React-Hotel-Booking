@@ -79,7 +79,8 @@ form {
   text-align: center;
 }
 
-.no-reservations {
+.no-reservations,
+.no-comments {
   text-align: center;
 }
 
@@ -200,12 +201,18 @@ form {
   width: 60%;
 }
 
-#card-reservations {
+#card-reservations,
+#card-comments {
   margin: 15px 15px;
 }
 
 #card-partners {
   margin: 20px 20px;
+}
+
+#card-comments {
+  min-width: 550px;
+  max-width: 660px;
 }
 
 .container-hotel-form {
@@ -286,7 +293,8 @@ select,
   background-color: #ff8a65;
 }
 
-#title-reservation {
+#title-reservation,
+#title-comment {
   display: inline-block;
 }
 
@@ -530,6 +538,22 @@ select,
 
 .comment-nacionality {
   font-size: 12px;
+}
+
+/* my reviews */
+
+.my-reviews-title {
+  text-align: center;
+}
+
+.container-my-comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-edit-delete {
+  margin: 20px 0px;
 }
 
 /* FOOTER */

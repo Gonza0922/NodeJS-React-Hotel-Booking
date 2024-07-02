@@ -13,8 +13,14 @@ export const getCommentIdRequest = async (comment_ID) => {
 }; //[USED]
 
 export const getCommentPerHotelRequest = async (hotel_ID) => {
-  //Select the comment(s) created by the Hotel_ID sent by parameter
+  //Select the comment(s) created by the hotel_ID sent by parameter
   const request = await axios.get(`/user/per_hotel/${hotel_ID}`);
+  return request.data;
+}; //[USED]
+
+export const getCommentPerUserRequest = async (user_ID) => {
+  //Select the comment(s) created by the user_ID sent by parameter
+  const request = await axios.get(`/user/per_user/${user_ID}`);
   return request.data;
 }; //[USED]
 
@@ -26,10 +32,7 @@ export const postCommentRequest = async (dataComment) => {
 
 export const putCommentRequest = async (comment_ID, newDataComment) => {
   //Update a comment that matches the comment_ID sent by parameter
-  const request = await axios.put(
-    `/user/update/comments/${comment_ID}`,
-    newDataComment
-  );
+  const request = await axios.put(`/user/update/comments/${comment_ID}`, newDataComment);
   return request.data;
 }; //[USED]
 
@@ -41,10 +44,7 @@ export const deleteCommentRequest = async (comment_ID) => {
 
 export const verifyPINRequest = async (hotel_ID, dataReservation) => {
   //Check if the PIN exists in the database and create a cookie
-  const request = await axios.post(
-    `/user/verify/PIN/comments/${hotel_ID}`,
-    dataReservation
-  );
+  const request = await axios.post(`/user/verify/PIN/comments/${hotel_ID}`, dataReservation);
   return request.data;
 }; //[USED]
 
