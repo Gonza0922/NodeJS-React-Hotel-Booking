@@ -527,13 +527,15 @@ select,
   border-radius: 10px;
 }
 
-#create-comment {
+#create-comment,
+#update-comment {
   height: 110px;
   border: 1px solid black;
   font-size: 18px;
   resize: none;
   padding: 10px;
   margin: 20px 0px;
+  outline: none;
 }
 
 .comment-nacionality {

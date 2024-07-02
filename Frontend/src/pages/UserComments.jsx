@@ -6,7 +6,11 @@ import { useUserContext } from "../context/UserContext.jsx";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import { useNavigate } from "react-router-dom";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
-import { getCommentPerUserRequest, deleteCommentRequest } from "../api/comment.api.js";
+import {
+  getCommentPerUserRequest,
+  deleteCommentRequest,
+  putCommentRequest,
+} from "../api/comment.api.js";
 
 function UserComments() {
   const { setRedirect, setErrorRedirect } = useHotelContext();
@@ -14,6 +18,7 @@ function UserComments() {
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [comments, setComments] = useState([]);
   const [commentHotel, setCommentHotel] = useState([]);
+  const [text, setText] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,12 +26,15 @@ function UserComments() {
     const clickGetComments = async () => {
       try {
         const data = await getCommentPerUserRequest(user.user_ID);
-        setComments(data);
+        const finalComments = [];
         const hotelDataArray = [];
         for (const comment of data) {
           const hotelData = await getHotelIdRequest(comment.hotel_ID);
           hotelDataArray.push(hotelData);
+          finalComments.push({ ...comment, isEditing: false });
         }
+        setComments(finalComments);
+        console.log(finalComments);
         setCommentHotel(hotelDataArray);
       } catch (error) {
         setRedirect(true);
@@ -50,6 +58,37 @@ function UserComments() {
     }));
   };
 
+  const handleEditClick = async (id, boolean) => {
+    if (!boolean) {
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.comment_ID === id ? { ...comment, isEditing: true } : comment
+        )
+      );
+    } else {
+      try {
+        const newComment = comments.find((comment) => comment.comment_ID === id);
+        await putCommentRequest(newComment.comment_ID, { content: newComment.content });
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment.comment_ID === id ? { ...comment, isEditing: false } : comment
+          )
+        );
+        console.log("edited");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleInputChange = (id, value) => {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.comment_ID === id ? { ...comment, content: value } : comment
+      )
+    );
+  };
+
   return (
     <div className="alfa">
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
@@ -69,7 +108,17 @@ function UserComments() {
                 <h6>Comment_ID: {comment.comment_ID}</h6>
                 <h6>Reviewed: {resetDate(comment.comment_date)}</h6>
                 {commentHotel < 1 ? <p></p> : <h6>To: {commentHotel[index].name}</h6>}
-                <h5>"{comment.content}"</h5>
+                {comment.isEditing ? (
+                  <textarea
+                    id="update-comment"
+                    value={comment.content}
+                    onChange={(e) => handleInputChange(comment.comment_ID, e.target.value)}
+                    autoFocus
+                    spellCheck={false}
+                  />
+                ) : (
+                  <h5>"{comment.content}"</h5>
+                )}
                 <div className="container-edit-delete">
                   <button
                     onClick={() => showConfirmDelete(comment.comment_ID)}
@@ -78,10 +127,10 @@ function UserComments() {
                     Delete Review
                   </button>
                   <button
-                    onClick={() => console.log("editing comment")}
-                    className="delete waves-effect waves-light btn "
+                    onClick={() => handleEditClick(comment.comment_ID, comment.isEditing)}
+                    className="delete waves-effect waves-light btn"
                   >
-                    Edit Review
+                    {!comment.isEditing ? "Edit Review" : "Confirm Review"}
                   </button>
                 </div>
               </div>
