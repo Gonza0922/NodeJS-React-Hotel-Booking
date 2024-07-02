@@ -47,6 +47,20 @@ export const getCommentPerHotel = async (req, res) => {
   }
 };
 
+export const getCommentPerUser = async (req, res) => {
+  //Select the comment that matches the user_ID sent by parameter
+  try {
+    const { user_ID } = req.params;
+    const [findComments] = await db.query("SELECT * FROM comments WHERE user_ID = ?", [user_ID]);
+    res.status(200).json(findComments);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({
+      error: `Failed to recover Comment for user_ID ${user_ID}`,
+    });
+  }
+};
+
 export const postComment = async (req, res) => {
   //Create a comment
   try {

@@ -12,6 +12,7 @@ import {
   deleteComment,
   verifyPIN,
   verifyTokenPIN,
+  getCommentPerUser,
 } from "../comment/comment.controllers.js";
 
 const commentRouter = Router();
@@ -19,6 +20,7 @@ const commentRouter = Router();
 commentRouter.get("/all/comments", getAllComments);
 commentRouter.get("/comments/:comment_ID", getCommentPerId);
 commentRouter.get("/per_hotel/:hotel_ID", getCommentPerHotel);
+commentRouter.get("/per_user/:user_ID", validateTokenUser, getCommentPerUser);
 commentRouter.post(
   "/create/comments",
   validateSchema(comment),
@@ -29,10 +31,10 @@ commentRouter.post(
 commentRouter.put(
   "/update/comments/:comment_ID",
   validateSchema(comment),
-  validatePIN,
+  validateTokenUser,
   putComment
 );
-commentRouter.delete("/delete/comments/:comment_ID", validatePIN, deleteComment);
+commentRouter.delete("/delete/comments/:comment_ID", validateTokenUser, deleteComment);
 commentRouter.post(
   "/verify/PIN/comments/:hotel_ID",
   validateSchema(PIN),
