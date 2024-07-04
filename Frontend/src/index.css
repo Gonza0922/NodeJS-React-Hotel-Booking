@@ -555,7 +555,19 @@ select,
 }
 
 .container-edit-delete {
-  margin: 20px 0px;
+  margin: 10px 0px;
+}
+
+.comment-id {
+  float: right;
+}
+
+.comment-hotel {
+  font-weight: bold;
+}
+
+.comment-content {
+  font-size: 18px;
 }
 
 /* FOOTER */

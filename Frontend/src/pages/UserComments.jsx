@@ -18,8 +18,6 @@ function UserComments() {
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [comments, setComments] = useState([]);
   const [commentHotel, setCommentHotel] = useState([]);
-  const [text, setText] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,20 +42,6 @@ function UserComments() {
     clickGetComments();
   }, []);
 
-  const deleteComment = async (id) => {
-    await deleteCommentRequest(id);
-    setComments(comments.filter((comment) => comment.comment_ID !== id));
-  };
-
-  const showConfirmDelete = (id) => {
-    setStyles((prevStyles) => !prevStyles);
-    document.body.style.overflowY = styles ? "auto" : "hidden";
-    setElementView((prevElement) => ({
-      ...prevElement,
-      confirmDelete: id === elementView.confirmDelete ? null : id,
-    }));
-  };
-
   const handleEditClick = async (id, boolean) => {
     if (!boolean) {
       setComments((prevComments) =>
@@ -76,7 +60,9 @@ function UserComments() {
         );
         console.log("edited");
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setRedirect(true);
+        setErrorRedirect(error.message);
       }
     }
   };
@@ -87,6 +73,26 @@ function UserComments() {
         comment.comment_ID === id ? { ...comment, content: value } : comment
       )
     );
+  };
+
+  const deleteComment = async (id) => {
+    try {
+      await deleteCommentRequest(id);
+      setComments(comments.filter((comment) => comment.comment_ID !== id));
+    } catch (error) {
+      console.error(error);
+      setRedirect(true);
+      setErrorRedirect(error.message);
+    }
+  };
+
+  const showConfirmDelete = (id) => {
+    setStyles((prevStyles) => !prevStyles);
+    document.body.style.overflowY = styles ? "auto" : "hidden";
+    setElementView((prevElement) => ({
+      ...prevElement,
+      confirmDelete: id === elementView.confirmDelete ? null : id,
+    }));
   };
 
   return (
@@ -105,9 +111,13 @@ function UserComments() {
           <div key={index} className="container-my-comments">
             <div id="card-comments" className="card">
               <div className="card-content">
-                <h6>Comment_ID: {comment.comment_ID}</h6>
-                <h6>Reviewed: {resetDate(comment.comment_date)}</h6>
-                {commentHotel < 1 ? <p></p> : <h6>To: {commentHotel[index].name}</h6>}
+                <span className="comment-id">Comment_ID: {comment.comment_ID}</span>
+                <span>Reviewed: {resetDate(comment.comment_date)}</span>
+                {commentHotel < 1 ? (
+                  <p></p>
+                ) : (
+                  <h6 className="comment-hotel">To: {commentHotel[index].name}</h6>
+                )}
                 {comment.isEditing ? (
                   <textarea
                     id="update-comment"
@@ -117,7 +127,7 @@ function UserComments() {
                     spellCheck={false}
                   />
                 ) : (
-                  <h5>"{comment.content}"</h5>
+                  <span className="comment-content">"{comment.content}"</span>
                 )}
                 <div className="container-edit-delete">
                   <button
