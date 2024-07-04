@@ -14,7 +14,7 @@ import {
 
 function UserComments() {
   const { setRedirect, setErrorRedirect } = useHotelContext();
-  const { logout, user } = useUserContext();
+  const { logout, user, error, setError } = useUserContext();
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [comments, setComments] = useState([]);
   const [commentHotel, setCommentHotel] = useState([]);
@@ -60,9 +60,9 @@ function UserComments() {
         );
         console.log("edited");
       } catch (error) {
-        console.error(error);
-        setRedirect(true);
-        setErrorRedirect(error.message);
+        console.log(error);
+        const e = error.response.data;
+        e.message ? setError(e.message) : setError([e.error]);
       }
     }
   };
@@ -119,13 +119,18 @@ function UserComments() {
                   <h6 className="comment-hotel">To: {commentHotel[index].name}</h6>
                 )}
                 {comment.isEditing ? (
-                  <textarea
-                    id="update-comment"
-                    value={comment.content}
-                    onChange={(e) => handleInputChange(comment.comment_ID, e.target.value)}
-                    autoFocus
-                    spellCheck={false}
-                  />
+                  <>
+                    <div className="container-errors">
+                      {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
+                    </div>
+                    <textarea
+                      id="update-comment"
+                      value={comment.content}
+                      onChange={(e) => handleInputChange(comment.comment_ID, e.target.value)}
+                      autoFocus
+                      spellCheck={false}
+                    />
+                  </>
                 ) : (
                   <span className="comment-content">"{comment.content}"</span>
                 )}
