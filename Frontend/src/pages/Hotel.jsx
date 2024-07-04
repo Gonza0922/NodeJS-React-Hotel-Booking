@@ -82,6 +82,7 @@ function Home() {
           ...comment,
           first_name: usersData[index].first_name,
           last_name: usersData[index].last_name,
+          nacionality: usersData[index].nacionality,
         };
       });
       setCommentsWithUser(finalResult);
@@ -472,26 +473,26 @@ function Home() {
       ) : (
         <p></p>
       )}
-      <div className="container-hotel-form">
+      <div className="container-comments">
         {commentsWithUser.map((comment, index) => (
-          <div key={index} id="card-selected" className="card">
+          <div key={index} id="comment-card" className="card">
             <div className="card-content">
-              {
-                <div className="profile">
-                  <div className="initial">{comment.first_name.split("")[0]}</div>
-                  <div className="name">
-                    {comment.first_name} {comment.last_name}
-                    <p className="comment-nacionality">Argentina</p>
-                  </div>
+              <div className="profile">
+                <div className="initial">{comment.first_name.split("")[0]}</div>
+                <div className="name">
+                  {comment.first_name} {comment.last_name}
+                  <p className="comment-nacionality">{comment.nacionality}</p>
                 </div>
-              }
+              </div>
               <div className="reviewed">Reviewed: {transformDateZ(comment.comment_date)}</div>
               <p className="content">"{comment.content}"</p>
             </div>
           </div>
         ))}
       </div>
-      <footer className="footer"></footer>
+      <footer className="footer">
+        <span className="footer-span">Todos los derechos reservados</span>
+      </footer>
     </>
   );
 }
