@@ -65,6 +65,10 @@ export const postReservation = async (req, res) => {
     const { user_ID } = req.user;
     const check_in = req.body.check_in.substring(0, 10);
     const check_out = req.body.check_out.substring(0, 10);
+    if (check_out <= check_in)
+      return res.status(400).json({
+        message: "Check Out must be at least 1 day after Check In",
+      });
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
       req.body.check_out,
       req.body.check_in,
@@ -154,9 +158,13 @@ export const postReservation = async (req, res) => {
 export const putReservation = async (req, res) => {
   //Update reservation
   try {
+    const { reservation_ID } = req.params;
     const check_in = req.body.check_in.substring(0, 10);
     const check_out = req.body.check_out.substring(0, 10);
-    const { reservation_ID } = req.params;
+    if (check_out <= check_in)
+      return res.status(400).json({
+        message: "Check Out must be at least 1 day after Check In",
+      });
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
       req.body.check_out,
       req.body.check_in,
