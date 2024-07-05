@@ -11,6 +11,7 @@ import {
   deleteCommentRequest,
   putCommentRequest,
 } from "../api/comment.api.js";
+import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 function UserComments() {
   const { setRedirect, setErrorRedirect } = useHotelContext();
@@ -151,29 +152,13 @@ function UserComments() {
               </div>
             </div>
             {comment.comment_ID === elementView.confirmDelete && (
-              <div className="delete-confirm-container">
-                <div className="delete-confirm">
-                  <h5>Delete Review {comment.comment_ID}?</h5>
-                  <div className="container-button-delete-confirm">
-                    <button
-                      onClick={() => showConfirmDelete(comment.comment_ID)}
-                      className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteComment(comment.comment_ID);
-                        showConfirmDelete(comment.comment_ID);
-                        window.scrollTo(0, 0);
-                      }}
-                      className="button-delete-confirm waves-effect waves-light btn red darken-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <DeleteConfirm
+                text={`Delete Review ${comment.comment_ID}?`}
+                id={comment.comment_ID}
+                showConfirmDelete={showConfirmDelete}
+                deleteReservation={deleteComment}
+                buttonName={"Delete"}
+              />
             )}
           </div>
         ))

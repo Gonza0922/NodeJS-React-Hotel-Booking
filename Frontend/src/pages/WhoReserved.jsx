@@ -172,15 +172,19 @@ function WhoReserved() {
       </div>
       {bookings && bookings.reservation_ID === elementView.confirmDelete ? (
         <DeleteConfirm
+          text={`Decline reservation ${bookings.reservation_ID}?`}
           id={bookings.reservation_ID}
           showConfirmDelete={showConfirmDelete}
           deleteReservation={deleteReservation}
+          buttonName={"Decline"}
         />
       ) : idToDelete && idToDelete === elementView.confirmDelete ? (
         <DeleteConfirm
+          text={`Decline reservation ${idToDelete}?`}
           id={idToDelete}
           showConfirmDelete={showConfirmDelete}
           deleteReservation={deleteReservation}
+          buttonName={"Decline"}
         />
       ) : (
         <></>

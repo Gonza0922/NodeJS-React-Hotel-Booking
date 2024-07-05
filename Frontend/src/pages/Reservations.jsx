@@ -7,6 +7,7 @@ import { useUserContext } from "../context/UserContext.jsx";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import { useNavigate } from "react-router-dom";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
+import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 function Reservations() {
   const { reservations, setReservations, setRedirect, setErrorRedirect } = useHotelContext();
@@ -95,29 +96,13 @@ function Reservations() {
               </div>
             </div>
             {reservation.reservation_ID === elementView.confirmDelete && (
-              <div className="delete-confirm-container">
-                <div className="delete-confirm">
-                  <h5>Delete reservation?</h5>
-                  <div className="container-button-delete-confirm">
-                    <button
-                      onClick={() => showConfirmDelete(reservation.reservation_ID)}
-                      className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteReservation(reservation.reservation_ID);
-                        showConfirmDelete(reservation.reservation_ID);
-                        window.scrollTo(0, 0);
-                      }}
-                      className="button-delete-confirm waves-effect waves-light btn red darken-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <DeleteConfirm
+                text={`Delete reservation ${reservation.reservation_ID}?`}
+                id={reservation.reservation_ID}
+                showConfirmDelete={showConfirmDelete}
+                deleteReservation={deleteReservation}
+                buttonName={"Delete"}
+              />
             )}
           </div>
         ))

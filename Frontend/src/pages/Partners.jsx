@@ -5,6 +5,7 @@ import { useHotelContext } from "../context/HotelContext.jsx";
 import { getReservationFromHotelRequest } from "../api/reservation.api.js";
 import Element from "../components/Element.jsx";
 import { useNavigate } from "react-router-dom";
+import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 const Partners = () => {
   const { hotels, setHotels, setRedirect, setErrorRedirect } = useHotelContext();
@@ -177,28 +178,13 @@ const Partners = () => {
               )}
             </div>
             {hotel.hotel_ID === elementView.confirmDelete && (
-              <div className="delete-confirm-container">
-                <div className="delete-confirm">
-                  <h5>If you delete the hotel, its reservations will also be deleted.</h5>
-                  <div className="container-button-delete-confirm">
-                    <button
-                      onClick={() => showConfirmDelete(hotel.hotel_ID)}
-                      className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteHotel(hotel.hotel_ID);
-                        showConfirmDelete(hotel.hotel_ID);
-                      }}
-                      className="button-delete-confirm waves-effect waves-light btn red darken-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <DeleteConfirm
+                text={`If you delete the hotel "${hotel.name}", its reservations will also be deleted.`}
+                id={hotel.hotel_ID}
+                showConfirmDelete={showConfirmDelete}
+                deleteReservation={deleteHotel}
+                buttonName={"Delete"}
+              />
             )}
           </div>
         ))

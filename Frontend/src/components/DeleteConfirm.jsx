@@ -1,7 +1,7 @@
-const DeleteConfirm = ({ id, showConfirmDelete, deleteReservation }) => (
+const DeleteConfirm = ({ text, id, showConfirmDelete, deleteReservation, buttonName }) => (
   <div className="delete-confirm-container">
     <div className="delete-confirm">
-      <h5>Decline reservation {id}?</h5>
+      <h5>{text}</h5>
       <div className="container-button-delete-confirm">
         <button
           onClick={() => showConfirmDelete(id)}
@@ -16,7 +16,7 @@ const DeleteConfirm = ({ id, showConfirmDelete, deleteReservation }) => (
           }}
           className="button-delete-confirm waves-effect waves-light btn red darken-2"
         >
-          Decline
+          {buttonName}
         </button>
       </div>
     </div>
