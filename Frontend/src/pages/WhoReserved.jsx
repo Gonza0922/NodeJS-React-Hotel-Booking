@@ -8,16 +8,15 @@ import { useHotelContext } from "../context/HotelContext.jsx";
 import { deleteReservationRequest } from "../api/reservation.api.js";
 
 function WhoReserved() {
-  const { logout, partner, reserved, setReserved, users, showReservationsNumber } =
-    usePartnerContext();
+  const { logout, partner, bookings, setBookings, users } = usePartnerContext();
   const { hotel, setHotel, setRedirect, setErrorRedirect } = useHotelContext();
   const { hotel_ID } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (reserved && reserved.length === 0) navigate(`/partners/${partner.first_name}`);
-  }, [reserved, navigate, partner]);
+    if (bookings && bookings.length === 0) navigate(`/partners/${partner.first_name}`);
+  }, [bookings, navigate, partner]);
 
   useEffect(() => {
     const clickGetHotelId = async () => {
@@ -35,9 +34,9 @@ function WhoReserved() {
 
   const deleteReservation = async (id) => {
     await deleteReservationRequest(id);
-    typeof reserved === "object" && !Array.isArray(reserved)
-      ? setReserved([])
-      : setReserved(reserved.filter((reserve) => reserve.reservation_ID !== id));
+    typeof bookings === "object" && !Array.isArray(bookings)
+      ? setBookings([])
+      : setBookings(bookings.filter((reserve) => reserve.reservation_ID !== id));
   };
 
   return (
@@ -45,7 +44,7 @@ function WhoReserved() {
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <h3 className="title">Clients who reserved at {hotel.name}</h3>
       <div>
-        {typeof reserved === "object" && !Array.isArray(reserved) ? (
+        {typeof bookings === "object" && !Array.isArray(bookings) ? (
           <div className="container-components">
             <div id="who-reserved" className="card who-reserved">
               <div className="component-who-reserved">
@@ -60,31 +59,31 @@ function WhoReserved() {
                 )}
                 <hr />
                 <div className="container-data">
-                  <h6>Reservation Date:</h6> {resetDate(reserved.reservation_date)}
+                  <h6>Reservation Date:</h6> {resetDate(bookings.reservation_date)}
                 </div>
                 <div className="container-data">
-                  <h6>Check In:</h6> {resetDate(reserved.check_in)}
+                  <h6>Check In:</h6> {resetDate(bookings.check_in)}
                 </div>
                 <div className="container-data">
-                  <h6>Check Out:</h6> {resetDate(reserved.check_out)}
+                  <h6>Check Out:</h6> {resetDate(bookings.check_out)}
                 </div>
                 <div className="container-data">
-                  <h6>Nights:</h6> {reserved.nights}
+                  <h6>Nights:</h6> {bookings.nights}
                 </div>
                 <div className="container-data">
-                  <h6>Guests:</h6> {reserved.guests}
+                  <h6>Guests:</h6> {bookings.guests}
                 </div>
                 <div className="container-data">
-                  <h6>Room Type:</h6> {reserved.room_type}
+                  <h6>Room Type:</h6> {bookings.room_type}
                 </div>
                 <div className="container-data">
-                  <h6>Person Price:</h6> ${reserved.person_price}
+                  <h6>Person Price:</h6> ${bookings.person_price}
                 </div>
                 <div className="container-data">
-                  <h6>Total Price:</h6> ${reserved.total_price}
+                  <h6>Total Price:</h6> ${bookings.total_price}
                 </div>
                 <button
-                  onClick={() => deleteReservation(reserved.reservation_ID)}
+                  onClick={() => deleteReservation(bookings.reservation_ID)}
                   className="button-decline waves-effect waves-light btn red darken-2"
                 >
                   Decline
@@ -92,9 +91,9 @@ function WhoReserved() {
               </div>
             </div>
           </div>
-        ) : Array.isArray(reserved) ? (
+        ) : Array.isArray(bookings) ? (
           <div className="container-components">
-            {reserved.map((reserve, index) => (
+            {bookings.map((reserve, index) => (
               <div id="who-reserved" className="card" key={index}>
                 <div className="component-who-reserved">
                   {typeof users === "object" && !Array.isArray(users) ? (

@@ -7,13 +7,12 @@ import Element from "../components/Element.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Partners = () => {
-  const { hotels, setHotels, setRedirect, setErrorRedirect } =
-    useHotelContext();
+  const { hotels, setHotels, setRedirect, setErrorRedirect } = useHotelContext();
   const {
     logout,
     partner,
-    reserved,
-    setReserved,
+    bookings,
+    setBookings,
     error,
     setError,
     elementView,
@@ -39,17 +38,17 @@ const Partners = () => {
     clickGetHotels();
   }, []);
 
-  const reservedView = (hotel) => {
+  const bookingsView = (hotel) => {
     const clickGetReserved = async () => {
       try {
         const data = await getReservationFromHotelRequest(hotel.hotel_ID);
-        setReserved([]);
+        setBookings([]);
         if (data.length > 1) {
           data.forEach((element) => {
-            setReserved((prevUsers) => [...prevUsers, element]);
+            setBookings((prevUsers) => [...prevUsers, element]);
           });
         } else {
-          setReserved(data[0]);
+          setBookings(data[0]);
         }
       } catch (error) {
         setRedirect(true);
@@ -57,10 +56,6 @@ const Partners = () => {
       }
     };
     clickGetReserved();
-  };
-
-  const updateHotel = async (id) => {
-    navigate(`update/${id}`);
   };
 
   const deleteHotel = async (id) => {
@@ -100,9 +95,7 @@ const Partners = () => {
             <li>
               <a
                 className="waves-effect waves-light btn"
-                onClick={() =>
-                  navigate(`/partners/${partner.first_name}/create`)
-                }
+                onClick={() => navigate(`/partners/${partner.first_name}/create`)}
               >
                 Register Hotel
               </a>
@@ -115,21 +108,13 @@ const Partners = () => {
             </li>
             <ul id="dropdown1" className="dropdown-content">
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/profile`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
                   Profile Data
                 </a>
               </li>
               <li className="divider" tabIndex="-1"></li>
               <li>
-                <a
-                  onClick={() =>
-                    navigate(`/partners/${partner.first_name}/password`)
-                  }
-                >
+                <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
                   Change Password
                 </a>
               </li>
@@ -166,14 +151,14 @@ const Partners = () => {
                 <button
                   onClick={() => {
                     showReservationsNumber(hotel.hotel_ID);
-                    reservedView(hotel);
+                    bookingsView(hotel);
                   }}
                   className="reservations waves-effect waves-light btn teal lighten-1"
                 >
                   Reservations
                 </button>
                 <button
-                  onClick={() => updateHotel(hotel.hotel_ID)}
+                  onClick={() => navigate(`update/${hotel.hotel_ID}`)}
                   className="delete-hotel waves-effect waves-light btn teal lighten-1"
                 >
                   Edit
@@ -188,16 +173,13 @@ const Partners = () => {
             </div>
             <div id="who-reserved" className="card">
               {hotel.hotel_ID === elementView.reservationsNumber && (
-                <Element reserved={reserved} hotel_ID={hotel.hotel_ID} />
+                <Element bookings={bookings} hotel_ID={hotel.hotel_ID} />
               )}
             </div>
             {hotel.hotel_ID === elementView.confirmDelete && (
               <div className="delete-confirm-container">
                 <div className="delete-confirm">
-                  <h5>
-                    If you delete the hotel, its reservations will also be
-                    deleted.
-                  </h5>
+                  <h5>If you delete the hotel, its reservations will also be deleted.</h5>
                   <div className="container-button-delete-confirm">
                     <button
                       onClick={() => showConfirmDelete(hotel.hotel_ID)}

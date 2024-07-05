@@ -18,7 +18,7 @@ const PartnerProvider = (props) => {
   const [error, setError] = useState([]);
   const [isAuthenticatedPartner, setIsAuthenticatedPartner] = useState(false);
   const [users, setUsers] = useState([]);
-  const [reserved, setReserved] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [elementView, setElementView] = useState({
     reservationsNumber: null,
     confirmDelete: null,
@@ -68,7 +68,7 @@ const PartnerProvider = (props) => {
       Cookie.remove("token");
       setPartner({});
       setIsAuthenticatedPartner(false);
-      setReserved([]);
+      setBookings([]);
     } catch (error) {
       console.log(error);
     }
@@ -114,8 +114,8 @@ const PartnerProvider = (props) => {
         setError,
         users,
         setUsers,
-        reserved,
-        setReserved,
+        bookings,
+        setBookings,
         elementView,
         setElementView,
         styles,
