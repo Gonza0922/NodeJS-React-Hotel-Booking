@@ -38,4 +38,5 @@ export const reservation = z.object({
   room_type: z
     .string({ required_error: "Room Type is required" })
     .min(1, { message: "Room Type is required" }),
+  reserveAnyway: z.boolean({ required_error: "reserveAnyway must be a boolean" }).optional(),
 });

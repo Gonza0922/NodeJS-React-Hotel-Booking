@@ -121,9 +121,9 @@ function Home() {
     }
   }, [confirmation]);
 
-  const createReservation = async (reservation, doIt) => {
+  const createReservation = async (reservation) => {
     try {
-      await postReservationRequest(reservation, doIt);
+      await postReservationRequest(reservation);
       setConfirmation("Correctly booked hotel");
     } catch (error) {
       console.log(error);
@@ -141,8 +141,8 @@ function Home() {
 
   const onSubmit = handleSubmit((data) => {
     data = { ...data, guests: Number(data.guests) };
-    setDatosUsar({ ...data, hotel_ID, doIt: false });
-    createReservation({ ...data, hotel_ID, doIt: false });
+    setDatosUsar({ ...data, hotel_ID });
+    createReservation({ ...data, hotel_ID });
   });
 
   const verificationPIN = async (e, data) => {
@@ -237,7 +237,7 @@ function Home() {
                 <button
                   onClick={() => {
                     if (datosUsar !== null) {
-                      createReservation({ ...datosUsar, doIt: true });
+                      createReservation({ ...datosUsar, reserveAnyway: true });
                     } else {
                       console.log("Error al enviar los datos");
                       console.log(datosUsar);

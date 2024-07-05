@@ -111,9 +111,11 @@ export const postReservation = async (req, res) => {
       "SELECT user_ID, hotel_ID FROM reservations WHERE user_ID = ? AND hotel_ID = ?",
       [user_ID, req.body.hotel_ID]
     );
-    if (iHaveReservation.length > 0 && req.body.doIt === false)
+    if (iHaveReservation.length > 0 && req.body.reserveAnyway !== true)
       return res.status(400).json({
         message: "You have already made a reservation at that hotel",
+        apiInformation:
+          "Reserve again and add property {reserveAnyway:true} if you want to reserve anyway",
       });
     const createReservation = await db.query(q, [values]);
     const reservation_ID = createReservation[0].insertId;
@@ -140,10 +142,7 @@ export const postReservation = async (req, res) => {
         <h4>Hotel: ${hotelName[0].name}</h4>
       <div>`,
     });
-    if (data.error) {
-      console.error("error to send email");
-      return res.status(400).json({ error: data.error });
-    }
+    if (data.error) console.error("error to send email");
 
     const [reservation] = await db.query("SELECT * FROM reservations WHERE reservation_ID = ?", [
       reservation_ID,
