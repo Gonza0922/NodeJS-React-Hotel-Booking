@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { resetDate } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
@@ -6,11 +6,23 @@ import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { getHotelIdRequest } from "../api/hotel.api.js";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { deleteReservationRequest } from "../api/reservation.api.js";
+import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 function WhoReserved() {
-  const { logout, partner, bookings, setBookings, users } = usePartnerContext();
+  const {
+    logout,
+    partner,
+    bookings,
+    setBookings,
+    users,
+    elementView,
+    setElementView,
+    styles,
+    setStyles,
+  } = usePartnerContext();
   const { hotel, setHotel, setRedirect, setErrorRedirect } = useHotelContext();
   const { hotel_ID } = useParams();
+  const [idToDelete, setIdToDelete] = useState(undefined);
 
   const navigate = useNavigate();
 
@@ -31,6 +43,15 @@ function WhoReserved() {
     };
     clickGetHotelId();
   }, []);
+
+  const showConfirmDelete = (id) => {
+    setStyles((prevStyles) => !prevStyles);
+    document.body.style.overflowY = styles ? "auto" : "hidden";
+    setElementView((prevElement) => ({
+      ...prevElement,
+      confirmDelete: id === elementView.confirmDelete ? null : id,
+    }));
+  };
 
   const deleteReservation = async (id) => {
     await deleteReservationRequest(id);
@@ -83,7 +104,7 @@ function WhoReserved() {
                   <h6>Total Price:</h6> ${bookings.total_price}
                 </div>
                 <button
-                  onClick={() => deleteReservation(bookings.reservation_ID)}
+                  onClick={() => showConfirmDelete(bookings.reservation_ID)}
                   className="button-decline waves-effect waves-light btn red darken-2"
                 >
                   Decline
@@ -133,7 +154,10 @@ function WhoReserved() {
                     <h6>Total Price:</h6> ${reserve.total_price}
                   </div>
                   <button
-                    onClick={() => deleteReservation(reserve.reservation_ID)}
+                    onClick={() => {
+                      setIdToDelete(reserve.reservation_ID);
+                      showConfirmDelete(reserve.reservation_ID);
+                    }}
                     className="button-decline waves-effect waves-light btn red darken-2"
                   >
                     Decline
@@ -146,6 +170,21 @@ function WhoReserved() {
           <Navigate to={`/partners/${partner.first_name}`} replace />
         )}
       </div>
+      {bookings && bookings.reservation_ID === elementView.confirmDelete ? (
+        <DeleteConfirm
+          id={bookings.reservation_ID}
+          showConfirmDelete={showConfirmDelete}
+          deleteReservation={deleteReservation}
+        />
+      ) : idToDelete && idToDelete === elementView.confirmDelete ? (
+        <DeleteConfirm
+          id={idToDelete}
+          showConfirmDelete={showConfirmDelete}
+          deleteReservation={deleteReservation}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }
