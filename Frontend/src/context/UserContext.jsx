@@ -13,6 +13,7 @@ const UserProvider = (props) => {
   const [user, setUser] = useState({});
   const [error, setError] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (error.length > 0) {
@@ -65,17 +66,23 @@ const UserProvider = (props) => {
     const verify = async () => {
       const cookies = Cookie.get();
       if (!cookies.UserToken) {
-        return setIsAuthenticated(false);
+        setIsAuthenticated(false);
+        setLoading(false);
+        return;
       }
       try {
         const user = await verifyTokenUserRequest(cookies.UserToken);
-        console.log(user);
-        if (!user) return setIsAuthenticated(false);
-        setIsAuthenticated(true);
-        setUser(user);
+        if (!user) {
+          setIsAuthenticated(false);
+        } else {
+          setIsAuthenticated(true);
+          setUser(user);
+        }
       } catch (error) {
         setIsAuthenticated(false);
-        console.log(error);
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     verify();
@@ -90,6 +97,7 @@ const UserProvider = (props) => {
         login,
         logout,
         isAuthenticated,
+        loading,
         error,
         setError,
       }}

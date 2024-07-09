@@ -25,6 +25,7 @@ const PartnerProvider = (props) => {
   });
   const [styles, setStyles] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (error.length > 0) {
@@ -78,17 +79,23 @@ const PartnerProvider = (props) => {
     const verify = async () => {
       const cookies = Cookie.get();
       if (!cookies.PartnerToken) {
-        return setIsAuthenticatedPartner(false);
+        setIsAuthenticatedPartner(false);
+        setLoading(false);
+        return;
       }
       try {
-        const partner = await verifyTokenPartnerRequest(cookies.PartnerToken);
-        console.log(partner);
-        if (!partner) return setIsAuthenticatedPartner(false);
-        setIsAuthenticatedPartner(true);
-        setPartner(partner);
+        const partner = await verifyTokenPartnerRequest(cookies.UserToken);
+        if (!partner) {
+          setIsAuthenticatedPartner(false);
+        } else {
+          setIsAuthenticatedPartner(true);
+          setPartner(partner);
+        }
       } catch (error) {
         setIsAuthenticatedPartner(false);
-        console.log(error);
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     verify();
@@ -123,6 +130,7 @@ const PartnerProvider = (props) => {
         showReservationsNumber,
         confirmDelete,
         setConfirmDelete,
+        loading,
       }}
     >
       {props.children}
