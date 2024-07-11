@@ -1,16 +1,78 @@
 import mysql from "mysql2/promise";
 import "dotenv/config";
 
-const { NODE_ENV, HOST_DB, USER_DB, PASSWORD_DB, NAME_DB } = process.env;
+const {
+  NODE_ENV,
+  HOST_DB,
+  USER_DB,
+  PASSWORD_DB,
+  NAME_DB,
+  DOCKER_MYSQLDB_HOST,
+  DOCKER_MYSQLDB_USER,
+  DOCKER_MYSQLDB_PASSWORD,
+  DOCKER_MYSQLDB_NAME,
+} = process.env;
 
-// const databaseName = NODE_ENV.trim() === "test" ? "test" : NAME_DB;
-
-export const db = await mysql.createConnection({
+let config = {
   host: HOST_DB,
   user: USER_DB,
   password: PASSWORD_DB,
   database: NAME_DB,
-});
+};
+
+if (NODE_ENV.trim().toLowerCase() === "production") {
+  config = {
+    host: DOCKER_MYSQLDB_HOST,
+    user: DOCKER_MYSQLDB_USER,
+    password: DOCKER_MYSQLDB_PASSWORD,
+    database: DOCKER_MYSQLDB_NAME,
+  };
+}
+
+export const db = await mysql.createConnection(config);
+
+// async function connectToDatabase(config) {
+//   try {
+//     const connection = await mysql.createConnection(config);
+//     console.log("Conexión establecida a la base de datos MySQL");
+//     return connection;
+//   } catch (error) {
+//     console.error("Error al conectar con la base de datos MySQL:", error.message);
+//     throw error;
+//   }
+// }
+
+// async function initializeDatabase() {
+//   const nodeEnv = NODE_ENV && NODE_ENV.trim().toLowerCase();
+
+//   let config = {
+//     host: HOST_DB,
+//     user: USER_DB,
+//     password: PASSWORD_DB,
+//     database: NAME_DB,
+//   };
+
+//   if (nodeEnv === "production") {
+//     config = {
+//       host: DOCKER_MYSQLDB_HOST,
+//       user: DOCKER_MYSQLDB_USER,
+//       password: DOCKER_MYSQLDB_PASSWORD,
+//       database: DOCKER_MYSQLDB_NAME,
+//     };
+//   }
+
+//   try {
+//     const db = await connectToDatabase(config);
+//     return db;
+//   } catch (error) {
+//     console.error("Error al inicializar la conexión a la base de datos:", error.message);
+//     throw error;
+//   }
+// }
+
+// export const db = await initializeDatabase();
+
+// const databaseName = NODE_ENV.trim() === "test" ? "test" : NAME_DB;
 
 // if (databaseName === "test") await db.execute("SET autocommit = 0");
 // await db.execute("SET autocommit = 0");
