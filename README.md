@@ -13,19 +13,20 @@ The Hotel Booking System is a web application designed to facilitate hotel reser
 - Reservation Management by Owners: Hotel owners can view all reservations for their hotels and have the ability to decline reservations if needed.
 - User Reservation View: Users can view all their reservations in one place.
 - Profile Management: Both users and owners can update their personal information and change their passwords.
-- Password Recovery: Users and owners can recover their accounts by receiving a verification email that leads them to a page to create a new password.
 
 ## Technologies
 
 - Backend: Express
 - Database: MySQL
 - Frontend: React
+- DevOps: Docker
 - Other: NodeJS, JWT, Resend for email services, bcrypt for password and PIN encryption, zod for input validations, and cloudinary for images management
 
 ## Prerequisites
 
 - Node.js
 - MySQL
+- Docker
 - Cloudinary
 
 ## Installation
@@ -35,6 +36,14 @@ git clone https://github.com/Gonza0922/NodeJS-React-Hotel-Booking
 cd NodeJS-React-Hotel-Booking
 npm install
 npm run start
+```
+
+## Installation with docker-compose
+
+```
+git clone https://github.com/Gonza0922/NodeJS-React-Hotel-Booking
+cd NodeJS-React-Hotel-Booking
+docker compose up
 ```
 
 ## Environment Variables
