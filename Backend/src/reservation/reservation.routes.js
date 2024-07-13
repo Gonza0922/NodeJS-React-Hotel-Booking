@@ -12,6 +12,7 @@ import {
   putReservation,
   deleteReservation,
 } from "../reservation/reservation.controllers.js";
+import { sendEmail } from "../email/email.controllers.js";
 
 const reservationRouter = Router();
 
@@ -26,7 +27,8 @@ reservationRouter.post(
   "/create/reservations",
   validateSchema(reservation),
   validateTokenUser,
-  postReservation
+  postReservation,
+  sendEmail
 );
 reservationRouter.put(
   "/update/reservations/:reservation_ID",
