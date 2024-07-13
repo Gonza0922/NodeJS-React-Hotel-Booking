@@ -1,9 +1,18 @@
+# ./
 node_modules
-dist
-.env
 .git
-Dockerfile
 docker-compose.yml
-Frontend/node_modules
+README.md
+.env
+
+# ./Backend
 Backend/node_modules
+Backend/.env
+Backend/Dockerfile
+
+# ./Frontend
+Frontend/node_modules
+Frontend/.env
+Frontend/dist
 Frontend/build
+Frontend/Dockerfile

@@ -1,15 +1,14 @@
-version: "3.8"
 services:
   mysqldb:
     image: mysql
-    env_file: ./Backend/.env
+    env_file: .env
     environment:
       MYSQL_ROOT_PASSWORD: $DOCKER_MYSQLDB_PASSWORD
       MYSQL_DATABASE: $DOCKER_MYSQLDB_NAME
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 3s
+      interval: 10s
+      timeout: 5s
       retries: 3
     ports:
       - "3308:3306"
@@ -25,6 +24,15 @@ services:
         condition: service_healthy
     ports:
       - "3001:3001"
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
   mysql_data:
