@@ -47,6 +47,10 @@ function Home() {
     reservation_ID: undefined,
     PIN: undefined,
   });
+  const [guestsAndRoomType, setGuestsAndRoomType] = useState({
+    guests: undefined,
+    room_type: undefined,
+  });
   const { hotel_ID } = useParams();
   const navigate = useNavigate();
 
@@ -140,7 +144,8 @@ function Home() {
   };
 
   const onSubmit = handleSubmit((data) => {
-    data = { ...data, guests: Number(data.guests) };
+    data = { ...data, ...guestsAndRoomType };
+    console.log(data);
     setDatosUsar({ ...data, hotel_ID });
     createReservation({ ...data, hotel_ID });
   });
@@ -271,8 +276,8 @@ function Home() {
         ) : (
           <p></p>
         )}
-        <form className="form col s12" onSubmit={onSubmit}>
-          <h3>Reservation</h3>
+        <form id="availability-form" className="form col s12" onSubmit={onSubmit}>
+          <h3>Availability</h3>
           <div className="container-errors">
             {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
           </div>
@@ -293,63 +298,62 @@ function Home() {
             </div>
           </div>
           <div className="row">
-            <div className="input-field col s6">
-              <Controller
-                name="guests"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <select {...field} className="browser-default">
-                    <option value="" disabled>
-                      Guests
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                  </select>
-                )}
-              />
-              <div className="container-span">
-                {errors.guests && <span>{errors.guests.message}</span>}
-              </div>
+            <div className="guests-and-roomType">
+              <div className="guests">1 Guest</div>
+              <div className="roomType">Room Type: Individual</div>
+              <div className="price-per-night">Per Night: ${1 * hotel.price_per_night}</div>
+              <button
+                className="waves-effect waves-light btn"
+                onClick={() => {
+                  verify();
+                  setGuestsAndRoomType({ guests: 1, room_type: "Individual" });
+                }}
+              >
+                Reserve Now
+              </button>
             </div>
-            <div className="input-field col s6">
-              <Controller
-                name="room_type"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <select {...field} className="browser-default">
-                    <option value="" disabled>
-                      Room Type
-                    </option>
-                    <option value="Individual">Individual</option>
-                    <option value="Doble">Doble</option>
-                    <option value="Triple">Triple</option>
-                    <option value="Familiar">Familiar</option>
-                    {/* <option value="Suite">Suite + $50</option> */}
-                  </select>
-                )}
-              />
-              <div className="container-span">
-                {errors.room_type && <span>{errors.room_type.message}</span>}
-              </div>
+            <div className="guests-and-roomType">
+              <div className="guests">2 Guests</div>
+              <div className="roomType">Room Type: Doble</div>
+              <div className="price-per-night">Per Night: ${2 * hotel.price_per_night}</div>
+              <button
+                className="waves-effect waves-light btn"
+                onClick={() => {
+                  verify();
+                  setGuestsAndRoomType({ guests: 2, room_type: "Doble" });
+                }}
+              >
+                Reserve Now
+              </button>
             </div>
-          </div>
-          <div className="container-button-reserve">
-            <button
-              type="submit"
-              onClick={verify}
-              id="reserve"
-              className="waves-effect waves-light btn"
-            >
-              Reserve Now
-            </button>
+            <div className="guests-and-roomType">
+              <div className="guests">3 Guests</div>
+              <div className="roomType">Room Type: Triple</div>
+              <div className="price-per-night">Per Night: ${3 * hotel.price_per_night}</div>
+              <button
+                className="waves-effect waves-light btn"
+                onClick={() => {
+                  verify();
+                  setGuestsAndRoomType({ guests: 3, room_type: "Triple" });
+                }}
+              >
+                Reserve Now
+              </button>
+            </div>
+            <div className="guests-and-roomType">
+              <div className="guests">5 Guests</div>
+              <div className="roomType">Room Type: Familiar</div>
+              <div className="price-per-night">Per Night: ${5 * hotel.price_per_night}</div>
+              <button
+                className="waves-effect waves-light btn"
+                onClick={() => {
+                  verify();
+                  setGuestsAndRoomType({ guests: 5, room_type: "Familiar" });
+                }}
+              >
+                Reserve Now
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -490,9 +494,7 @@ function Home() {
           </div>
         ))}
       </div>
-      <footer className="footer">
-        <span className="footer-span">Todos los derechos reservados</span>
-      </footer>
+      <footer className="footer"></footer>
     </>
   );
 }
