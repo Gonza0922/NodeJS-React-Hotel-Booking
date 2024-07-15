@@ -9,6 +9,12 @@ body {
   /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
 }
 
+pre {
+  display: inline;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
 a {
   color: white;
 }

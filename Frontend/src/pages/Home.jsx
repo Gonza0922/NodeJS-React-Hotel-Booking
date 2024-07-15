@@ -5,6 +5,7 @@ import NavbarUser from "../components/Navbars/NavbarUser.jsx";
 import { useUserContext } from "../context/UserContext";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { getAllHotelsRequest } from "../api/hotel.api";
+import TruncateText from "../components/TruncateText.jsx";
 
 function Home() {
   const { isAuthenticated, user } = useUserContext();
@@ -64,7 +65,7 @@ function Home() {
                   <span className="card-title">{hotel.name}</span>
                   <a className="btn-floating halfway-fab waves-effect waves-light">View</a>
                   <h5>${hotel.price_per_night}</h5>
-                  <p>{hotel.description}</p>
+                  <TruncateText text={hotel.description} maxLength={200} />
                   <h6>{hotel.location}</h6>
                 </div>
               </div>

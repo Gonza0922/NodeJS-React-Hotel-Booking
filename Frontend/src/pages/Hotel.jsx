@@ -222,7 +222,7 @@ function Home() {
           <div className="card-content">
             <span className="card-title">{hotel.name}</span>
             <h5>${hotel.price_per_night}</h5>
-            <p>{hotel.description}</p>
+            <pre>{hotel.description}</pre>
             <h6>{hotel.services}</h6>
             <h6>{hotel.location}</h6>
             <h6>{hotel.phone}</h6>
