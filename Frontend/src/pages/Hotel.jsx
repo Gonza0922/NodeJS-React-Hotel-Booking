@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { getHotelIdRequest } from "../api/hotel.api";
 import { postReservationRequest } from "../api/reservation.api.js";
 import { getImagesPerHotelRequest } from "../api/images.api.js";
@@ -26,7 +26,6 @@ function Home() {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm({ resolver: yupResolver(reservationSchema) });
   const {
     hotel,
@@ -179,6 +178,25 @@ function Home() {
     }
   };
 
+  const ReservationOption = ({ guests, room_type, price_per_night }) => {
+    return (
+      <div className="guests-and-roomType">
+        <div className="guests">{guests} Guests</div>
+        <div className="roomType">Room Type: {room_type}</div>
+        <div className="price-per-night">Per Night: ${guests * price_per_night}</div>
+        <button
+          className="waves-effect waves-light btn"
+          onClick={() => {
+            verify();
+            setGuestsAndRoomType({ guests, room_type });
+          }}
+        >
+          Reserve Now
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
       {!isAuthenticated ? <NavbarWithOutSearching /> : <NavbarUserWithOutSearching />}
@@ -298,62 +316,26 @@ function Home() {
             </div>
           </div>
           <div className="row">
-            <div className="guests-and-roomType">
-              <div className="guests">1 Guest</div>
-              <div className="roomType">Room Type: Individual</div>
-              <div className="price-per-night">Per Night: ${1 * hotel.price_per_night}</div>
-              <button
-                className="waves-effect waves-light btn"
-                onClick={() => {
-                  verify();
-                  setGuestsAndRoomType({ guests: 1, room_type: "Individual" });
-                }}
-              >
-                Reserve Now
-              </button>
-            </div>
-            <div className="guests-and-roomType">
-              <div className="guests">2 Guests</div>
-              <div className="roomType">Room Type: Doble</div>
-              <div className="price-per-night">Per Night: ${2 * hotel.price_per_night}</div>
-              <button
-                className="waves-effect waves-light btn"
-                onClick={() => {
-                  verify();
-                  setGuestsAndRoomType({ guests: 2, room_type: "Doble" });
-                }}
-              >
-                Reserve Now
-              </button>
-            </div>
-            <div className="guests-and-roomType">
-              <div className="guests">3 Guests</div>
-              <div className="roomType">Room Type: Triple</div>
-              <div className="price-per-night">Per Night: ${3 * hotel.price_per_night}</div>
-              <button
-                className="waves-effect waves-light btn"
-                onClick={() => {
-                  verify();
-                  setGuestsAndRoomType({ guests: 3, room_type: "Triple" });
-                }}
-              >
-                Reserve Now
-              </button>
-            </div>
-            <div className="guests-and-roomType">
-              <div className="guests">5 Guests</div>
-              <div className="roomType">Room Type: Familiar</div>
-              <div className="price-per-night">Per Night: ${5 * hotel.price_per_night}</div>
-              <button
-                className="waves-effect waves-light btn"
-                onClick={() => {
-                  verify();
-                  setGuestsAndRoomType({ guests: 5, room_type: "Familiar" });
-                }}
-              >
-                Reserve Now
-              </button>
-            </div>
+            <ReservationOption
+              guests={1}
+              room_type={"Individual"}
+              price_per_night={hotel.price_per_night}
+            />
+            <ReservationOption
+              guests={2}
+              room_type={"Doble"}
+              price_per_night={hotel.price_per_night}
+            />
+            <ReservationOption
+              guests={3}
+              room_type={"Triple"}
+              price_per_night={hotel.price_per_night}
+            />
+            <ReservationOption
+              guests={5}
+              room_type={"Familiar"}
+              price_per_night={hotel.price_per_night}
+            />
           </div>
         </form>
       </div>
