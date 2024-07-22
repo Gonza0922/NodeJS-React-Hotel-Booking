@@ -11,10 +11,10 @@ function NavbarMenu({ navigation, profile, logout }) {
   return (
     <nav>
       <div className="nav-wrapper deep-orange lighten-2">
-        <a className="brand-logo left" onClick={() => navigate("/")}>
+        <div className="hotelscom-logo" onClick={() => navigate("/")}>
           Hotels.com
-        </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
+        </div>
+        <ul id="nav-mobile">
           <li>
             <a className="dropdown-trigger" href="#!" data-target="dropdown1">
               {profile.first_name}

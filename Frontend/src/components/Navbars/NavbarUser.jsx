@@ -20,10 +20,35 @@ function NavbarUser() {
   return (
     <nav>
       <div className="nav-wrapper deep-orange lighten-2">
-        <a className="brand-logo left" onClick={() => navigate("/")}>
+        <div className="hotelscom-logo" onClick={() => navigate("/")}>
           Hotels.com
-        </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
+        </div>
+        <form className="search-form">
+          <div className="input-field">
+            <input
+              id="search"
+              type="search"
+              value={hotelSearch}
+              placeholder="Where to?"
+              onChange={handleClick}
+              autoComplete="off"
+              spellCheck={false}
+            ></input>
+            <label className="label-icon">
+              <i className="material-icons">search</i>
+            </label>
+            <i
+              className="material-icons"
+              onClick={() => {
+                setHotelSearch("");
+                filtrar("");
+              }}
+            >
+              close
+            </i>
+          </div>
+        </form>
+        <ul id="nav-mobile">
           <li>
             <a onClick={() => navigate("/LoginPartner")}>Publish</a>
           </li>
@@ -61,31 +86,6 @@ function NavbarUser() {
             </li>
           </ul>
         </ul>
-        <form className="search-form">
-          <div className="input-field">
-            <input
-              id="search"
-              type="search"
-              value={hotelSearch}
-              placeholder="Where to?"
-              onChange={handleClick}
-              autoComplete="off"
-              spellCheck={false}
-            ></input>
-            <label className="label-icon">
-              <i className="material-icons">search</i>
-            </label>
-            <i
-              className="material-icons"
-              onClick={() => {
-                setHotelSearch("");
-                filtrar("");
-              }}
-            >
-              close
-            </i>
-          </div>
-        </form>
       </div>
     </nav>
   );

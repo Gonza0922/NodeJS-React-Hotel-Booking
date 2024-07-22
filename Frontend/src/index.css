@@ -54,12 +54,11 @@ nav {
 }
 
 .nav-wrapper {
+  min-width: 1260px;
   padding: 10px;
-}
-
-form {
-  width: 30%;
-  margin-left: 350px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #search {
@@ -70,14 +69,18 @@ form {
   border: none;
 }
 
-.brand-logo {
-  user-select: none;
-  margin-left: 20px;
-  cursor: pointer;
+form {
+  width: 30%;
 }
 
 #nav-mobile {
   margin-right: 20px;
+}
+
+.hotelscom-logo {
+  font-size: 30px;
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 .hotel-not-found {

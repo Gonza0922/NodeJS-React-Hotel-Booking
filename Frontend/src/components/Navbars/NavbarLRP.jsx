@@ -5,9 +5,9 @@ function NavbarLRP() {
   return (
     <nav>
       <div className="nav-wrapper deep-orange lighten-2">
-        <a className="brand-logo left" onClick={() => navigate("/")}>
+        <div className="hotelscom-logo" onClick={() => navigate("/")}>
           Hotels.com
-        </a>
+        </div>
       </div>
     </nav>
   );

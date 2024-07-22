@@ -6,10 +6,10 @@ function NavbarWithOutSearching() {
   return (
     <nav>
       <div className="nav-wrapper deep-orange lighten-2">
-        <a className="brand-logo left" onClick={() => navigate("/")}>
+        <div className="hotelscom-logo" onClick={() => navigate("/")}>
           Hotels.com
-        </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
+        </div>
+        <ul id="nav-mobile">
           <li>
             <a onClick={() => navigate("/LoginPartner")}>Publish</a>
           </li>

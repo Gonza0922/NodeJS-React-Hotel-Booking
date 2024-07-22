@@ -84,7 +84,7 @@ const Partners = () => {
       <nav>
         <div className="nav-wrapper deep-orange lighten-2">
           <a
-            className="brand-logo left"
+            className="hotelscom-logo"
             onClick={() => {
               navigate("/");
               showReservationsNumber(null);
@@ -92,7 +92,7 @@ const Partners = () => {
           >
             Hotels.com
           </a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
+          <ul id="nav-mobile">
             <li>
               <a
                 className="waves-effect waves-light btn"
