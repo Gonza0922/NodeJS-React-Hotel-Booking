@@ -14,10 +14,12 @@ import {
   verifyTokenPIN,
   getCommentPerUser,
 } from "../comment/comment.controllers.js";
+import { validateQuery } from "../middlewares/validates/validatePagination.js";
+import { pagination } from "../common/paginationSchema.js";
 
 const commentRouter = Router();
 
-commentRouter.get("/all/comments", getAllComments);
+commentRouter.get("/all/comments", validateQuery(pagination), getAllComments);
 commentRouter.get("/comments/:comment_ID", getCommentPerId);
 commentRouter.get("/per_hotel/:hotel_ID", getCommentPerHotel);
 commentRouter.get("/per_user/:user_ID", validateTokenUser, getCommentPerUser);

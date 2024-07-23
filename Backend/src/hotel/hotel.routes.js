@@ -14,10 +14,12 @@ import {
   deleteSingleImage,
   deleteMultipleImages,
 } from "../middlewares/deleteImagesMiddlewares.js";
+import { validateQuery } from "../middlewares/validates/validatePagination.js";
+import { pagination } from "../common/paginationSchema.js";
 
 const hotelRouter = Router();
 
-hotelRouter.get("/all/hotels", getAllHotels);
+hotelRouter.get("/all/hotels", validateQuery(pagination), getAllHotels);
 hotelRouter.get("/hotels/:hotel_ID", getHotelId);
 hotelRouter.get("/per_partner/hotels", validateTokenPartner, getHotelPerPartner);
 hotelRouter.post("/create/hotels", validateSchema(hotel), validateTokenPartner, postHotel);

@@ -13,10 +13,12 @@ import {
   verifyUser,
   deleteUser,
 } from "../user/user.controllers.js";
+import { pagination } from "../common/paginationSchema.js";
+import { validateQuery } from "../middlewares/validates/validatePagination.js";
 
 const userRouter = Router();
 
-userRouter.get("/all/users", getAllUsers);
+userRouter.get("/all/users", validateQuery(pagination), getAllUsers);
 userRouter.get("/users/get/:user_ID", getUserId);
 userRouter.post("/users/register", validateSchema(register), registerUser);
 userRouter.put("/users/update", validateSchema(update), validateTokenUser, putUser);
