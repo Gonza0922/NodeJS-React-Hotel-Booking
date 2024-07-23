@@ -6,8 +6,12 @@ import jwt from "jsonwebtoken";
 export const getAllComments = async (req, res) => {
   //Select all comments
   try {
-    const [comments] = await db.query("SELECT * FROM comments");
-    res.status(200).json(comments);
+    const { limit, page } = req.query;
+    const offset = (page - 1) * limit;
+    const [comments] = await db.query("SELECT * FROM comments LIMIT ? OFFSET ?", [limit, offset]);
+    const [totalPageData] = await db.query("SELECT count(*) as count FROM comments");
+    const totalPage = Math.ceil(totalPageData[0]?.count / limit);
+    res.status(200).json({ data: comments, pagination: { page, limit, totalPage } });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to recover Comments" });

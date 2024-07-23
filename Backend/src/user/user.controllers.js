@@ -6,8 +6,12 @@ import jwt from "jsonwebtoken";
 export const getAllUsers = async (req, res) => {
   //Select all users
   try {
-    const [users] = await db.query("SELECT * FROM users");
-    res.status(200).json(users);
+    const { limit, page } = req.query;
+    const offset = (page - 1) * limit;
+    const [users] = await db.query("SELECT * FROM users LIMIT ? OFFSET ?", [limit, offset]);
+    const [totalPageData] = await db.query("SELECT count(*) as count FROM users");
+    const totalPage = Math.ceil(totalPageData[0]?.count / limit);
+    res.status(200).json({ data: users, pagination: { page, limit, totalPage } });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to recover Users" });

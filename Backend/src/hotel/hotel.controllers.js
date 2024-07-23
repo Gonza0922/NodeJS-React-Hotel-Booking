@@ -3,8 +3,12 @@ import { db } from "../tables.js";
 export const getAllHotels = async (req, res) => {
   //Select all hotels
   try {
-    const [hotels] = await db.query("SELECT * FROM hotels");
-    res.status(200).json(hotels);
+    const { limit, page } = req.query;
+    const offset = (page - 1) * limit;
+    const [hotels] = await db.query("SELECT * FROM hotels LIMIT ? OFFSET ?", [limit, offset]);
+    const [totalPageData] = await db.query("SELECT count(*) as count FROM hotels");
+    const totalPage = Math.ceil(totalPageData[0]?.count / limit);
+    res.status(200).json({ data: hotels, pagination: { page, limit, totalPage } });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to recover Hotels" });
