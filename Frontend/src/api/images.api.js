@@ -4,61 +4,45 @@ export const getImagesPerHotelRequest = async (hotel_ID) => {
   //Select all images of the hotel sent by parameter
   const request = await axios.get(`/images/all/${hotel_ID}`);
   return request.data;
-}; //[USED] 2
+}; //[USED]
 
 export const postImageRequest = async (hotel_ID, formData) => {
   //Create the principal image
-  const request = await axios.post(
-    `/images/create/single/${hotel_ID}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const request = await axios.post(`/images/create/single/${hotel_ID}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return request.data;
 }; //[USED]
 
 export const postMoreImagesRequest = async (hotel_ID, formData) => {
   //Create multiple images
-  const request = await axios.post(
-    `/images/create/multiple/${hotel_ID}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const request = await axios.post(`/images/create/multiple/${hotel_ID}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return request.data;
 }; //[USED]
 
 export const updatePrincipalImageRequest = async (hotel_ID, formData) => {
   //Update principal image
-  const request = await axios.put(
-    `/images/update/single/${hotel_ID}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const request = await axios.put(`/images/update/single/${hotel_ID}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return request.data;
 }; //[USED]
 
 export const updateMoreImagesRequest = async (hotel_ID, formData) => {
   //Update multiple images
-  const request = await axios.put(
-    `/images/update/multiple/${hotel_ID}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const request = await axios.put(`/images/update/multiple/${hotel_ID}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return request.data;
 }; //[USED]
 

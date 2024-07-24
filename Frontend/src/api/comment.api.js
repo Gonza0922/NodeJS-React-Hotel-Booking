@@ -1,10 +1,15 @@
 import axios from "./axios.js";
 
-export const getAllCommentsRequest = async () => {
+export const getAllCommentsRequest = async (limit, page) => {
   //Select all comments
-  const request = await axios.get("/user/all/comments");
+  const request = await axios.get("/user/all/comments", {
+    params: {
+      limit: limit,
+      page: page,
+    },
+  });
   return request.data;
-}; //[USED]
+};
 
 export const getCommentIdRequest = async (comment_ID) => {
   //Select the comment that matches the comment_ID sent by parameter

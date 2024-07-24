@@ -14,10 +14,7 @@ export const putPartnerIdRequest = async (newData) => {
 
 export const putPartnerIdPasswordRequest = async (partner_ID, newData) => {
   //Update a partner's password
-  const request = await axios.put(
-    `/auth/partners/password/update/${partner_ID}`,
-    newData
-  );
+  const request = await axios.put(`/auth/partners/password/update/${partner_ID}`, newData);
   return request.data;
 }; //[USED]
 

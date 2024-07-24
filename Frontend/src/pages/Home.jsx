@@ -4,31 +4,16 @@ import Navbar from "../components/Navbars/Navbar.jsx";
 import NavbarUser from "../components/Navbars/NavbarUser.jsx";
 import { useUserContext } from "../context/UserContext";
 import { useHotelContext } from "../context/HotelContext.jsx";
-import { getAllHotelsRequest } from "../api/hotel.api";
 import TruncateText from "../components/TruncateText.jsx";
 
 function Home() {
   const { isAuthenticated, user } = useUserContext();
-  const { hotels, setHotels, setRedirect, setErrorRedirect, setContent } = useHotelContext();
+  const { hotels } = useHotelContext();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const clickGetHotels = async () => {
-      try {
-        const data = await getAllHotelsRequest();
-        setHotels(data);
-        setContent(data);
-      } catch (error) {
-        setRedirect(true);
-        setErrorRedirect(error.message);
-      }
-    };
-    clickGetHotels();
   }, []);
 
   useEffect(() => {

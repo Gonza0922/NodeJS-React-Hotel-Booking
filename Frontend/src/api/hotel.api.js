@@ -1,16 +1,21 @@
 import axios from "./axios.js";
 
-export const getAllHotelsRequest = async () => {
+export const getAllHotelsRequest = async (limit, page) => {
   //Select all hotels
-  const request = await axios.get("/partner/all/hotels");
+  const request = await axios.get("/partner/all/hotels", {
+    params: {
+      limit: limit,
+      page: page,
+    },
+  });
   return request.data;
-}; //[USED] 2
+}; //[USED]
 
 export const getHotelIdRequest = async (hotel_ID) => {
   //Select the hotel that matches the hotel_ID sent by parameter
   const request = await axios.get(`/partner/hotels/${hotel_ID}`);
   return request.data;
-}; //[USED] 3
+}; //[USED]
 
 export const getHotelPartnerRequest = async () => {
   //Select the hotel(s) created by the partner_ID, selected when validating the PartnerToken
@@ -26,10 +31,7 @@ export const postHotelRequest = async (hotel) => {
 
 export const putHotelRequest = async (hotel_ID, newHotel) => {
   //Update a hotel that matches the hotel_ID sent by parameter
-  const request = await axios.put(
-    `/partner/update/hotels/${hotel_ID}`,
-    newHotel
-  );
+  const request = await axios.put(`/partner/update/hotels/${hotel_ID}`, newHotel);
   return request.data;
 }; //[USED]
 

@@ -1,8 +1,13 @@
 import axios from "./axios.js";
 
-export const getAllUsersRequest = async () => {
+export const getAllUsersRequest = async (limit, page) => {
   //Select all users
-  const request = await axios.get("/auth/all/users");
+  const request = await axios.get("/auth/all/users", {
+    params: {
+      limit: limit,
+      page: page,
+    },
+  });
   return request.data;
 };
 
@@ -10,7 +15,7 @@ export const getUserIdRequest = async (user_ID) => {
   //Select the user that matches the user_ID sent by parameter
   const request = await axios.get(`/auth/users/get/${user_ID}`);
   return request.data;
-}; //[USED] 2
+}; //[USED]
 
 export const putUserIdRequest = async (newData) => {
   //Update a user
@@ -20,10 +25,7 @@ export const putUserIdRequest = async (newData) => {
 
 export const putUserIdPasswordRequest = async (user_ID, newData) => {
   //Update a user's password
-  const request = await axios.put(
-    `/auth/users/password/update/${user_ID}`,
-    newData
-  );
+  const request = await axios.put(`/auth/users/password/update/${user_ID}`, newData);
   return request.data;
 }; //[USED]
 

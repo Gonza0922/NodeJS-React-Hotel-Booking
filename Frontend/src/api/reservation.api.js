@@ -26,17 +26,12 @@ export const postReservationRequest = async (reservation) => {
 
 export const putReservationRequest = async (reservation_ID, newReservation) => {
   //Update reservation
-  const request = await axios.put(
-    `/user/update/reservations/${reservation_ID}`,
-    newReservation
-  );
+  const request = await axios.put(`/user/update/reservations/${reservation_ID}`, newReservation);
   return request.data;
 }; //[USED]
 
 export const deleteReservationRequest = async (reservation_ID) => {
   //Delete a reservation
-  const request = await axios.delete(
-    `/user/delete/reservations/${reservation_ID}`
-  );
+  const request = await axios.delete(`/user/delete/reservations/${reservation_ID}`);
   return request.data;
-}; //[USED] 2
+}; //[USED]

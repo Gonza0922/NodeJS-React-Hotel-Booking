@@ -1,9 +1,6 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { getAllHotelsRequest } from "../api/hotel.api";
-import {
-  updatePrincipalImageRequest,
-  updateMoreImagesRequest,
-} from "../api/images.api";
+import { updatePrincipalImageRequest, updateMoreImagesRequest } from "../api/images.api";
 
 const hotelContext = createContext();
 
@@ -39,7 +36,9 @@ const HotelProvider = (props) => {
 
   useEffect(() => {
     const getHotels = async () => {
-      const data = await getAllHotelsRequest();
+      const limit = 1000000;
+      const page = 1;
+      const { data } = await getAllHotelsRequest(limit, page);
       setHotels(data);
       setContent(data);
     };
@@ -48,11 +47,7 @@ const HotelProvider = (props) => {
 
   const filtrar = (term) => {
     const result = content.filter((element) => {
-      if (
-        element.location.toString().toLowerCase().includes(term.toLowerCase())
-      ) {
-        return element;
-      }
+      if (element.location.toString().toLowerCase().includes(term.toLowerCase())) return element;
     });
     setHotels(result);
   };
