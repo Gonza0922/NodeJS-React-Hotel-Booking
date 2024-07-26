@@ -33,6 +33,10 @@ const HotelProvider = (props) => {
   const [errorRedirect, setErrorRedirect] = useState({});
   const [load, setLoad] = useState("");
   const [isPIN, setIsPIN] = useState(false);
+  const [guestsAndRoomType, setGuestsAndRoomType] = useState({
+    guests: undefined,
+    room_type: undefined,
+  });
 
   useEffect(() => {
     const getHotels = async () => {
@@ -109,6 +113,8 @@ const HotelProvider = (props) => {
         setCommentsWithUser,
         isPIN,
         setIsPIN,
+        guestsAndRoomType,
+        setGuestsAndRoomType,
       }}
     >
       {props.children}

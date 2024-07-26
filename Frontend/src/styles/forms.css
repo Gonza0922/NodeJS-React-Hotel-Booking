@@ -40,8 +40,18 @@
   color: blue;
 }
 
-/* AVAILABILITY AND UPDATE RESERVATION */
-.availability-updateHotel-form {
+/* UPDATE RESERVATION */
+.update-reservation-form {
+  width: 700px;
+  padding: 10px 40px;
+  margin: 20px auto;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* AVAILABILITY */
+.availability-form {
   width: 42%;
   padding: 20px;
   margin: 20px 0px 20px 20px;
@@ -50,7 +60,7 @@
 }
 
 /* h3 */
-.availability-updateHotel-form h3 {
+.availability-form h3 {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 30px;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { getReservationIdRequest, putReservationRequest } from "../api/reservation.api";
 import { transformDateZ } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
@@ -9,6 +9,8 @@ import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reservationSchema } from "../validations/reservation.validation.js";
+import ReservationOption from "../components/ReservationOption.jsx";
+import { getHotelIdRequest } from "../api/hotel.api.js";
 
 function UpdateReservation() {
   const { reservation_ID } = useParams();
@@ -17,12 +19,11 @@ function UpdateReservation() {
     handleSubmit,
     reset,
     formState: { errors },
-    control,
   } = useForm({ resolver: yupResolver(reservationSchema) });
   const navigate = useNavigate();
   const { error, setError } = usePartnerContext();
   const { user, logout } = useUserContext();
-  const { setRedirect, setErrorRedirect } = useHotelContext();
+  const { setRedirect, setErrorRedirect, guestsAndRoomType } = useHotelContext();
   const [reservationData, setReservationData] = useState({
     check_in: "",
     check_out: "",
@@ -34,10 +35,12 @@ function UpdateReservation() {
     const clickGetReservation = async () => {
       try {
         const data = await getReservationIdRequest(reservation_ID);
+        const hotelName = await getHotelIdRequest(data.hotel_ID);
         setReservationData({
           ...data,
           check_in: transformDateZ(data.check_in),
           check_out: transformDateZ(data.check_out),
+          hotelPrice_per_night: hotelName.price_per_night,
         });
         reset({
           ...data,
@@ -64,12 +67,13 @@ function UpdateReservation() {
     }
   };
 
-  const handleClick = handleSubmit(async (data) => {
+  const handleClick = handleSubmit((data) => {
     try {
       data = {
-        ...data,
         check_in: transformDateZ(data.check_in),
         check_out: transformDateZ(data.check_out),
+        hotel_ID: data.hotel_ID,
+        ...guestsAndRoomType,
       };
       console.log(data);
       updateReservation(data);
@@ -81,7 +85,83 @@ function UpdateReservation() {
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
-      <form className="basic-form col s12" onSubmit={handleClick}>
+      <form className="update-reservation-form col s12" onSubmit={handleClick}>
+        <h3 className="form-title">Update Reservation {reservation_ID}</h3>
+        <div className="container-errors">
+          {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
+        </div>
+        <div className="row">
+          <div className="input-field col s6">
+            <input
+              id="check_in"
+              type="date"
+              className="validate"
+              value={reservationData.check_in}
+              spellCheck={false}
+              {...register("check_in", {
+                onChange: (e) => {
+                  setReservationData({
+                    ...reservationData,
+                    check_in: e.target.value,
+                  });
+                },
+              })}
+            />
+            <label htmlFor="check_in">Check In</label>
+            <div className="container-span">
+              {errors.check_in && <span>{errors.check_in.message}</span>}
+            </div>
+          </div>
+          <div className="input-field col s6">
+            <input
+              id="check_out"
+              type="date"
+              className="validate"
+              value={reservationData.check_out}
+              spellCheck={false}
+              {...register("check_out", {
+                onChange: (e) => {
+                  setReservationData({
+                    ...reservationData,
+                    check_out: e.target.value,
+                  });
+                },
+              })}
+            />
+            <label htmlFor="check_out">Check Out</label>
+            <div className="container-span">
+              {errors.check_out && <span>{errors.check_out.message}</span>}
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <ReservationOption
+            guests={1}
+            room_type={"Individual"}
+            price_per_night={reservationData.hotelPrice_per_night}
+            itsReserved={reservationData.room_type}
+          />
+          <ReservationOption
+            guests={2}
+            room_type={"Doble"}
+            price_per_night={reservationData.hotelPrice_per_night}
+            itsReserved={reservationData.room_type}
+          />
+          <ReservationOption
+            guests={3}
+            room_type={"Triple"}
+            price_per_night={reservationData.hotelPrice_per_night}
+            itsReserved={reservationData.room_type}
+          />
+          <ReservationOption
+            guests={5}
+            room_type={"Familiar"}
+            price_per_night={reservationData.hotelPrice_per_night}
+            itsReserved={reservationData.room_type}
+          />
+        </div>
+      </form>
+      {/* <form className="basic-form col s12" onSubmit={handleClick}>
         <h3 className="form-title">Update Reservation {reservation_ID}</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
@@ -174,7 +254,6 @@ function UpdateReservation() {
                   <option value="Doble">Doble</option>
                   <option value="Triple">Triple</option>
                   <option value="Familiar">Familiar</option>
-                  {/* <option value="Suite">Suite + $50</option> */}
                 </select>
               )}
             />
@@ -188,7 +267,7 @@ function UpdateReservation() {
             Update Reservation
           </button>
         </div>
-      </form>
+      </form> */}
     </>
   );
 }

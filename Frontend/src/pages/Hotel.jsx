@@ -19,6 +19,7 @@ import { verifyTokenPINRequest } from "../api/comment.api";
 import Cookie from "js-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reservationSchema } from "../validations/reservation.validation.js";
+import ReservationOption from "../components/ReservationOption.jsx";
 
 function Home() {
   const { isAuthenticated, user, error, setError } = useUserContext();
@@ -38,6 +39,7 @@ function Home() {
     setCommentsWithUser,
     isPIN,
     setIsPIN,
+    guestsAndRoomType,
   } = useHotelContext();
   const [confirmation, setConfirmation] = useState(null);
   const [datosUsar, setDatosUsar] = useState(null);
@@ -45,10 +47,6 @@ function Home() {
   const [reservationData, setReservationData] = useState({
     reservation_ID: undefined,
     PIN: undefined,
-  });
-  const [guestsAndRoomType, setGuestsAndRoomType] = useState({
-    guests: undefined,
-    room_type: undefined,
   });
   const { hotel_ID } = useParams();
   const navigate = useNavigate();
@@ -138,10 +136,6 @@ function Home() {
     }
   };
 
-  const verify = () => {
-    if (!isAuthenticated) return navigate("/login");
-  };
-
   const onSubmit = handleSubmit((data) => {
     data = { ...data, ...guestsAndRoomType };
     console.log(data);
@@ -176,25 +170,6 @@ function Home() {
       const e = error.response.data;
       e.message ? setError(e.message) : setError([e.error]);
     }
-  };
-
-  const ReservationOption = ({ guests, room_type, price_per_night }) => {
-    return (
-      <div className="guests-and-roomType">
-        <div>{guests} Guests</div>
-        <div>Room Type: {room_type}</div>
-        <div>Per Night: ${guests * price_per_night}</div>
-        <button
-          className="waves-effect waves-light btn"
-          onClick={() => {
-            verify();
-            setGuestsAndRoomType({ guests, room_type });
-          }}
-        >
-          Reserve Now
-        </button>
-      </div>
-    );
   };
 
   return (
@@ -294,7 +269,7 @@ function Home() {
         ) : (
           <p></p>
         )}
-        <form className="availability-updateHotel-form col s12" onSubmit={onSubmit}>
+        <form className="availability-form col s12" onSubmit={onSubmit}>
           <h3>Availability</h3>
           <div className="container-errors">
             {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
