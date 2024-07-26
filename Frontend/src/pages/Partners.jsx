@@ -81,51 +81,49 @@ const Partners = () => {
 
   return (
     <div className="alfa">
-      <nav>
-        <div className="nav-wrapper deep-orange lighten-2">
-          <a
-            className="hotelscom-logo"
-            onClick={() => {
-              navigate("/");
-              showReservationsNumber(null);
-            }}
-          >
-            Hotels.com
-          </a>
-          <ul id="nav-mobile">
+      <nav className="nav-wrapper">
+        <a
+          className="hotelscom-logo"
+          onClick={() => {
+            navigate("/");
+            showReservationsNumber(null);
+          }}
+        >
+          Hotels.com
+        </a>
+        <ul className="nav-wrapper_ul">
+          <li>
+            <a
+              className="waves-effect waves-light btn"
+              onClick={() => navigate(`/partners/${partner.first_name}/create`)}
+            >
+              Register Hotel
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-trigger" href="#!" data-target="dropdown1">
+              {partner.first_name}
+              <i className="material-icons right">arrow_drop_down</i>
+            </a>
+          </li>
+          <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a
-                className="waves-effect waves-light btn"
-                onClick={() => navigate(`/partners/${partner.first_name}/create`)}
-              >
-                Register Hotel
+              <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
+                Profile Data
               </a>
             </li>
+            <li className="divider" tabIndex="-1"></li>
             <li>
-              <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-                {partner.first_name}
-                <i className="material-icons right">arrow_drop_down</i>
+              <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
+                Change Password
               </a>
             </li>
-            <ul id="dropdown1" className="dropdown-content">
-              <li>
-                <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
-                  Profile Data
-                </a>
-              </li>
-              <li className="divider" tabIndex="-1"></li>
-              <li>
-                <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
-                  Change Password
-                </a>
-              </li>
-              <li className="divider" tabIndex="-1"></li>
-              <li>
-                <a onClick={logout}>Logout</a>
-              </li>
-            </ul>
+            <li className="divider" tabIndex="-1"></li>
+            <li>
+              <a onClick={logout}>Logout</a>
+            </li>
           </ul>
-        </div>
+        </ul>
       </nav>
       <h3 className="title">My Hotels</h3>
       {hotels.length === 0 ? (

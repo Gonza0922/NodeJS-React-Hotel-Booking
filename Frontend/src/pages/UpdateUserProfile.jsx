@@ -98,47 +98,45 @@ function UpdateUserProfile() {
 
   return (
     <>
-      <nav>
-        <div className="nav-wrapper deep-orange lighten-2">
-          <a className="hotelscom-logo" onClick={() => navigate("/")}>
-            Hotels.com
-          </a>
-          <ul id="nav-mobile">
+      <nav className="nav-wrapper">
+        <a className="hotelscom-logo" onClick={() => navigate("/")}>
+          Hotels.com
+        </a>
+        <ul className="nav-wrapper_ul">
+          <li>
+            <a
+              className="waves-effect waves-light btn red darken-2"
+              onClick={() => setConfirmDelete(true)}
+            >
+              Delete Profile
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-trigger" href="#!" data-target="dropdown1">
+              {user.first_name}
+              <i className="material-icons right">arrow_drop_down</i>
+            </a>
+          </li>
+          <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a
-                className="waves-effect waves-light btn red darken-2"
-                onClick={() => setConfirmDelete(true)}
-              >
-                Delete Profile
+              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
+            </li>
+            <li className="divider" tabIndex="-1"></li>
+            <li>
+              <a onClick={() => navigate(`/users/${user.first_name}/password`)}>
+                Change Password
               </a>
             </li>
+            <li className="divider" tabIndex="-2"></li>
             <li>
-              <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-                {user.first_name}
-                <i className="material-icons right">arrow_drop_down</i>
-              </a>
+              <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
             </li>
-            <ul id="dropdown1" className="dropdown-content">
-              <li>
-                <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
-              </li>
-              <li className="divider" tabIndex="-1"></li>
-              <li>
-                <a onClick={() => navigate(`/users/${user.first_name}/password`)}>
-                  Change Password
-                </a>
-              </li>
-              <li className="divider" tabIndex="-2"></li>
-              <li>
-                <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
-              </li>
-              <li className="divider" tabIndex="-3"></li>
-              <li>
-                <a onClick={logout}>Logout</a>
-              </li>
-            </ul>
+            <li className="divider" tabIndex="-3"></li>
+            <li>
+              <a onClick={logout}>Logout</a>
+            </li>
           </ul>
-        </div>
+        </ul>
       </nav>
       <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
         <h3 className="title-update">Update Profile</h3>

@@ -18,75 +18,73 @@ function NavbarUser() {
   };
 
   return (
-    <nav>
-      <div className="nav-wrapper deep-orange lighten-2">
-        <div className="hotelscom-logo" onClick={() => navigate("/")}>
-          Hotels.com
-        </div>
-        <form className="search-form">
-          <div className="input-field">
-            <input
-              id="search"
-              type="search"
-              value={hotelSearch}
-              placeholder="Where to?"
-              onChange={handleClick}
-              autoComplete="off"
-              spellCheck={false}
-            ></input>
-            <label className="label-icon">
-              <i className="material-icons">search</i>
-            </label>
-            <i
-              className="material-icons"
-              onClick={() => {
-                setHotelSearch("");
-                filtrar("");
-              }}
-            >
-              close
-            </i>
-          </div>
-        </form>
-        <ul id="nav-mobile">
-          <li>
-            <a onClick={() => navigate("/LoginPartner")}>Publish</a>
-          </li>
-          <li>
-            <a
-              className="waves-effect waves-light btn"
-              onClick={() => navigate(`/users/${user.first_name}/reservations`)}
-            >
-              Reservations
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-              {user.first_name}
-              <i className="material-icons right">arrow_drop_down</i>
-            </a>
-          </li>
-          <ul id="dropdown1" className="dropdown-content">
-            <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
-            </li>
-            <li className="divider" tabIndex="-1"></li>
-            <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/password`)}>
-                Change Password
-              </a>
-            </li>
-            <li className="divider" tabIndex="-2"></li>
-            <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
-            </li>
-            <li className="divider" tabIndex="-3"></li>
-            <li>
-              <a onClick={logout}>Logout</a>
-            </li>
-          </ul>
-        </ul>
+    <nav className="nav-wrapper">
+      <div className="hotelscom-logo" onClick={() => navigate("/")}>
+        Hotels.com
       </div>
+      <form className="search-hotel">
+        <div className="input-field">
+          <input
+            id="search"
+            type="search"
+            value={hotelSearch}
+            placeholder="Where to?"
+            onChange={handleClick}
+            autoComplete="off"
+            spellCheck={false}
+          ></input>
+          <label className="label-icon">
+            <i className="material-icons">search</i>
+          </label>
+          <i
+            className="material-icons"
+            onClick={() => {
+              setHotelSearch("");
+              filtrar("");
+            }}
+          >
+            close
+          </i>
+        </div>
+      </form>
+      <ul className="nav-wrapper_ul">
+        <li>
+          <a className="button-publish" onClick={() => navigate("/LoginPartner")}>
+            Publish
+          </a>
+        </li>
+        <li>
+          <a
+            className="waves-effect waves-light btn"
+            onClick={() => navigate(`/users/${user.first_name}/reservations`)}
+          >
+            Reservations
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-trigger" href="#!" data-target="dropdown1">
+            {user.first_name}
+            <i className="material-icons right">arrow_drop_down</i>
+          </a>
+        </li>
+        <ul id="dropdown1" className="dropdown-content">
+          <li>
+            <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
+          </li>
+          <li className="divider" tabIndex="-1"></li>
+          <li>
+            <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Change Password</a>
+          </li>
+          <li className="divider" tabIndex="-2"></li>
+          <li>
+            <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
+          </li>
+          <li className="divider" tabIndex="-3"></li>
+          <li>
+            <a onClick={logout}>Logout</a>
+          </li>
+        </ul>
+      </ul>
     </nav>
   );
 }

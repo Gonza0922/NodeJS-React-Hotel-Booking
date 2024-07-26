@@ -1,0 +1,46 @@
+/* nav */
+.nav-wrapper {
+  width: 100vw;
+  height: 85px;
+  background-color: #ff8a65;
+  min-width: 1260px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* div */
+.hotelscom-logo {
+  font-size: 30px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* form */
+.search-hotel {
+  width: 30%;
+  border: none;
+  padding: 5px 0px;
+}
+
+/* input */
+#search {
+  border-bottom: 1px solid rgb(155, 155, 155);
+}
+
+/* ul */
+.nav-wrapper_ul {
+  margin-right: 20px;
+}
+
+/* a */
+.button-publish {
+  padding: 0px 30px;
+}
+
+/* a */
+.dropdown-trigger {
+  font-size: 20px;
+  padding: 0px 37px;
+}
