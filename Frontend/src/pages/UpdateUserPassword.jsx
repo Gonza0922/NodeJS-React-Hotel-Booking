@@ -32,8 +32,8 @@ function UpdateUserPassword() {
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Update User Password</h3>
+      <form className="basic-form col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Update User Password</h3>
         <div className="container-errors">
           {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -106,7 +106,7 @@ function UpdateUserPassword() {
             </div>
           </div>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button type="submit" className="waves-effect waves-light btn">
             Update Password
           </button>

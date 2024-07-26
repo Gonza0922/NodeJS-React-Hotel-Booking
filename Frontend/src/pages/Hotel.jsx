@@ -181,9 +181,9 @@ function Home() {
   const ReservationOption = ({ guests, room_type, price_per_night }) => {
     return (
       <div className="guests-and-roomType">
-        <div className="guests">{guests} Guests</div>
-        <div className="roomType">Room Type: {room_type}</div>
-        <div className="price-per-night">Per Night: ${guests * price_per_night}</div>
+        <div>{guests} Guests</div>
+        <div>Room Type: {room_type}</div>
+        <div>Per Night: ${guests * price_per_night}</div>
         <button
           className="waves-effect waves-light btn"
           onClick={() => {
@@ -235,7 +235,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="container-hotel-form">
+      <div className="container-hotel-info">
         <div id="card-selected" className="card">
           <div className="card-content">
             <span className="card-title">{hotel.name}</span>
@@ -294,7 +294,7 @@ function Home() {
         ) : (
           <p></p>
         )}
-        <form id="availability-form" className="form col s12" onSubmit={onSubmit}>
+        <form className="availability-updateHotel-form col s12" onSubmit={onSubmit}>
           <h3>Availability</h3>
           <div className="container-errors">
             {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
@@ -360,7 +360,7 @@ function Home() {
         <div className="comment-container">
           <div className="comment">
             <button
-              className="button-back"
+              className="comment_button-back"
               onClick={() => {
                 setConfirmation(null);
                 document.body.style.overflowY = "auto";
@@ -425,7 +425,7 @@ function Home() {
         <div className="comment-container">
           <div className="comment">
             <button
-              className="button-back"
+              className="comment_button-back"
               onClick={() => {
                 setConfirmation(null);
                 document.body.style.overflowY = "auto";
@@ -463,15 +463,17 @@ function Home() {
         {commentsWithUser.map((comment, index) => (
           <div key={index} id="comment-card" className="card">
             <div className="card-content">
-              <div className="profile">
-                <div className="initial">{comment.first_name.split("")[0]}</div>
-                <div className="name">
+              <div className="comment_profile">
+                <div className="comment_initial">{comment.first_name.split("")[0]}</div>
+                <div className="comment_name">
                   {comment.first_name} {comment.last_name}
-                  <p className="comment-nacionality">{comment.nacionality}</p>
+                  <p className="comment_nacionality">{comment.nacionality}</p>
                 </div>
               </div>
-              <div className="reviewed">Reviewed: {transformDateZ(comment.comment_date)}</div>
-              <p className="content">"{comment.content}"</p>
+              <div className="comment_reviewed">
+                Reviewed: {transformDateZ(comment.comment_date)}
+              </div>
+              <p className="comment_content">"{comment.content}"</p>
             </div>
           </div>
         ))}

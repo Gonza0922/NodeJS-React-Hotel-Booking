@@ -1,0 +1,158 @@
+/* form */
+.basic-form,
+.create-update-hotel {
+  padding: 10px 40px;
+  margin: 20px auto;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px;
+}
+
+/* form */
+.basic-form {
+  width: 550px;
+}
+
+/* form */
+.create-update-hotel {
+  width: 600px;
+}
+
+/* h3 */
+.basic-form h3,
+.create-update-hotel h3 {
+  text-align: center;
+}
+
+/* div */
+.universal-container-button {
+  text-align: center;
+  margin: 20px;
+}
+
+.form-title {
+  margin-bottom: 40px;
+}
+
+/* LOGINS AND REGISTERS */
+
+.linkToRegister,
+.linkToLogin {
+  color: blue;
+}
+
+/* AVAILABILITY AND UPDATE RESERVATION */
+.availability-updateHotel-form {
+  width: 42%;
+  padding: 20px;
+  margin: 20px 0px 20px 20px;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
+}
+
+/* h3 */
+.availability-updateHotel-form h3 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+/* input */
+#check_out,
+#check_in {
+  cursor: pointer;
+}
+
+/* div */
+.guests-and-roomType {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  margin: 10px;
+  padding: 8px;
+}
+
+/* COMMENTS */
+#comment-form {
+  width: 100%;
+  margin-left: 0px;
+}
+
+.info-verify-PIN {
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.container-comments {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#comment-card {
+  width: 400px;
+  margin: 20px;
+}
+
+.comment_profile {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+.comment_initial {
+  width: 35px;
+  height: 35px;
+  background-color: rgb(245, 153, 67);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.comment_name {
+  font-size: 18px;
+}
+
+.comment_nacionality {
+  font-size: 12px;
+}
+
+.comment_button-back {
+  float: right;
+  border: none;
+  background-color: rgb(248, 248, 248);
+  cursor: pointer;
+}
+
+.comment_button-back:hover {
+  background-color: rgb(216, 215, 215);
+}
+
+.comment_content,
+.comment_reviewed {
+  padding: 5px 0px;
+}
+
+.delete-confirm,
+.comment {
+  text-align: center;
+  background-color: white;
+  width: 35%;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#create-comment,
+#update-comment {
+  height: 110px;
+  border: 1px solid black;
+  font-size: 18px;
+  resize: none;
+  padding: 10px;
+  margin: 20px 0px;
+  outline: none;
+}

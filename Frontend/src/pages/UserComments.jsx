@@ -112,12 +112,12 @@ function UserComments() {
           <div key={index} className="container-my-comments">
             <div id="card-comments" className="card">
               <div className="card-content">
-                <span className="comment-id">Comment_ID: {comment.comment_ID}</span>
+                <span className="my-comment_id">Comment_ID: {comment.comment_ID}</span>
                 <span>Reviewed: {resetDate(comment.comment_date)}</span>
                 {commentHotel < 1 ? (
                   <p></p>
                 ) : (
-                  <h6 className="comment-hotel">To: {commentHotel[index].name}</h6>
+                  <h6 className="my-comment_hotel">To: {commentHotel[index].name}</h6>
                 )}
                 {comment.isEditing ? (
                   <>
@@ -133,9 +133,9 @@ function UserComments() {
                     />
                   </>
                 ) : (
-                  <span className="comment-content">"{comment.content}"</span>
+                  <span className="my-comment_content">"{comment.content}"</span>
                 )}
-                <div className="container-edit-delete">
+                <div className="container-my-comment_edit-delete">
                   <button
                     onClick={() => showConfirmDelete(comment.comment_ID)}
                     className="delete waves-effect waves-light btn red darken-2"

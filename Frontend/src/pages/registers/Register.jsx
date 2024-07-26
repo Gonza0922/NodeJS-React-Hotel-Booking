@@ -43,8 +43,8 @@ export function Register() {
   return (
     <>
       <NavbarLRP />
-      <form className="form-login-register col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Register Account</h3>
+      <form className="basic-form col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Register Account</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -173,7 +173,7 @@ export function Register() {
             Sign In
           </Link>
         </div>
-        <div className="container-button-login-register">
+        <div className="universal-container-button">
           <button type="submit" id="reserve" className="waves-effect waves-light btn">
             {load}
           </button>

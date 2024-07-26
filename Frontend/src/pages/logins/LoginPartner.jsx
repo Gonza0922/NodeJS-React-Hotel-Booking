@@ -28,8 +28,8 @@ export function LoginPartner() {
   return (
     <>
       <NavbarLRP />
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Login Partner</h3>
+      <form className="basic-form col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Login Partner</h3>
         <div className="container-errors">
           {error === "Partner not found" ? (
             <div className="error">{error}</div>
@@ -78,16 +78,16 @@ export function LoginPartner() {
               {errors.password && <span>{errors.password.message}</span>}
             </div>
           </div>
-          <div className="container-button-login-register-partner">
+          <div className="universal-container-button">
             <button type="submit" id="reserve" className="waves-effect waves-light btn">
               Sign In
             </button>
           </div>
-          <div className="container-button-login-register-partner">
+          <div className="universal-container-button">
             <button
               type="button"
               id="reserve"
-              onClick={() => navigate("/RegisterPartner")}
+              onClick={() => navigate("/registerpartner")}
               className="waves-effect waves-light btn"
             >
               Create yor partner account

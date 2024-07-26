@@ -160,8 +160,8 @@ function UpdateHotel() {
   return (
     <>
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Update Hotel {hotel_ID}</h3>
+      <form className="create-update-hotel col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Update Hotel {hotel_ID}</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -379,7 +379,7 @@ function UpdateHotel() {
             </div>
           </div>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button type="submit" className="waves-effect waves-light btn">
             {load}
           </button>

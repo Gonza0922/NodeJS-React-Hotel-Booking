@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { usePartnerContext } from "../context/PartnerContext";
-import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { putPartnerIdPasswordRequest } from "../api/partner.api";
+import NavbarMenuPartner from "../components/Navbars/NavbarMenuPartner";
 
 function UpdatePartnerPassword() {
   const { logout, partner, error, setError } = usePartnerContext();
@@ -31,9 +31,9 @@ function UpdatePartnerPassword() {
 
   return (
     <>
-      <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Update Partner Password</h3>
+      <NavbarMenuPartner navigation={"partners"} profile={partner} logout={logout} />
+      <form className="basic-form  col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Update Partner Password</h3>
         <div className="container-errors">
           {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -106,7 +106,7 @@ function UpdatePartnerPassword() {
             </div>
           </div>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button type="submit" className="waves-effect waves-light btn">
             Update Password
           </button>

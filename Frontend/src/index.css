@@ -9,16 +9,14 @@ body {
   /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
 }
 
+/* hotel description */
 pre {
   display: inline;
   white-space: pre-wrap;
   font-family: inherit;
 }
 
-.linkToRegister,
-.linkToLogin {
-  color: blue;
-}
+/* ERRORS */
 
 .container-errors {
   background-color: red;
@@ -34,6 +32,8 @@ pre {
 .container-span {
   color: red;
 }
+
+/* PRINCIPAL */
 
 .alfa {
   position: relative;
@@ -143,13 +143,6 @@ pre {
   border-radius: 8px 0px 0px 8px;
 }
 
-.form {
-  padding: 20px;
-  margin: 20px 0px 20px 20px;
-  border-radius: 5px;
-  background-color: rgb(241, 241, 241);
-}
-
 .container-input .label {
   text-align: start;
 }
@@ -158,12 +151,6 @@ pre {
 .container-button-comment {
   text-align: center;
   margin: 10px;
-}
-
-.form h3 {
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 30px;
 }
 
 #card-selected,
@@ -190,40 +177,10 @@ pre {
   max-width: 660px;
 }
 
-.container-hotel-form {
+.container-hotel-info {
   display: flex;
   justify-content: center;
   align-items: start;
-}
-
-.form-update-reservation {
-  padding: 0px 40px;
-  margin: 20px auto;
-  border: 1px solid black;
-  border-radius: 10px;
-}
-
-.form-update-reservation h3 {
-  text-align: center;
-}
-
-.form-login-register,
-.form-login-register-partner {
-  padding: 10px 40px;
-  margin: 20px auto;
-  background-color: rgb(241, 241, 241);
-  border-radius: 5px;
-}
-
-.form-login-register h3,
-.form-login-register-partner h3 {
-  text-align: center;
-}
-
-.container-button-login-register,
-.container-button-login-register-partner {
-  text-align: center;
-  margin: 20px;
 }
 
 #reserve {
@@ -255,10 +212,6 @@ pre {
 #title-reservation,
 #title-comment {
   display: inline-block;
-}
-
-.title-update {
-  margin-bottom: 40px;
 }
 
 .delete,
@@ -431,124 +384,7 @@ pre {
   cursor: text;
 }
 
-/* AVAILABILITY */
-
-#availability-form {
-  width: 42%;
-}
-
-select,
-#check_out,
-#check_in {
-  cursor: pointer;
-}
-
-.guests-and-roomType {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-  margin: 10px;
-  padding: 8px;
-}
-
-.guests,
-.roomType,
-.price-per-night {
-  padding: 5px;
-}
-
-.btn-reserve {
-  color: white;
-  background-color: #26a69a;
-  padding: 5px;
-  border-radius: 2px;
-  cursor: pointer;
-  outline: none;
-  border: none;
-}
-
-.btn-reserve:hover {
-  background-color: #4db6ac;
-}
-
-/* COMMENT */
-
-.container-comments {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#comment-card {
-  width: 400px;
-  margin: 20px;
-}
-
-.profile {
-  display: flex;
-  align-items: center;
-  margin: 5px 0px;
-}
-
-.initial {
-  width: 35px;
-  height: 35px;
-  background-color: rgb(245, 153, 67);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  color: #fff;
-  margin-right: 10px;
-}
-
-.name {
-  font-size: 18px;
-}
-
-.button-back {
-  float: right;
-  border: none;
-  background-color: white;
-  cursor: pointer;
-}
-
-.button-back:hover {
-  background-color: rgb(216, 215, 215);
-}
-
-.content,
-.reviewed {
-  padding: 5px 0px;
-}
-
-.delete-confirm,
-.comment {
-  text-align: center;
-  background-color: white;
-  width: 35%;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-#create-comment,
-#update-comment {
-  height: 110px;
-  border: 1px solid black;
-  font-size: 18px;
-  resize: none;
-  padding: 10px;
-  margin: 20px 0px;
-  outline: none;
-}
-
-.comment-nacionality {
-  font-size: 12px;
-}
-
-/* my reviews */
+/* MY REVIEWS */
 
 .my-reviews-title {
   text-align: center;
@@ -560,45 +396,18 @@ select,
   align-items: center;
 }
 
-.container-edit-delete {
-  margin: 10px 0px;
-}
-
-.comment-id {
+.my-comment_id {
   float: right;
 }
 
-.comment-hotel {
+.my-comment_hotel {
   font-weight: bold;
 }
 
-.comment-content {
+.my-comment_content {
   font-size: 18px;
 }
 
-/* FOOTER */
-
-.footer {
-  position: relative;
-  width: 100%;
-  height: 100px;
-  background-color: #ff8a65;
-  padding: 20px 0px;
-}
-
-.footer-span {
-  position: absolute;
-  color: white;
-  margin: 0px 20px;
-  bottom: 20px;
-}
-
-#comment-form {
-  width: 100%;
-  margin-left: 0px;
-}
-
-.info-verify-PIN {
-  margin-top: 20px;
-  font-size: 12px;
+.container-my-comment_edit-delete {
+  margin: 10px 0px;
 }

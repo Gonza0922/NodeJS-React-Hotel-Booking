@@ -138,8 +138,8 @@ function UpdateUserProfile() {
           </ul>
         </ul>
       </nav>
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Update Profile</h3>
+      <form className="basic-form col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Update Profile</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -265,7 +265,7 @@ function UpdateUserProfile() {
             </div>
           </div>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button type="submit" className="waves-effect waves-light btn">
             {load}
           </button>

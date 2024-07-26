@@ -42,8 +42,8 @@ export function RegisterPartner() {
   return (
     <>
       <NavbarLRP />
-      <form className="form-login-register-partner col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Register Partner</h3>
+      <form className="basic-form col s12" onSubmit={onSubmit}>
+        <h3 className="form-title">Register Partner</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
@@ -166,15 +166,15 @@ export function RegisterPartner() {
             </div>
           </div>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button type="submit" className="waves-effect waves-light btn">
             {load}
           </button>
         </div>
-        <div className="container-button-login-register-partner">
+        <div className="universal-container-button">
           <button
             type="button"
-            onClick={() => navigate("/LoginPartner")}
+            onClick={() => navigate("/loginpartner")}
             className="waves-effect waves-light btn"
           >
             Login yor partner account
