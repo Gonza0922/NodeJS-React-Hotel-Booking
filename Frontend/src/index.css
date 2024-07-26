@@ -185,8 +185,8 @@ form {
 .form {
   padding: 20px;
   margin: 20px 0px 20px 20px;
-  border-radius: 10px;
-  border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(241, 241, 241);
 }
 
 .container-input .label {
@@ -246,20 +246,27 @@ form {
   text-align: center;
 }
 
-.form-login-register {
-  padding: 0px 40px;
+.form-login-register,
+.form-login-register-partner {
+  padding: 10px 40px;
   margin: 20px auto;
-  border: 1px solid black;
-  border-radius: 10px;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px;
 }
 
-.form-login-register h3 {
+.form-login-register h3,
+.form-login-register-partner h3 {
   text-align: center;
 }
 
-.container-button-login-register {
+.container-button-login-register,
+.container-button-login-register-partner {
   text-align: center;
   margin: 20px;
+}
+
+#reserve {
+  padding: 0px 40px;
 }
 
 .row-inputs {
@@ -269,23 +276,6 @@ form {
 .input-field {
   border: none;
   padding: 0px 10px;
-}
-
-.form-login-register-partner {
-  min-width: 500px;
-  padding: 0px 40px;
-  margin: 20px auto;
-  border: 1px solid black;
-  border-radius: 10px;
-}
-
-.form-login-register-partner h3 {
-  text-align: center;
-}
-
-.container-button-login-register-partner {
-  text-align: center;
-  margin: 20px;
 }
 
 .user {
@@ -501,9 +491,9 @@ select,
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid black;
+  background-color: white;
   margin: 10px;
-  padding: 5px;
+  padding: 8px;
 }
 
 .guests,

@@ -27,7 +27,7 @@ function Home() {
       {!isAuthenticated ? <Navbar /> : <NavbarUser />}
       <div className="row">
         {hotels.length < 1 ? (
-          <h1 className="hotel-not-found">HOTEL NOT FOUND</h1>
+          <h1 className="hotel-not-found">Hotel Not Found...</h1>
         ) : (
           hotels.map((hotel, index) => (
             <div key={index} className="col s12 m10">

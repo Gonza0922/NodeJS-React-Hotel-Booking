@@ -29,7 +29,7 @@ export function Login() {
     <>
       <NavbarLRP />
       <form className="form-login-register col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Login</h3>
+        <h3 className="title-update">Login Account</h3>
         <div className="container-errors">
           {error === "User not found" ? (
             <div className="error">{error}</div>
@@ -85,11 +85,7 @@ export function Login() {
             </Link>
           </div>
           <div className="container-button-login-register">
-            <button
-              type="submit"
-              id="reserve"
-              className="waves-effect waves-light btn"
-            >
+            <button type="submit" id="reserve" className="waves-effect waves-light btn">
               Sign In
             </button>
           </div>

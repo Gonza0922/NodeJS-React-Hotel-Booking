@@ -44,7 +44,7 @@ export function Register() {
     <>
       <NavbarLRP />
       <form className="form-login-register col s12" onSubmit={onSubmit}>
-        <h3 className="title-update">Register</h3>
+        <h3 className="title-update">Register Account</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
