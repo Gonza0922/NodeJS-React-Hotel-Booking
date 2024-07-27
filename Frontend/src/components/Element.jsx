@@ -29,11 +29,11 @@ const Element = ({ bookings, hotel_ID }) => {
     <>
       <div>
         {bookings === undefined ? (
-          <div className="container-who-reserved">
+          <div className="container-select-who-reserved-card">
             <h5>There´s not Reservations</h5>
           </div>
         ) : bookings.length > 1 ? (
-          <div className="container-who-reserved">
+          <div className="container-select-who-reserved-card">
             <h5>There´s {bookings.length} Reservations</h5>
             <button
               onClick={handleClick}
@@ -43,7 +43,7 @@ const Element = ({ bookings, hotel_ID }) => {
             </button>
           </div>
         ) : typeof bookings === "object" ? (
-          <div className="container-who-reserved">
+          <div className="container-select-who-reserved-card">
             <h5>There´s 1 Reservation</h5>
             <button
               onClick={clickGetUser}

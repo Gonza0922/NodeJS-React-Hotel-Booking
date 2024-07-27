@@ -1,0 +1,55 @@
+/* CARDS */
+
+/* Home */
+#home-card {
+  display: flex;
+  cursor: pointer;
+  margin: 40px 0px;
+  color: black;
+}
+
+#home-card .card-content {
+  padding: 20px 30px;
+}
+
+/* Hotel */
+#hotel-selected-card {
+  width: 47%;
+  margin-top: 20px;
+}
+
+/* Reservations */
+#reservations-card {
+  width: 60%;
+  margin: 15px 15px;
+}
+
+#reservations-title {
+  display: inline-block;
+}
+
+/* Partners */
+#partners-card {
+  width: 60%;
+  margin: 20px 20px;
+}
+
+/* Comments */
+#comments-card {
+  padding-bottom: 20px;
+  min-width: 550px;
+  max-width: 660px;
+  margin: 15px 15px;
+}
+
+/* Who-Reserve */
+#who-reserved-card {
+  padding: 20px;
+  margin: 10px;
+  width: 400px;
+  background-color: rgb(255, 255, 255);
+}
+
+#select-who-reserved-card {
+  margin-left: 50px;
+}

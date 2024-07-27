@@ -51,7 +51,7 @@ function Reservations() {
   };
 
   return (
-    <div className="alfa">
+    <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <h3 className="title">My Reservations</h3>
       {reservations.length === 0 ? (
@@ -64,7 +64,7 @@ function Reservations() {
       ) : (
         reservations.map((reservation, index) => (
           <div key={index} className="hotel-and-who-reserved">
-            <div id="card-reservations" className="card">
+            <div id="reservations-card" className="card">
               <div className="card-content">
                 <h6>Reservation Date: {resetDate(reservation.reservation_date)}</h6>
                 <h5>Check In: {resetDate(reservation.check_in)}</h5>
@@ -77,7 +77,7 @@ function Reservations() {
                 {reservationHotel < 1 ? (
                   <p></p>
                 ) : (
-                  <span id="title-reservation" className="card-title">
+                  <span id="reservations-title" className="card-title">
                     {reservationHotel[index].name}
                   </span>
                 )}
@@ -107,7 +107,7 @@ function Reservations() {
           </div>
         ))
       )}
-    </div>
+    </>
   );
 }
 

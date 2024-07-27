@@ -66,103 +66,99 @@ function WhoReserved() {
       <h3 className="title">Clients who reserved at {hotel.name}</h3>
       <div>
         {typeof bookings === "object" && !Array.isArray(bookings) ? (
-          <div className="container-components">
-            <div id="who-reserved" className="card who-reserved">
-              <div className="component-who-reserved">
+          <div className="container-who-reserved-card">
+            <div id="who-reserved-card" className="card who-reserved">
+              {typeof users === "object" && !Array.isArray(users) ? (
+                <h5 className="name">
+                  {users.first_name} {users.last_name}
+                </h5>
+              ) : Array.isArray(users) ? (
+                <h5>Hay mas de 1 usuario</h5>
+              ) : (
+                <Navigate to={`/partners/${partner.first_name}`} replace />
+              )}
+              <hr />
+              <div className="who-reserved-card_container-data">
+                <h6>Reservation Date:</h6> {resetDate(bookings.reservation_date)}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Check In:</h6> {resetDate(bookings.check_in)}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Check Out:</h6> {resetDate(bookings.check_out)}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Nights:</h6> {bookings.nights}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Guests:</h6> {bookings.guests}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Room Type:</h6> {bookings.room_type}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Person Price:</h6> ${bookings.person_price}
+              </div>
+              <div className="who-reserved-card_container-data">
+                <h6>Total Price:</h6> ${bookings.total_price}
+              </div>
+              <button
+                onClick={() => showConfirmDelete(bookings.reservation_ID)}
+                className="button-decline waves-effect waves-light btn red darken-2"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        ) : Array.isArray(bookings) ? (
+          <div className="container-who-reserved-card">
+            {bookings.map((reserve, index) => (
+              <div id="who-reserved-card" className="card" key={index}>
                 {typeof users === "object" && !Array.isArray(users) ? (
                   <h5 className="name">
                     {users.first_name} {users.last_name}
                   </h5>
                 ) : Array.isArray(users) ? (
-                  <h5>Hay mas de 1 usuario</h5>
+                  <h5 key={index} className="name">
+                    {users[index].first_name} {users[index].last_name}
+                  </h5>
                 ) : (
                   <Navigate to={`/partners/${partner.first_name}`} replace />
                 )}
                 <hr />
-                <div className="container-data">
-                  <h6>Reservation Date:</h6> {resetDate(bookings.reservation_date)}
+                <div className="who-reserved-card_container-data">
+                  <h6>Reservation Date:</h6> {resetDate(reserve.reservation_date)}
                 </div>
-                <div className="container-data">
-                  <h6>Check In:</h6> {resetDate(bookings.check_in)}
+                <div className="who-reserved-card_container-data">
+                  <h6>Check In:</h6> {resetDate(reserve.check_in)}
                 </div>
-                <div className="container-data">
-                  <h6>Check Out:</h6> {resetDate(bookings.check_out)}
+                <div className="who-reserved-card_container-data">
+                  <h6>Check Out:</h6> {resetDate(reserve.check_out)}
                 </div>
-                <div className="container-data">
-                  <h6>Nights:</h6> {bookings.nights}
+                <div className="who-reserved-card_container-data">
+                  <h6>Nights:</h6> {reserve.nights}
                 </div>
-                <div className="container-data">
-                  <h6>Guests:</h6> {bookings.guests}
+                <div className="who-reserved-card_container-data">
+                  <h6>Guests:</h6> {reserve.guests}
                 </div>
-                <div className="container-data">
-                  <h6>Room Type:</h6> {bookings.room_type}
+                <div className="who-reserved-card_container-data">
+                  <h6>Room Type:</h6> {reserve.room_type}
                 </div>
-                <div className="container-data">
-                  <h6>Person Price:</h6> ${bookings.person_price}
+                <div className="who-reserved-card_container-data">
+                  <h6>Person Price:</h6> ${reserve.person_price}
                 </div>
-                <div className="container-data">
-                  <h6>Total Price:</h6> ${bookings.total_price}
+                <div className="who-reserved-card_container-data">
+                  <h6>Total Price:</h6> ${reserve.total_price}
                 </div>
                 <button
-                  onClick={() => showConfirmDelete(bookings.reservation_ID)}
+                  onClick={() => {
+                    setIdToDelete(reserve.reservation_ID);
+                    showConfirmDelete(reserve.reservation_ID);
+                  }}
                   className="button-decline waves-effect waves-light btn red darken-2"
                 >
                   Decline
                 </button>
-              </div>
-            </div>
-          </div>
-        ) : Array.isArray(bookings) ? (
-          <div className="container-components">
-            {bookings.map((reserve, index) => (
-              <div id="who-reserved" className="card" key={index}>
-                <div className="component-who-reserved">
-                  {typeof users === "object" && !Array.isArray(users) ? (
-                    <h5 className="name">
-                      {users.first_name} {users.last_name}
-                    </h5>
-                  ) : Array.isArray(users) ? (
-                    <h5 key={index} className="name">
-                      {users[index].first_name} {users[index].last_name}
-                    </h5>
-                  ) : (
-                    <Navigate to={`/partners/${partner.first_name}`} replace />
-                  )}
-                  <hr />
-                  <div className="container-data">
-                    <h6>Reservation Date:</h6> {resetDate(reserve.reservation_date)}
-                  </div>
-                  <div className="container-data">
-                    <h6>Check In:</h6> {resetDate(reserve.check_in)}
-                  </div>
-                  <div className="container-data">
-                    <h6>Check Out:</h6> {resetDate(reserve.check_out)}
-                  </div>
-                  <div className="container-data">
-                    <h6>Nights:</h6> {reserve.nights}
-                  </div>
-                  <div className="container-data">
-                    <h6>Guests:</h6> {reserve.guests}
-                  </div>
-                  <div className="container-data">
-                    <h6>Room Type:</h6> {reserve.room_type}
-                  </div>
-                  <div className="container-data">
-                    <h6>Person Price:</h6> ${reserve.person_price}
-                  </div>
-                  <div className="container-data">
-                    <h6>Total Price:</h6> ${reserve.total_price}
-                  </div>
-                  <button
-                    onClick={() => {
-                      setIdToDelete(reserve.reservation_ID);
-                      showConfirmDelete(reserve.reservation_ID);
-                    }}
-                    className="button-decline waves-effect waves-light btn red darken-2"
-                  >
-                    Decline
-                  </button>
-                </div>
               </div>
             ))}
           </div>

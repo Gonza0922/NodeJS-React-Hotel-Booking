@@ -97,7 +97,7 @@ function UserComments() {
   };
 
   return (
-    <div className="alfa">
+    <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <h3 className="my-reviews-title">My Reviews</h3>
       {comments.length === 0 ? (
@@ -110,7 +110,7 @@ function UserComments() {
       ) : (
         comments.map((comment, index) => (
           <div key={index} className="container-my-comments">
-            <div id="card-comments" className="card">
+            <div id="comments-card" className="card">
               <div className="card-content">
                 <span className="my-comment_id">Comment_ID: {comment.comment_ID}</span>
                 <span>Reviewed: {resetDate(comment.comment_date)}</span>
@@ -163,7 +163,7 @@ function UserComments() {
           </div>
         ))
       )}
-    </div>
+    </>
   );
 }
 

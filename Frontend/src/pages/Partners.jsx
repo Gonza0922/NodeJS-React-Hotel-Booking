@@ -80,7 +80,7 @@ const Partners = () => {
   };
 
   return (
-    <div className="alfa">
+    <>
       <nav className="nav-wrapper">
         <a
           className="hotelscom-logo"
@@ -139,7 +139,7 @@ const Partners = () => {
       ) : (
         hotels.map((hotel, index) => (
           <div key={index} className="hotel-and-who-reserved">
-            <div id="card-partners" className="card">
+            <div id="partners-card" className="card">
               <div className="card-content">
                 <span className="card-title">{hotel.name}</span>
                 <h5>${hotel.price_per_night}</h5>
@@ -152,7 +152,7 @@ const Partners = () => {
                     showReservationsNumber(hotel.hotel_ID);
                     bookingsView(hotel);
                   }}
-                  className="reservations waves-effect waves-light btn teal lighten-1"
+                  className="button-reservations waves-effect waves-light btn teal lighten-1"
                 >
                   Reservations
                 </button>
@@ -170,7 +170,7 @@ const Partners = () => {
                 </button>
               </div>
             </div>
-            <div id="who-reserved" className="card">
+            <div id="select-who-reserved-card" className="card">
               {hotel.hotel_ID === elementView.reservationsNumber && (
                 <Element bookings={bookings} hotel_ID={hotel.hotel_ID} />
               )}
@@ -196,7 +196,7 @@ const Partners = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

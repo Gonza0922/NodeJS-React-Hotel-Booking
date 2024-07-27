@@ -241,7 +241,7 @@ function CreateHotel() {
         </div>
         <div className="row-input">
           <div className="input-field col s12">
-            <div className="file-select" id="src-file1">
+            <div className="container-file-select" id="src-file1">
               <input
                 name="principalImg"
                 id="principalImg"
@@ -278,7 +278,7 @@ function CreateHotel() {
         </div>
         <div className="row-input">
           <div className="input-field col s12">
-            <div className="file-select" id="src-file2">
+            <div className="container-file-select" id="src-file2">
               <input
                 name="moreImages"
                 id="moreImages"

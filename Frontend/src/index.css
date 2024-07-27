@@ -6,14 +6,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
   min-width: 1260px;
-  /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
-}
-
-/* hotel description */
-pre {
-  display: inline;
-  white-space: pre-wrap;
-  font-family: inherit;
 }
 
 /* ERRORS */
@@ -33,77 +25,71 @@ pre {
   color: red;
 }
 
-/* PRINCIPAL */
-
-.alfa {
-  position: relative;
-  width: 100vw;
-}
+/* REUTILIZABLE */
 
 .title {
   margin: 20px;
 }
 
-.hotel-not-found {
-  font-size: 50px;
-  margin-left: -250px;
-  text-align: center;
+.input-field {
+  border: none;
+  padding: 0px 10px;
 }
 
-.no-reservations,
-.no-comments {
-  text-align: center;
+#button-padding {
+  padding: 0px 40px;
 }
 
-.row {
-  margin: 20px 0px 20px 250px;
-}
-
-.card {
+.container-hotel-info {
   display: flex;
-  cursor: pointer;
-  margin: 20px 0px;
-  color: black;
+  justify-content: center;
+  align-items: start;
 }
 
-.card-image {
-  display: inline-block;
+pre {
+  display: inline;
+  white-space: pre-wrap;
+  font-family: inherit;
 }
 
-#img {
-  width: 400px;
-  height: 265px;
-  object-fit: cover;
+.my-input-field {
+  position: relative;
+  padding: 0px 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.btn-floating {
-  margin-bottom: 40px;
-  border-radius: 10px;
-  padding-left: 33px;
-  width: 100px;
-  background-color: #ff8a65;
+.my-input-field label {
+  transform: translateY(-14px);
+  top: 0;
+  position: absolute;
+  cursor: text;
 }
 
-.btn-floating:hover {
-  background-color: #ff7044;
-}
-
-/* HOTEL */
-
-.images {
+/* HOTEL IMAGES */
+.images-galery {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   margin: 10px 100px;
 }
 
-#image {
+.principal img {
+  object-fit: cover;
+  width: 915px;
+  height: 490px;
+  margin: 10px;
+  color: white;
+  border-radius: 8px 0px 0px 8px;
+}
+
+#container-image {
   width: 380px;
   height: 235px;
   padding: 5px;
 }
 
-#image img {
+#container-image img {
   width: 380px;
   height: 235px;
   margin: -5px;
@@ -134,96 +120,22 @@ pre {
   border-radius: 0 0 8px 0;
 }
 
-.principal img {
-  object-fit: cover;
-  width: 915px;
-  height: 490px;
-  margin: 10px;
-  color: white;
-  border-radius: 8px 0px 0px 8px;
-}
+/* HOTEL */
 
-.container-input .label {
-  text-align: start;
-}
-
-.container-button-reserve,
 .container-button-comment {
   text-align: center;
   margin: 10px;
 }
 
-#card-selected,
-#card-reservations,
-#card-partners {
-  width: 60%;
-}
-
-#card-selected {
-  width: 47%;
-}
-
-#card-reservations,
-#card-comments {
-  margin: 15px 15px;
-}
-
-#card-partners {
-  margin: 20px 20px;
-}
-
-#card-comments {
-  min-width: 550px;
-  max-width: 660px;
-}
-
-.container-hotel-info {
-  display: flex;
-  justify-content: center;
-  align-items: start;
-}
-
-#reserve {
-  padding: 0px 40px;
-}
-
-.row-inputs {
-  margin: 0;
-}
-
-.input-field {
-  border: none;
-  padding: 0px 10px;
-}
-
-.user {
-  border-bottom: 2px solid #4db6ac;
-  height: 50px;
-  margin-left: 30px;
-  margin-right: 20px;
-  cursor: default;
-  font-size: 20px;
-}
-
-.user:hover {
-  background-color: #ff8a65;
-}
-
-#title-reservation,
-#title-comment {
-  display: inline-block;
-}
-
-.delete,
-.delete-hotel {
-  float: right;
-}
+/* BUTTONS */
 
 .delete {
+  float: right;
   margin-right: 20px;
 }
 
 .delete-hotel {
+  float: right;
   margin-right: 30px;
 }
 
@@ -262,17 +174,17 @@ pre {
 
 .button-decline {
   float: right;
+  margin: 0px 20px 20px 20px;
+  padding: 0 40px;
+}
+
+/* partners */
+.button-reservations {
+  float: right;
   margin-right: 20px;
-  padding: 0 20px;
 }
 
-.card .card-content {
-  padding: 20px 30px;
-}
-
-.card-content {
-  width: 100%;
-}
+/* PARTNERS*/
 
 .hotel-and-who-reserved {
   display: flex;
@@ -280,58 +192,44 @@ pre {
   align-items: center;
 }
 
-.container-who-reserved {
+.phone {
+  display: inline-block;
+}
+
+/* ELEMENT */
+
+.container-select-who-reserved-card {
   padding: 20px;
   margin: 10px;
   text-align: center;
 }
 
-#who-reserved {
-  margin-left: 50px;
-}
+/* WHO-RESERVED */
 
-.card-who-reserved {
-  display: flex;
-}
-
-.reservations {
-  float: right;
-  margin-right: 20px;
-}
-
-.phone {
-  display: inline-block;
-}
-
-.component-who-reserved {
-  padding: 20px;
-  margin: 10px;
-  width: 400px;
-  background-color: rgb(255, 255, 255);
-}
-
-.container-data h6 {
+.who-reserved-card_container-data h6 {
   font-size: 20px;
   font-weight: bold;
 }
 
-.container-components {
+.container-who-reserved-card {
   display: flex;
   justify-content: start;
   margin: 20px;
 }
 
-.file-select {
+/* IMAGES OF REGISTER AND UPDATE HOTEL */
+
+.container-file-select {
   position: relative;
+  background-color: rgb(214, 214, 214);
 }
 
-.file-select::before {
+.container-file-select::before {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
   border-radius: 3px;
-  content: "Select";
   position: absolute;
   left: 0;
   right: 0;
@@ -339,7 +237,7 @@ pre {
   bottom: 0;
 }
 
-.file-select input[type="file"] {
+.container-file-select input[type="file"] {
   opacity: 0;
   width: 100%;
   height: 32px;
@@ -354,13 +252,7 @@ pre {
   content: "Select Others Files";
 }
 
-.type-file {
-  margin: 10px 0px;
-}
-
-.p-update-reservation {
-  margin: 0px 0px 10px 0px;
-}
+/* CREATE AND UPDATE RESERVATIONS */
 
 #create-description {
   height: 110px;
@@ -370,18 +262,39 @@ pre {
   height: 110px;
 }
 
-.my-input-field {
-  position: relative;
-  padding: 0px 10px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+/* HOME */
+
+.hotel-not-found {
+  font-size: 50px;
+  margin-left: -250px;
+  text-align: center;
 }
 
-.my-input-field label {
-  transform: translateY(-14px);
-  top: 0;
-  position: absolute;
-  cursor: text;
+.no-reservations,
+.no-comments {
+  text-align: center;
+}
+
+.container-home-cards {
+  padding: 0px 265px 0px 250px;
+}
+
+#img {
+  width: 400px;
+  height: 265px;
+  object-fit: cover;
+}
+
+.btn-floating {
+  margin-bottom: 40px;
+  border-radius: 10px;
+  padding-left: 33px;
+  width: 100px;
+  background-color: #ff8a65;
+}
+
+.btn-floating:hover {
+  background-color: #ff7044;
 }
 
 /* MY REVIEWS */

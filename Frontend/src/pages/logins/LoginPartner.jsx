@@ -79,14 +79,14 @@ export function LoginPartner() {
             </div>
           </div>
           <div className="universal-container-button">
-            <button type="submit" id="reserve" className="waves-effect waves-light btn">
+            <button type="submit" id="button-padding" className="waves-effect waves-light btn">
               Sign In
             </button>
           </div>
           <div className="universal-container-button">
             <button
               type="button"
-              id="reserve"
+              id="button-padding"
               onClick={() => navigate("/registerpartner")}
               className="waves-effect waves-light btn"
             >

@@ -24,12 +24,7 @@ function UpdateReservation() {
   const { error, setError } = usePartnerContext();
   const { user, logout } = useUserContext();
   const { setRedirect, setErrorRedirect, guestsAndRoomType } = useHotelContext();
-  const [reservationData, setReservationData] = useState({
-    check_in: "",
-    check_out: "",
-    guests: "",
-    room_type: "",
-  });
+  const [reservationData, setReservationData] = useState({ check_in: "", check_out: "" });
 
   useEffect(() => {
     const clickGetReservation = async () => {
@@ -161,113 +156,6 @@ function UpdateReservation() {
           />
         </div>
       </form>
-      {/* <form className="basic-form col s12" onSubmit={handleClick}>
-        <h3 className="form-title">Update Reservation {reservation_ID}</h3>
-        <div className="container-errors">
-          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
-        </div>
-        <div className="row">
-          <div className="my-input-field col s6">
-            <label htmlFor="check_in">Check In</label>
-            <input
-              id="check_in"
-              type="date"
-              className="validate"
-              value={reservationData.check_in}
-              spellCheck={false}
-              {...register("check_in", {
-                onChange: (e) => {
-                  setReservationData({
-                    ...reservationData,
-                    check_in: e.target.value,
-                  });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.check_in && <span>{errors.check_in.message}</span>}
-            </div>
-          </div>
-          <div className="my-input-field col s6">
-            <label htmlFor="check_out">Check Out</label>
-            <input
-              id="check_out"
-              type="date"
-              className="validate"
-              value={reservationData.check_out}
-              spellCheck={false}
-              {...register("check_out", {
-                onChange: (e) => {
-                  setReservationData({
-                    ...reservationData,
-                    check_out: e.target.value,
-                  });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.check_out && <span>{errors.check_out.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="my-input-field col s6">
-            <p className="p-update-reservation">Guests</p>
-            <Controller
-              name="guests"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Guests is required" }}
-              render={({ field }) => (
-                <select {...field} className="browser-default">
-                  <option value="" disabled>
-                    Guests
-                  </option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                </select>
-              )}
-            />
-            <div className="container-span">
-              {errors.guests && <span>{errors.guests.message}</span>}
-            </div>
-          </div>
-          <div className="my-input-field col s6">
-            <p className="p-update-reservation">Room Type</p>
-            <Controller
-              name="room_type"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Room Type is required" }}
-              render={({ field }) => (
-                <select {...field} className="browser-default">
-                  <option value="" disabled>
-                    Room Type
-                  </option>
-                  <option value="Individual">Individual</option>
-                  <option value="Doble">Doble</option>
-                  <option value="Triple">Triple</option>
-                  <option value="Familiar">Familiar</option>
-                </select>
-              )}
-            />
-            <div className="container-span">
-              {errors.room_type && <span>{errors.room_type.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
-            Update Reservation
-          </button>
-        </div>
-      </form> */}
     </>
   );
 }

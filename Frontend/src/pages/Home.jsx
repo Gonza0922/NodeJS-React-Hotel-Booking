@@ -23,16 +23,16 @@ function Home() {
   }, [isAuthenticated]);
 
   return (
-    <div>
+    <>
       {!isAuthenticated ? <Navbar /> : <NavbarUser />}
-      <div className="row">
+      <div className="container-home-cards">
         {hotels.length < 1 ? (
           <h1 className="hotel-not-found">Hotel Not Found...</h1>
         ) : (
           hotels.map((hotel, index) => (
             <div key={index} className="col s12 m10">
               <div
-                id="card"
+                id="home-card"
                 className="card"
                 onClick={() => {
                   navigate(`/hotel/${hotel.hotel_ID}`);
@@ -58,7 +58,7 @@ function Home() {
           ))
         )}
       </div>
-    </div>
+    </>
   );
 }
 
