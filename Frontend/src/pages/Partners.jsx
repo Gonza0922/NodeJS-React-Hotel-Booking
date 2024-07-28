@@ -152,19 +152,19 @@ const Partners = () => {
                     showReservationsNumber(hotel.hotel_ID);
                     bookingsView(hotel);
                   }}
-                  className="button-reservations waves-effect waves-light btn teal lighten-1"
+                  className="buttons-right waves-effect waves-light btn teal lighten-1"
                 >
                   Reservations
                 </button>
                 <button
                   onClick={() => navigate(`update/${hotel.hotel_ID}`)}
-                  className="delete-hotel waves-effect waves-light btn teal lighten-1"
+                  className="buttons-right waves-effect waves-light btn teal lighten-1"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => showConfirmDelete(hotel.hotel_ID)}
-                  className="delete-hotel waves-effect waves-light btn red darken-2"
+                  className="buttons-right waves-effect waves-light btn red darken-2"
                 >
                   Delete
                 </button>

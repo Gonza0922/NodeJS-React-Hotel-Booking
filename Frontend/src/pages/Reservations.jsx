@@ -83,13 +83,13 @@ function Reservations() {
                 )}
                 <button
                   onClick={() => showConfirmDelete(reservation.reservation_ID)}
-                  className="delete waves-effect waves-light btn red darken-2"
+                  className="buttons-right waves-effect waves-light btn red darken-2"
                 >
                   Delete Reservation
                 </button>
                 <button
                   onClick={() => navigate(`update/${reservation.reservation_ID}`)}
-                  className="delete waves-effect waves-light btn "
+                  className="buttons-right waves-effect waves-light btn"
                 >
                   Edit Reservation
                 </button>

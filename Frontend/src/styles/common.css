@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+  min-width: 1260px;
+}
+
+/* ERRORS */
+
+.container-errors {
+  background-color: red;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.error {
+  padding: 5px;
+}
+
+.container-span {
+  color: red;
+}
+
+/* H3, INPUT, LABEL, PRE */
+
+.title {
+  margin: 20px;
+}
+
+.input-field {
+  border: none;
+  padding: 0px 10px;
+}
+
+.my-input-field {
+  position: relative;
+  padding: 0px 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-input-field label {
+  transform: translateY(-14px);
+  top: 0;
+  position: absolute;
+  cursor: text;
+}
+
+pre {
+  display: inline;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+/* DIV */
+
+.container-hotel-info {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.delete-confirm-container,
+.comment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+}
+
+.delete-confirm {
+  text-align: center;
+  background-color: white;
+  width: 350px;
+  padding: 40px 0;
+  border-radius: 10px;
+}
+
+.delete-confirm-hotelError {
+  text-align: center;
+  background-color: white;
+  width: 600px;
+  padding: 40px 15px;
+  border-radius: 10px;
+}
+
+/* BUTTONS */
+
+#button-padding {
+  padding: 0px 40px;
+}
+
+.buttons-right {
+  float: right;
+  margin-right: 40px;
+}
+
+.button-delete-confirm {
+  margin: 10px;
+}
+
+.button-decline {
+  float: right;
+  margin-right: 10px;
+}

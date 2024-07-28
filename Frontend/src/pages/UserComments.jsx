@@ -138,13 +138,13 @@ function UserComments() {
                 <div className="container-my-comment_edit-delete">
                   <button
                     onClick={() => showConfirmDelete(comment.comment_ID)}
-                    className="delete waves-effect waves-light btn red darken-2"
+                    className="buttons-right waves-effect waves-light btn red darken-2"
                   >
                     Delete Review
                   </button>
                   <button
                     onClick={() => handleEditClick(comment.comment_ID, comment.isEditing)}
-                    className="delete waves-effect waves-light btn"
+                    className="buttons-right waves-effect waves-light btn"
                   >
                     {!comment.isEditing ? "Edit Review" : "Confirm Review"}
                   </button>
