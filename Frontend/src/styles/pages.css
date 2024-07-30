@@ -42,51 +42,38 @@
 
 /* Hotel Images */
 .images-galery {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  margin: 10px 100px;
+  margin: 20px 85px;
+  display: grid;
+  grid-template-columns: 53% repeat(2, 23.5%);
+  grid-template-rows: repeat(2, 245px);
+}
+
+.principal {
+  grid-column-start: 1;
+  grid-row-end: 3;
+  grid-row-start: 1;
+  margin: 10px;
 }
 
 .principal img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  width: 915px;
-  height: 490px;
-  margin: 10px;
   color: white;
   border-radius: 8px 0px 0px 8px;
 }
 
 #container-image {
-  width: 380px;
-  height: 235px;
-  padding: 5px;
+  margin: 10px;
 }
 
 #container-image img {
-  width: 380px;
-  height: 235px;
-  margin: -5px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.container-image-2 {
-  margin: 10px 15px 20px 15px;
-}
-
-.container-image-3 {
-  margin: 15px;
-}
-
-.container-image-4 {
-  margin: 10px 15px 20px 15px;
-  border-radius: 20px;
-}
-
-.container-image-5 {
-  margin: 15px;
-}
-
-.img-4 {
+.img-3 {
   border-radius: 0 8px 0 0;
 }
 

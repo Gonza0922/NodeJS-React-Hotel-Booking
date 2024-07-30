@@ -86,7 +86,6 @@ export function LoginPartner() {
           <div className="universal-container-button">
             <button
               type="button"
-              id="button-padding"
               onClick={() => navigate("/registerpartner")}
               className="waves-effect waves-light btn"
             >

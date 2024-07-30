@@ -179,35 +179,31 @@ function Home() {
         <div className="principal">
           <img src={hotel.principalImg ? hotel.principalImg : import.meta.env.VITE_NONE_IMAGE} />
         </div>
-        <div className="image-flex">
-          <div id="container-image" className="container-image-2">
-            <img
-              src={images.length > 0 ? images[0].image_name : import.meta.env.VITE_NONE_IMAGE}
-              alt={"image 1"}
-            />
-          </div>
-          <div id="container-image" className="container-image-3">
-            <img
-              src={images.length > 1 ? images[1].image_name : import.meta.env.VITE_NONE_IMAGE}
-              alt={"image 2"}
-            />
-          </div>
+        <div id="container-image" className="container-image-2">
+          <img
+            src={images.length > 0 ? images[0].image_name : import.meta.env.VITE_NONE_IMAGE}
+            alt={"image 1"}
+          />
         </div>
-        <div className="image-flex">
-          <div id="container-image" className="container-image-4">
-            <img
-              className="img-4"
-              src={images.length > 2 ? images[2].image_name : import.meta.env.VITE_NONE_IMAGE}
-              alt={"image 3"}
-            />
-          </div>
-          <div id="container-image" className="container-image-5">
-            <img
-              className="img-5"
-              src={images.length > 3 ? images[3].image_name : import.meta.env.VITE_NONE_IMAGE}
-              alt={"image 4"}
-            />
-          </div>
+        <div id="container-image" className="container-image-3">
+          <img
+            className="img-3"
+            src={images.length > 1 ? images[1].image_name : import.meta.env.VITE_NONE_IMAGE}
+            alt={"image 2"}
+          />
+        </div>
+        <div id="container-image" className="container-image-4">
+          <img
+            src={images.length > 2 ? images[2].image_name : import.meta.env.VITE_NONE_IMAGE}
+            alt={"image 3"}
+          />
+        </div>
+        <div id="container-image" className="container-image-5">
+          <img
+            className="img-5"
+            src={images.length > 3 ? images[3].image_name : import.meta.env.VITE_NONE_IMAGE}
+            alt={"image 4"}
+          />
         </div>
       </div>
       <div className="container-hotel-info">
