@@ -99,7 +99,7 @@ function CreateHotel() {
         moreImages,
       };
       console.log(data);
-      if (data.principalImg) {
+      if (data.principalImg && data.moreImages.length > 0) {
         const hotelCreated = await createHotel(data);
         if (hotelCreated) {
           await handleImageCreate(hotelCreated.hotel_ID, data.principalImg);
@@ -107,7 +107,7 @@ function CreateHotel() {
             await handleMoreImagesCreate(hotelCreated.hotel_ID, data.moreImages);
         }
       } else {
-        setError("Please reload the main image");
+        setError("Please complete images");
       }
     } catch (error) {
       console.log(error);

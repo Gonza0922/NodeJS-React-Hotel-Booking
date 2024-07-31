@@ -30,11 +30,9 @@ function UpdateHotel() {
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(updateHotelSchema) });
-  const [result, setResult] = useState({
-    principalImg: false,
-    moreImages: false,
-  });
   const [dataInicializator, setDataInicializator] = useState(false);
+
+  const [moreImages] = useState(Array(4).fill(null));
 
   const navigate = useNavigate();
 
@@ -65,70 +63,44 @@ function UpdateHotel() {
       } catch (error) {
         setImages([]);
         setRedirect(true);
-        setErrorRedirect(error.message);
+        setErrorRedirect(error.response.data.message);
+        console.log(error);
       }
     };
     clickGetHotel();
     clickGetImagesPerHotel();
   }, []);
 
-  const validandoTipoPrincipalImg = () => {
-    const file = hotelData.principalImg.name;
-    if (file) {
-      file.includes(".jpg") || file.includes(".jpeg")
-        ? setResult((prevElement) => ({
+  const handleImageChange = (e, name) => {
+    if (e.target.files) {
+      const selectedImage = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2)
+          setHotelData((prevElement) => ({
             ...prevElement,
-            principalImg: false,
-          }))
-        : setResult((prevElement) => ({
-            ...prevElement,
-            principalImg: true,
+            [name]: { url: reader.result, img: selectedImage },
           }));
+      };
+      if (selectedImage) reader.readAsDataURL(selectedImage);
     }
   };
-
-  const validandoTipoMoreImages = () => {
-    if (hotelData.moreImages.length <= 1) {
-      setResult((prevElement) => ({
-        ...prevElement,
-        moreImages: 1,
-      }));
-      return;
-    }
-    for (let i = 0; i < hotelData.moreImages.length; i++) {
-      const file = hotelData.moreImages[i].name;
-      if (file) {
-        file.includes(".jpg") || file.includes(".jpeg")
-          ? setResult((prevElement) => ({
-              ...prevElement,
-              moreImages: false,
-            }))
-          : setResult((prevElement) => ({
-              ...prevElement,
-              moreImages: true,
-            }));
-      }
-    }
-  };
-
-  useEffect(() => {
-    hotelData.principalImg && validandoTipoPrincipalImg();
-  }, [hotelData.principalImg]);
-
-  useEffect(() => {
-    hotelData.moreImages && validandoTipoMoreImages();
-  }, [hotelData.moreImages]);
 
   const updateHotel = async (newData) => {
     try {
-      if (typeof hotelData.principalImg !== "string") {
-        console.log("La principalImg es un file");
-        handleImageUpdate(hotel_ID, hotelData.principalImg);
+      const moreImages = [];
+      for (let i = 1; i < 5; i++) {
+        if (hotelData[`moreImage${i}`] && hotelData[`moreImage${i}`].img) {
+          moreImages.push(hotelData[`moreImage${i}`].img);
+        }
       }
-      if (!Array.isArray(hotelData.moreImages)) {
-        console.log(hotelData.moreImages);
-        console.log("moreImages es un fileList");
-        handleMoreImagesUpdate(hotel_ID, hotelData.moreImages);
+      if (typeof hotelData.principalImg !== "string") {
+        console.log(hotelData.principalImg.img);
+        handleImageUpdate(hotel_ID, hotelData.principalImg.img);
+      }
+      if (moreImages.length > 0) {
+        console.log(moreImages);
+        handleMoreImagesUpdate(hotel_ID, moreImages);
       }
       const data = await putHotelRequest(hotel_ID, newData);
       return data;
@@ -162,225 +134,187 @@ function UpdateHotel() {
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="create-update-hotel col s12" onSubmit={onSubmit}>
         <h3 className="form-title">Update Hotel {hotel_ID}</h3>
-        <div className="container-errors">
-          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
+        <div className="container-sections-create-and-update-hotel">
+          <div className="first-section-create-and-update-hotel">
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  className="validate"
+                  autoComplete="off"
+                  value={hotelData.name}
+                  spellCheck={false}
+                  {...register("name", {
+                    onChange: (e) => {
+                      setHotelData({ ...hotelData, name: e.target.value });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.name && <span>{errors.name.message}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="price_per_night">Price per Night</label>
+                <input
+                  id="price_per_night"
+                  type="number"
+                  className="validate"
+                  autoComplete="off"
+                  value={hotelData.price_per_night}
+                  spellCheck={false}
+                  {...register("price_per_night", {
+                    onChange: (e) => {
+                      setHotelData({
+                        ...hotelData,
+                        price_per_night: e.target.value,
+                      });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.price_per_night && <span>{errors.price_per_night.message}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="location">Location</label>
+                <input
+                  id="location"
+                  type="text"
+                  className="validate"
+                  autoComplete="off"
+                  value={hotelData.location}
+                  spellCheck={false}
+                  {...register("location", {
+                    onChange: (e) => {
+                      setHotelData({ ...hotelData, location: e.target.value });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.location && <span>{errors.location.message}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  id="phone"
+                  type="number"
+                  className="validate"
+                  autoComplete="off"
+                  value={hotelData.phone}
+                  spellCheck={false}
+                  {...register("phone", {
+                    onChange: (e) => {
+                      setHotelData({ ...hotelData, phone: e.target.value });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.phone && <span>{errors.phone.message}</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="second-section-create-and-update-hotel">
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="create-description">Description</label>
+                <textarea
+                  id="create-description"
+                  type="text"
+                  className="materialize-textarea"
+                  autoComplete="off"
+                  value={hotelData.description}
+                  spellCheck={false}
+                  {...register("description", {
+                    onChange: (e) => {
+                      setHotelData({ ...hotelData, description: e.target.value });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.description && <span>{errors.description.message}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="row-input">
+              <div className="my-input-field col s12">
+                <label htmlFor="create-services">Services</label>
+                <textarea
+                  id="create-services"
+                  type="text"
+                  className="materialize-textarea"
+                  autoComplete="off"
+                  value={hotelData.services}
+                  spellCheck={false}
+                  {...register("services", {
+                    onChange: (e) => {
+                      setHotelData({ ...hotelData, services: e.target.value });
+                    },
+                  })}
+                />
+                <div className="container-span">
+                  {errors.services && <span>{errors.services.message}</span>}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="name">Name</label>
+        <div className="images-gallery">
+          <div className="principal">
             <input
-              id="name"
-              type="text"
+              name="principalImg"
+              id="principalImg"
+              type="file"
               className="validate"
-              autoComplete="off"
-              value={hotelData.name}
-              spellCheck={false}
-              {...register("name", {
-                onChange: (e) => {
-                  setHotelData({ ...hotelData, name: e.target.value });
-                },
-              })}
+              {...register("principalImg")}
+              onChange={(e) => handleImageChange(e, "principalImg")}
             />
-            <div className="container-span">
-              {errors.name && <span>{errors.name.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="price_per_night">Price per Night</label>
-            <input
-              id="price_per_night"
-              type="number"
-              className="validate"
-              autoComplete="off"
-              value={hotelData.price_per_night}
-              spellCheck={false}
-              {...register("price_per_night", {
-                onChange: (e) => {
-                  setHotelData({
-                    ...hotelData,
-                    price_per_night: e.target.value,
-                  });
-                },
-              })}
+            <img
+              src={
+                hotelData.principalImg && hotelData.principalImg.url
+                  ? hotelData.principalImg.url
+                  : hotelData.principalImg
+              }
+              alt="principal image"
             />
-            <div className="container-span">
-              {errors.price_per_night && <span>{errors.price_per_night.message}</span>}
-            </div>
           </div>
-        </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="location">Location</label>
-            <input
-              id="location"
-              type="text"
-              className="validate"
-              autoComplete="off"
-              value={hotelData.location}
-              spellCheck={false}
-              {...register("location", {
-                onChange: (e) => {
-                  setHotelData({ ...hotelData, location: e.target.value });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.location && <span>{errors.location.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="create-description">Description</label>
-            <textarea
-              id="create-description"
-              type="text"
-              className="materialize-textarea"
-              autoComplete="off"
-              value={hotelData.description}
-              spellCheck={false}
-              {...register("description", {
-                onChange: (e) => {
-                  setHotelData({ ...hotelData, description: e.target.value });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.description && <span>{errors.description.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="create-services">Services</label>
-            <textarea
-              id="create-services"
-              type="text"
-              className="materialize-textarea"
-              autoComplete="off"
-              value={hotelData.services}
-              spellCheck={false}
-              {...register("services", {
-                onChange: (e) => {
-                  setHotelData({ ...hotelData, services: e.target.value });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.services && <span>{errors.services.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="my-input-field col s12">
-            <label htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              type="number"
-              className="validate"
-              autoComplete="off"
-              value={hotelData.phone}
-              spellCheck={false}
-              {...register("phone", {
-                onChange: (e) => {
-                  setHotelData({ ...hotelData, phone: e.target.value });
-                },
-              })}
-            />
-            <div className="container-span">
-              {errors.phone && <span>{errors.phone.message}</span>}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="type-file col s12">
-            <div className="container-file-select" id="src-file1">
-              <input
-                name="principalImg"
-                id="principalImg"
-                type="file"
-                className="validate"
-                onChange={(e) => {
-                  setHotelData({
-                    ...hotelData,
-                    principalImg: e.target.files[0],
-                  });
-                  setImages({
-                    ...images,
-                    principalImg: hotelData.principalImg,
-                  });
-                }}
-              />
-            </div>
-            <div className="message-files">
-              {hotelData.principalImg === undefined ? (
-                <span>No file selected.</span>
-              ) : (
-                <span>
-                  {hotelData.principalImg.name
-                    ? hotelData.principalImg.name
-                    : "Principal File Selected."}
-                </span>
-              )}
-            </div>
-            <div className="container-span">
-              {errors.principalImg && hotelData.principalImg === undefined ? (
-                <span>Principal Image is required</span>
-              ) : result.principalImg ? (
-                <span>Only JPEG and JPG files are allowed</span>
-              ) : (
-                <p></p>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="row-input">
-          <div className="type-file col s12">
-            <div className="container-file-select" id="src-file2">
+          {moreImages.map((_, index) => (
+            <div key={index + 1} id="container-image" className={`container-image-${index + 1}`}>
               <input
                 name="moreImages"
                 id="moreImages"
                 type="file"
-                multiple={true}
                 className="validate"
-                onChange={(e) => {
-                  setHotelData({
-                    ...hotelData,
-                    moreImages: e.target.files,
-                  });
-                  setImages({
-                    ...images,
-                    moreImages: hotelData.moreImages,
-                  });
-                }}
+                onChange={(e) => handleImageChange(e, `moreImage${index + 1}`)}
+              />
+              <img
+                src={
+                  hotelData[`moreImage${index + 1}`] && hotelData[`moreImage${index + 1}`].url
+                    ? hotelData[`moreImage${index + 1}`].url
+                    : hotelData.moreImages
+                    ? hotelData.moreImages[index].image_name
+                    : import.meta.env.VITE_NONE_IMAGE
+                }
+                alt={`image ${index + 1}`}
               />
             </div>
-            <div className="message-files">
-              {hotelData.moreImages === null ? (
-                <span>No files selected.</span>
-              ) : hotelData.moreImages instanceof FileList ? (
-                <span>New Files Selected.</span>
-              ) : (
-                <span>Old Files Selected.</span>
-              )}
-            </div>
-            <div className="container-span">
-              {errors.moreImages && hotelData.moreImages === undefined ? (
-                <span>Other Files are required</span>
-              ) : result.moreImages === 1 ? (
-                <span>Enter more than 1 file</span>
-              ) : result.moreImages ? (
-                <span>Only JPEG and JPG files are allowed</span>
-              ) : (
-                <p></p>
-              )}
-            </div>
-          </div>
+          ))}
+        </div>
+        <div className="container-error-create-update-hotel">
+          {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
+          <button id="button-padding" type="submit" className="waves-effect waves-light btn">
             {load}
           </button>
         </div>
