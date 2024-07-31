@@ -1,6 +1,6 @@
 /* form */
-.basic-form,
-.create-update-hotel {
+.basic-form {
+  width: 550px;
   padding: 10px 40px;
   margin: 20px auto;
   background-color: rgb(241, 241, 241);
@@ -8,19 +8,19 @@
 }
 
 /* form */
-.basic-form {
-  width: 550px;
-}
-
-/* form */
 .create-update-hotel {
-  width: 600px;
+  width: 80%;
+  padding: 10px 40px;
+  margin: 20px auto;
+  background-color: rgb(241, 241, 241);
+  border-radius: 5px;
 }
 
 /* h3 */
 .basic-form h3,
 .create-update-hotel h3 {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 /* div */

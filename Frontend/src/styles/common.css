@@ -25,6 +25,15 @@ body {
   color: red;
 }
 
+.container-error-create-update-hotel {
+  background-color: red;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+  width: 30%;
+  margin: auto;
+}
+
 /* H3, INPUT, LABEL, PRE */
 
 .title {
@@ -80,8 +89,9 @@ pre {
 .delete-confirm {
   text-align: center;
   background-color: white;
-  width: 350px;
-  padding: 40px 0;
+  width: 35%;
+  min-width: 400px;
+  padding: 30px 40px;
   border-radius: 10px;
 }
 

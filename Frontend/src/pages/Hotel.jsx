@@ -175,7 +175,7 @@ function Home() {
   return (
     <>
       {!isAuthenticated ? <NavbarWithOutSearching /> : <NavbarUserWithOutSearching />}
-      <div className="images-galery">
+      <div className="images-gallery">
         <div className="principal">
           <img src={hotel.principalImg ? hotel.principalImg : import.meta.env.VITE_NONE_IMAGE} />
         </div>

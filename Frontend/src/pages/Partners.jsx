@@ -148,6 +148,7 @@ const Partners = () => {
                 <h6>{hotel.location}</h6>
                 <h6 className="phone">{hotel.phone}</h6>
                 <button
+                  id="button-padding"
                   onClick={() => {
                     showReservationsNumber(hotel.hotel_ID);
                     bookingsView(hotel);
@@ -157,12 +158,14 @@ const Partners = () => {
                   Reservations
                 </button>
                 <button
+                  id="button-padding"
                   onClick={() => navigate(`update/${hotel.hotel_ID}`)}
                   className="buttons-right waves-effect waves-light btn teal lighten-1"
                 >
                   Edit
                 </button>
                 <button
+                  id="button-padding"
                   onClick={() => showConfirmDelete(hotel.hotel_ID)}
                   className="buttons-right waves-effect waves-light btn red darken-2"
                 >

@@ -33,8 +33,7 @@ export const deleteMultipleImages = async (req, res, next) => {
     const [getUrl] = await db.query("SELECT image_name FROM images WHERE hotel_ID = ?", [
       hotel_ID,
     ]);
-    if (getUrl[0] === undefined)
-      return res.status(400).json({ message: "There are no images to delete" });
+    if (getUrl[0] === undefined) console.log({ message: "There are no images to delete" });
     getUrl.forEach(async (element) => {
       const url = element.image_name;
       const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
