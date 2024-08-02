@@ -14,12 +14,13 @@ import {
   verifyPINRequest,
 } from "../api/comment.api.js";
 import { getUserIdRequest } from "../api/user.api.js";
-import { transformDateZ } from "../functions/dates.js";
 import { verifyTokenPINRequest } from "../api/comment.api";
 import Cookie from "js-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reservationSchema } from "../validations/reservation.validation.js";
 import ReservationOption from "../components/ReservationOption.jsx";
+import SliderComponent from "../components/Slider.jsx";
+import { transformDateZ } from "../functions/dates.js";
 
 function Home() {
   const { isAuthenticated, user, error, setError } = useUserContext();
@@ -430,25 +431,7 @@ function Home() {
       ) : (
         <p></p>
       )}
-      <div className="container-comments">
-        {commentsWithUser.map((comment, index) => (
-          <div key={index} id="comment-card" className="card">
-            <div className="card-content">
-              <div className="comment_profile">
-                <div className="comment_initial">{comment.first_name.split("")[0]}</div>
-                <div className="comment_name">
-                  {comment.first_name} {comment.last_name}
-                  <p className="comment_nacionality">{comment.nacionality}</p>
-                </div>
-              </div>
-              <div className="comment_reviewed">
-                Reviewed: {transformDateZ(comment.comment_date)}
-              </div>
-              <p className="comment_content">"{comment.content}"</p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <SliderComponent comments={commentsWithUser} />
       <footer className="footer"></footer>
     </>
   );

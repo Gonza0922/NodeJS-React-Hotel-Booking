@@ -18,6 +18,10 @@
   margin-top: 20px;
 }
 
+#comment-card {
+  height: 235px;
+}
+
 /* Reservations */
 #reservations-card {
   width: 60%;

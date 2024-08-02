@@ -40,6 +40,24 @@
   margin: 10px;
 }
 
+.container-slider {
+  color: black;
+  margin: 50px 100px;
+}
+
+.slick-arrow {
+  background-color: rgb(141, 141, 141);
+  border-radius: 50%;
+}
+
+.slick-arrow:hover {
+  background-color: rgb(172, 172, 172);
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+
 /* Hotel Images */
 .images-gallery {
   margin: 20px 85px;

@@ -93,17 +93,6 @@
   font-size: 12px;
 }
 
-.container-comments {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#comment-card {
-  width: 400px;
-  margin: 20px;
-}
-
 .comment_profile {
   display: flex;
   align-items: center;
