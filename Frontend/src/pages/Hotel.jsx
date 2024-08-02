@@ -176,262 +176,277 @@ function Home() {
   return (
     <>
       {!isAuthenticated ? <NavbarWithOutSearching /> : <NavbarUserWithOutSearching />}
-      <div className="images-gallery">
-        <div className="principal">
-          <img src={hotel.principalImg ? hotel.principalImg : import.meta.env.VITE_NONE_IMAGE} />
-        </div>
-        <div id="container-image" className="container-image-2">
-          <img
-            src={images.length > 0 ? images[0].image_name : import.meta.env.VITE_NONE_IMAGE}
-            alt={"image 1"}
-          />
-        </div>
-        <div id="container-image" className="container-image-3">
-          <img
-            className="img-3"
-            src={images.length > 1 ? images[1].image_name : import.meta.env.VITE_NONE_IMAGE}
-            alt={"image 2"}
-          />
-        </div>
-        <div id="container-image" className="container-image-4">
-          <img
-            src={images.length > 2 ? images[2].image_name : import.meta.env.VITE_NONE_IMAGE}
-            alt={"image 3"}
-          />
-        </div>
-        <div id="container-image" className="container-image-5">
-          <img
-            className="img-5"
-            src={images.length > 3 ? images[3].image_name : import.meta.env.VITE_NONE_IMAGE}
-            alt={"image 4"}
-          />
-        </div>
-      </div>
-      <div className="container-hotel-info">
-        <div id="hotel-selected-card" className="card">
-          <div className="card-content">
-            <span className="card-title">{hotel.name}</span>
-            <h5>${hotel.price_per_night}</h5>
-            <pre>{hotel.description}</pre>
-            <h6>{hotel.services}</h6>
-            <h6>{hotel.location}</h6>
-            <h6>{hotel.phone}</h6>
+      <div className="container-hotel-cards">
+        <div className="images-gallery">
+          <div className="principal">
+            <img
+              src={hotel.principalImg ? hotel.principalImg : import.meta.env.VITE_NONE_IMAGE}
+            />
+          </div>
+          <div id="container-image" className="container-image-2">
+            <img
+              src={images.length > 0 ? images[0].image_name : import.meta.env.VITE_NONE_IMAGE}
+              alt={"image 1"}
+            />
+          </div>
+          <div id="container-image" className="container-image-3">
+            <img
+              className="img-3"
+              src={images.length > 1 ? images[1].image_name : import.meta.env.VITE_NONE_IMAGE}
+              alt={"image 2"}
+            />
+          </div>
+          <div id="container-image" className="container-image-4">
+            <img
+              src={images.length > 2 ? images[2].image_name : import.meta.env.VITE_NONE_IMAGE}
+              alt={"image 3"}
+            />
+          </div>
+          <div id="container-image" className="container-image-5">
+            <img
+              className="img-5"
+              src={images.length > 3 ? images[3].image_name : import.meta.env.VITE_NONE_IMAGE}
+              alt={"image 4"}
+            />
           </div>
         </div>
-        {confirmation === "You have already made a reservation at that hotel" ? (
-          <div className="delete-confirm-container">
-            <div className="delete-confirm">
-              <h5>{confirmation}</h5>
-              <div className="container-button-delete-confirm">
+        <div className="container-hotel-info">
+          <div id="hotel-selected-card" className="card">
+            <div className="card-content">
+              <span className="card-title">{hotel.name}</span>
+              <h5>${hotel.price_per_night}</h5>
+              <pre>{hotel.description}</pre>
+              <h6>{hotel.services}</h6>
+              <h6>{hotel.location}</h6>
+              <h6>{hotel.phone}</h6>
+            </div>
+          </div>
+          {confirmation === "You have already made a reservation at that hotel" ? (
+            <div className="delete-confirm-container">
+              <div className="delete-confirm">
+                <h5>{confirmation}</h5>
+                <div className="container-button-delete-confirm">
+                  <button
+                    onClick={() => navigate(`/users/${user.first_name}/reservations`)}
+                    className="button-delete-confirm waves-effect waves-light btn blue darken-2"
+                  >
+                    My reservations
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (datosUsar !== null) {
+                        createReservation({ ...datosUsar, reserveAnyway: true });
+                      } else {
+                        console.log("Error al enviar los datos");
+                        console.log(datosUsar);
+                      }
+                    }}
+                    className="button-delete-confirm waves-effect waves-light btn"
+                  >
+                    Reserve Now
+                  </button>
+                  <button
+                    onClick={() => setConfirmation(null)}
+                    className="button-delete-confirm waves-effect waves-light btn red darken-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : confirmation === "Correctly booked hotel" ? (
+            <div className="delete-confirm-container">
+              <div className="delete-confirm">
+                <h5>{confirmation}</h5>
                 <button
-                  onClick={() => navigate(`/users/${user.first_name}/reservations`)}
+                  onClick={() => navigate(`/users/${user.first_name}`)}
                   className="button-delete-confirm waves-effect waves-light btn blue darken-2"
                 >
-                  My reservations
-                </button>
-                <button
-                  onClick={() => {
-                    if (datosUsar !== null) {
-                      createReservation({ ...datosUsar, reserveAnyway: true });
-                    } else {
-                      console.log("Error al enviar los datos");
-                      console.log(datosUsar);
-                    }
-                  }}
-                  className="button-delete-confirm waves-effect waves-light btn"
-                >
-                  Reserve Now
-                </button>
-                <button
-                  onClick={() => setConfirmation(null)}
-                  className="button-delete-confirm waves-effect waves-light btn red darken-2"
-                >
-                  Cancel
+                  Great
                 </button>
               </div>
             </div>
+          ) : (
+            <p></p>
+          )}
+          <form className="availability-form col s12" onSubmit={onSubmit}>
+            <h3>Availability</h3>
+            <div className="container-errors">
+              {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
+            </div>
+            <div className="row">
+              <div className="input-field col s6">
+                <input id="check_in" type="date" className="validate" {...register("check_in")} />
+                <label htmlFor="check_in">Check In</label>
+                <div className="container-span">
+                  {errors.check_in && <span>{errors.check_in.message}</span>}
+                </div>
+              </div>
+              <div className="input-field col s6">
+                <input
+                  id="check_out"
+                  type="date"
+                  className="validate"
+                  {...register("check_out")}
+                />
+                <label htmlFor="check_out">Check Out</label>
+                <div className="container-span">
+                  {errors.check_out && <span>{errors.check_out.message}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <ReservationOption
+                guests={1}
+                room_type={"Individual"}
+                price_per_night={hotel.price_per_night}
+              />
+              <ReservationOption
+                guests={2}
+                room_type={"Doble"}
+                price_per_night={hotel.price_per_night}
+              />
+              <ReservationOption
+                guests={3}
+                room_type={"Triple"}
+                price_per_night={hotel.price_per_night}
+              />
+              <ReservationOption
+                guests={5}
+                room_type={"Familiar"}
+                price_per_night={hotel.price_per_night}
+              />
+            </div>
+          </form>
+        </div>
+        <div>
+          <div className="container-button-comment">
+            <h5 className="clients-reviews-h5">Clients Reviews</h5>
+            <button
+              type="submit"
+              id="comment"
+              onClick={() => {
+                if (!isAuthenticated) return navigate("/login");
+                document.body.style.overflowY = "hidden";
+                if (isPIN) return setConfirmation("Create Comment");
+                setConfirmation("Verify PIN");
+              }}
+              className="waves-effect waves-light btn"
+            >
+              Write a review
+            </button>
           </div>
-        ) : confirmation === "Correctly booked hotel" ? (
-          <div className="delete-confirm-container">
-            <div className="delete-confirm">
-              <h5>{confirmation}</h5>
+        </div>
+        {confirmation === "Verify PIN" ? (
+          <div className="comment-container">
+            <div className="comment">
               <button
-                onClick={() => navigate(`/users/${user.first_name}`)}
-                className="button-delete-confirm waves-effect waves-light btn blue darken-2"
+                className="comment_button-back"
+                onClick={() => {
+                  setConfirmation(null);
+                  document.body.style.overflowY = "auto";
+                }}
               >
-                Great
+                {"X"}
               </button>
+              <form
+                id="comment-form"
+                className="input-field col s12"
+                onSubmit={(e) => verificationPIN(e, reservationData)}
+              >
+                <h5>Enter your Reservation details</h5>
+                <p>Check your booking confirmation email to find your booking number and PIN</p>
+                <div className="container-errors">
+                  {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
+                </div>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <label htmlFor="reservation_id">Reservation ID</label>
+                    <input
+                      id="reservation_id"
+                      type="number"
+                      onChange={(e) =>
+                        setReservationData({
+                          ...reservationData,
+                          reservation_ID: Number(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <label htmlFor="PIN">PIN</label>
+                    <input
+                      id="PIN"
+                      type="number"
+                      onChange={(e) =>
+                        setReservationData({
+                          ...reservationData,
+                          PIN: Number(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <button id="comment" className="waves-effect waves-light btn">
+                  Rate your stay
+                </button>
+                <p className="info-verify-PIN">
+                  Only a customer who booked through Hotels.com and stayed at a specific property
+                  can write a review. This lets us know our reviews come from real guests like
+                  you.
+                </p>
+              </form>
             </div>
           </div>
         ) : (
           <p></p>
         )}
-        <form className="availability-form col s12" onSubmit={onSubmit}>
-          <h3>Availability</h3>
-          <div className="container-errors">
-            {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
-          </div>
-          <div className="row">
-            <div className="input-field col s6">
-              <input id="check_in" type="date" className="validate" {...register("check_in")} />
-              <label htmlFor="check_in">Check In</label>
-              <div className="container-span">
-                {errors.check_in && <span>{errors.check_in.message}</span>}
-              </div>
-            </div>
-            <div className="input-field col s6">
-              <input id="check_out" type="date" className="validate" {...register("check_out")} />
-              <label htmlFor="check_out">Check Out</label>
-              <div className="container-span">
-                {errors.check_out && <span>{errors.check_out.message}</span>}
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <ReservationOption
-              guests={1}
-              room_type={"Individual"}
-              price_per_night={hotel.price_per_night}
-            />
-            <ReservationOption
-              guests={2}
-              room_type={"Doble"}
-              price_per_night={hotel.price_per_night}
-            />
-            <ReservationOption
-              guests={3}
-              room_type={"Triple"}
-              price_per_night={hotel.price_per_night}
-            />
-            <ReservationOption
-              guests={5}
-              room_type={"Familiar"}
-              price_per_night={hotel.price_per_night}
-            />
-          </div>
-        </form>
-      </div>
-      <div>
-        <div className="container-button-comment">
-          <button
-            type="submit"
-            id="comment"
-            onClick={() => {
-              if (!isAuthenticated) return navigate("/login");
-              document.body.style.overflowY = "hidden";
-              if (isPIN) return setConfirmation("Create Comment");
-              setConfirmation("Verify PIN");
-            }}
-            className="waves-effect waves-light btn"
-          >
-            Write a review
-          </button>
-        </div>
-      </div>
-      {confirmation === "Verify PIN" ? (
-        <div className="comment-container">
-          <div className="comment">
-            <button
-              className="comment_button-back"
-              onClick={() => {
-                setConfirmation(null);
-                document.body.style.overflowY = "auto";
-              }}
-            >
-              {"X"}
-            </button>
-            <form
-              id="comment-form"
-              className="input-field col s12"
-              onSubmit={(e) => verificationPIN(e, reservationData)}
-            >
-              <h5>Enter your Reservation details</h5>
-              <p>Check your booking confirmation email to find your booking number and PIN</p>
-              <div className="container-errors">
-                {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <label htmlFor="reservation_id">Reservation ID</label>
-                  <input
-                    id="reservation_id"
-                    type="number"
-                    onChange={(e) =>
-                      setReservationData({
-                        ...reservationData,
-                        reservation_ID: Number(e.target.value),
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <label htmlFor="PIN">PIN</label>
-                  <input
-                    id="PIN"
-                    type="number"
-                    onChange={(e) =>
-                      setReservationData({
-                        ...reservationData,
-                        PIN: Number(e.target.value),
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <button id="comment" className="waves-effect waves-light btn">
-                Rate your stay
+        {confirmation === "Create Comment" ? (
+          <div className="comment-container">
+            <div className="comment">
+              <button
+                className="comment_button-back"
+                onClick={() => {
+                  setConfirmation(null);
+                  document.body.style.overflowY = "auto";
+                }}
+              >
+                {"<="}
               </button>
-              <p className="info-verify-PIN">
-                Only a customer who booked through Hotels.com and stayed at a specific property
-                can write a review. This lets us know our reviews come from real guests like you.
-              </p>
-            </form>
+              <form
+                id="comment-form"
+                className="input-field col s12"
+                onSubmit={(e) => createComment(e)}
+              >
+                <h5>{confirmation}</h5>
+                <div className="container-errors">
+                  {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
+                </div>
+                <textarea
+                  id="create-comment"
+                  type="text"
+                  className="validate"
+                  placeholder="Hotel was..."
+                  spellCheck={false}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <button type="submit" id="comment" className="waves-effect waves-light btn">
+                  Create
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-      ) : (
-        <p></p>
-      )}
-      {confirmation === "Create Comment" ? (
-        <div className="comment-container">
-          <div className="comment">
-            <button
-              className="comment_button-back"
-              onClick={() => {
-                setConfirmation(null);
-                document.body.style.overflowY = "auto";
-              }}
-            >
-              {"<="}
-            </button>
-            <form
-              id="comment-form"
-              className="input-field col s12"
-              onSubmit={(e) => createComment(e)}
-            >
-              <h5>{confirmation}</h5>
-              <div className="container-errors">
-                {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
-              </div>
-              <textarea
-                id="create-comment"
-                type="text"
-                className="validate"
-                placeholder="Hotel was..."
-                spellCheck={false}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <button type="submit" id="comment" className="waves-effect waves-light btn">
-                Create
-              </button>
-            </form>
-          </div>
-        </div>
-      ) : (
-        <p></p>
-      )}
-      <SliderComponent comments={commentsWithUser} />
+        ) : (
+          <p></p>
+        )}
+        {commentsWithUser.length > 0 ? (
+          <SliderComponent comments={commentsWithUser} />
+        ) : (
+          <h5 className="no-reviews">No Reviews...</h5>
+        )}
+      </div>
       <footer className="footer"></footer>
     </>
   );

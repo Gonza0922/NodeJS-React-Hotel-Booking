@@ -35,32 +35,43 @@
 
 /* HOTEL */
 
+.container-hotel-cards {
+  padding: 0px 165px 0px 150px;
+}
+
 .container-button-comment {
   text-align: center;
   margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clients-reviews-h5 {
+  margin: 0;
 }
 
 .container-slider {
   color: black;
-  margin: 50px 100px;
+  margin: 20px 0px;
 }
 
 .slick-arrow {
-  background-color: rgb(141, 141, 141);
   border-radius: 50%;
-}
-
-.slick-arrow:hover {
-  background-color: rgb(172, 172, 172);
 }
 
 .slick-slide > div {
   margin: 0 10px;
 }
 
+.no-reviews {
+  text-align: center;
+  padding: 20px;
+}
+
 /* Hotel Images */
 .images-gallery {
-  margin: 20px 85px;
+  margin: 20px 0px;
   display: grid;
   grid-template-columns: 53% repeat(2, 23.5%);
   grid-template-rows: repeat(2, 245px);

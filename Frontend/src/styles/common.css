@@ -70,9 +70,9 @@ pre {
 
 .container-hotel-info {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: start;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .delete-confirm-container,
