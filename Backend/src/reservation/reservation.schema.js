@@ -8,12 +8,12 @@ export const reservation = z.object({
       (value) => {
         const selectedDate = new Date(value);
         const today = new Date();
-        const maxDate = new Date("2025-01-01");
+        const maxDate = new Date("2026-01-01");
 
         return selectedDate >= today && selectedDate <= maxDate;
       },
       {
-        message: "Check In must be from tomorrow until December 31, 2024",
+        message: "Check In must be from tomorrow until December 31, 2025",
       }
     ),
   check_out: z
@@ -23,12 +23,12 @@ export const reservation = z.object({
       (value) => {
         const selectedDate = new Date(value);
         const today = new Date();
-        const maxDate = new Date("2025-01-01");
+        const maxDate = new Date("2026-01-01");
 
         return selectedDate >= today && selectedDate <= maxDate;
       },
       {
-        message: "Check Out must be from tomorrow until December 31, 2024",
+        message: "Check Out must be from tomorrow until December 31, 2025",
       }
     ),
   guests: z
