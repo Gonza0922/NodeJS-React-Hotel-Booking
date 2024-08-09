@@ -23,6 +23,7 @@ const ReservationOption = ({ guests, room_type, price_per_night, itsReserved }) 
           className="waves-effect waves-light btn"
           onClick={() => {
             verify();
+            document.body.style.overflowY = "hidden";
             setGuestsAndRoomType({ guests, room_type });
           }}
         >
