@@ -1,13 +1,23 @@
 import { db } from "../tables.js";
+import redisClient from "../redisConfig.js";
 
 export const getAllHotels = async (req, res) => {
   //Select all hotels
   try {
-    const { limit, page } = req.query;
+    const { limit = 1000000, page = 1 } = req.query;
+    const cacheKey = `hotels_page_${page}_limit_${limit}`;
+    const cachedHotels = await redisClient.get(cacheKey);
+    const cachedData = JSON.parse(cachedHotels);
+    if (cachedHotels && cachedData.pagination.limit === limit)
+      return res.status(200).json(cachedData);
     const offset = (page - 1) * limit;
     const [hotels] = await db.query("SELECT * FROM hotels LIMIT ? OFFSET ?", [limit, offset]);
     const [totalPageData] = await db.query("SELECT count(*) as count FROM hotels");
     const totalPage = Math.ceil(totalPageData[0]?.count / limit);
+    await redisClient.set(
+      cacheKey,
+      JSON.stringify({ data: hotels, pagination: { page, limit, totalPage } })
+    );
     res.status(200).json({ data: hotels, pagination: { page, limit, totalPage } });
   } catch (err) {
     console.error("Error:", err);
