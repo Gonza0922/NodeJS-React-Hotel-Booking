@@ -41,8 +41,8 @@ export const sendEmail = async (req, res) => {
         <h4>Hotel: ${hotelName[0].name}</h4>
       <div>`,
     });
-    if (data.error) return res.status(400).json({ error: data.error });
-    res.status(201).json({ message: "reservation and email sent correctly" });
+    if (data.error) return res.status(201).json({ message: "The email wasn´t sent" });
+    res.status(201).json({ message: "Reservation and email sent correctly" });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).json({ error: "Failed to send Email" });
