@@ -1,3 +1,13 @@
+#root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto auto;
+}
+
+main {
+  width: 100vw;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -6,7 +16,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
   min-width: 1360px;
-  margin-bottom: 100px;
 }
 
 /* ERRORS */
@@ -123,4 +132,45 @@ pre {
 .button-decline {
   float: right;
   margin-right: 10px;
+}
+
+/* FOOTER */
+
+.footer {
+  margin-top: 100px;
+  background-color: #dddddd;
+  padding: 1rem 0;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-section {
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.footer-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-link {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+.footer-link:hover {
+  color: #0004ff;
 }

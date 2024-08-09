@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import PartnerProvider from "./context/PartnerContext.jsx";
 import HotelProvider from "./context/HotelContext.jsx";
 import UserProvider from "./context/UserContext.jsx";
@@ -23,6 +23,49 @@ import UpdatePartnerProfile from "./pages/UpdatePartnerProfile.jsx";
 import UpdatePartnerPassword from "./pages/UpdatePartnerPassword.jsx";
 import ErrorHandling from "./components/ErrorHandling.jsx";
 import UserComments from "./pages/UserComments.jsx";
+import Footer from "./components/Footer.jsx";
+import LayoutWithFooter from "./components/LayoutWithFooter.jsx";
+
+function MyRoutes() {
+  const location = useLocation();
+
+  return (
+    <>
+      <Routes>
+        <Route element={<ErrorHandling />}>
+          <Route element={<LayoutWithFooter />}>
+            <Route index element={<Home />} />
+            <Route path="/hotel/:hotel_ID" element={<Hotel />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/LoginPartner" element={<LoginPartner />} />
+            <Route path="/RegisterPartner" element={<RegisterPartner />} />
+            <Route element={<UserProtectedPages />}>
+              <Route path="/users/:name" element={<Home />} />
+              <Route path="/users/:name/reservations" element={<Reservations />} />
+              <Route
+                path="/users/:name/reservations/update/:reservation_ID"
+                element={<UpdateReservation />}
+              />
+              <Route path="/users/:name/profile" element={<UpdateUserProfile />} />
+              <Route path="/users/:name/password" element={<UpdateUserPassword />} />
+              <Route path="/users/:name/reviews" element={<UserComments />} />
+            </Route>
+            <Route element={<PartnerProtectedPages />}>
+              <Route path="/partners/:name" element={<Partners />} />
+              <Route path="/partners/:name/create" element={<CreateHotel />} />
+              <Route path="/partners/:name/update/:hotel_ID" element={<UpdateHotel />} />
+              <Route path="/partners/:name/reservation/:hotel_ID" element={<WhoReserved />} />
+              <Route path="/partners/:name/profile" element={<UpdatePartnerProfile />} />
+              <Route path="/partners/:name/password" element={<UpdatePartnerPassword />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
 
 function App() {
   return (
@@ -30,36 +73,7 @@ function App() {
       <HotelProvider>
         <PartnerProvider>
           <BrowserRouter>
-            <Routes>
-              <Route element={<ErrorHandling />}>
-                <Route index element={<Home />} />
-                <Route path="/hotel/:hotel_ID" element={<Hotel />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/LoginPartner" element={<LoginPartner />} />
-                <Route path="/RegisterPartner" element={<RegisterPartner />} />
-                <Route element={<UserProtectedPages />}>
-                  <Route path="/users/:name" element={<Home />} />
-                  <Route path="/users/:name/reservations" element={<Reservations />} />
-                  <Route
-                    path="/users/:name/reservations/update/:reservation_ID"
-                    element={<UpdateReservation />}
-                  />
-                  <Route path="/users/:name/profile" element={<UpdateUserProfile />} />
-                  <Route path="/users/:name/password" element={<UpdateUserPassword />} />
-                  <Route path="/users/:name/reviews" element={<UserComments />} />
-                </Route>
-                <Route element={<PartnerProtectedPages />}>
-                  <Route path="/partners/:name" element={<Partners />} />
-                  <Route path="/partners/:name/create" element={<CreateHotel />} />
-                  <Route path="/partners/:name/update/:hotel_ID" element={<UpdateHotel />} />
-                  <Route path="/partners/:name/reservation/:hotel_ID" element={<WhoReserved />} />
-                  <Route path="/partners/:name/profile" element={<UpdatePartnerProfile />} />
-                  <Route path="/partners/:name/password" element={<UpdatePartnerPassword />} />
-                </Route>
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
+            <MyRoutes />
           </BrowserRouter>
         </PartnerProvider>
       </HotelProvider>
