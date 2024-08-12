@@ -116,6 +116,12 @@ pre {
 
 /* BUTTONS */
 
+.waves-effect,
+.waves-effect:hover {
+  text-transform: none;
+  box-shadow: none;
+}
+
 #button-padding {
   padding: 0px 40px;
 }

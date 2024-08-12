@@ -104,12 +104,9 @@ function UpdateUserProfile() {
         </a>
         <ul className="nav-wrapper_ul">
           <li>
-            <a
-              className="waves-effect waves-light btn red darken-2"
-              onClick={() => setConfirmDelete(true)}
-            >
+            <button className="delete-nav-button" onClick={() => setConfirmDelete(true)}>
               Delete Profile
-            </a>
+            </button>
           </li>
           <li>
             <a className="dropdown-trigger" href="#!" data-target="dropdown1">

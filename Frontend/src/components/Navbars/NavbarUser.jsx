@@ -53,12 +53,12 @@ function NavbarUser() {
           </a>
         </li>
         <li>
-          <a
-            className="waves-effect waves-light btn"
+          <button
+            className="nav-buttons"
             onClick={() => navigate(`/users/${user.first_name}/reservations`)}
           >
             Reservations
-          </a>
+          </button>
         </li>
         <li>
           <a className="dropdown-trigger" href="#!" data-target="dropdown1">

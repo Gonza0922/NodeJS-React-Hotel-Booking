@@ -93,12 +93,12 @@ const Partners = () => {
         </a>
         <ul className="nav-wrapper_ul">
           <li>
-            <a
-              className="waves-effect waves-light btn"
+            <button
+              className="nav-buttons"
               onClick={() => navigate(`/partners/${partner.first_name}/create`)}
             >
               Register Hotel
-            </a>
+            </button>
           </li>
           <li>
             <a className="dropdown-trigger" href="#!" data-target="dropdown1">

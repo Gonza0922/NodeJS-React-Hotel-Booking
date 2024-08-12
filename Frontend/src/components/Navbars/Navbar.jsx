@@ -44,14 +44,14 @@ function Navbar() {
           <a onClick={() => navigate("/LoginPartner")}>Publish</a>
         </li>
         <li>
-          <a className="waves-effect waves-light btn" onClick={() => navigate("/login")}>
+          <button className="nav-buttons" onClick={() => navigate("/login")}>
             Login
-          </a>
+          </button>
         </li>
         <li>
-          <a className="waves-effect waves-light btn" onClick={() => navigate("/register")}>
+          <button className="nav-buttons" onClick={() => navigate("/register")}>
             Register
-          </a>
+          </button>
         </li>
       </ul>
     </nav>
