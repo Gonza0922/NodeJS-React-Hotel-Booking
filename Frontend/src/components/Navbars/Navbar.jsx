@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useHotelContext } from "../../context/HotelContext.jsx";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Navbar() {
   const { hotelSearch, setHotelSearch, filtrar } = useHotelContext();
@@ -26,9 +27,7 @@ function Navbar() {
             autoComplete="off"
             spellCheck={false}
           ></input>
-          <label className="label-icon">
-            <i className="material-icons">search</i>
-          </label>
+          <SearchIcon className="search-icon" />
           <i
             className="material-icons"
             onClick={() => {

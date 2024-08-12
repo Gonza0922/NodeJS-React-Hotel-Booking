@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import { useHotelContext } from "../../context/HotelContext";
+import SearchIcon from "@mui/icons-material/Search";
 
 function NavbarUser() {
   const { logout, user } = useUserContext();
@@ -33,9 +34,7 @@ function NavbarUser() {
             autoComplete="off"
             spellCheck={false}
           ></input>
-          <label className="label-icon">
-            <i className="material-icons">search</i>
-          </label>
+          <SearchIcon className="search-icon" />
           <i
             className="material-icons"
             onClick={() => {
