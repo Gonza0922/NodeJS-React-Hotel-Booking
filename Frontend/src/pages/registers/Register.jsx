@@ -6,7 +6,7 @@ import { useUserContext } from "../../context/UserContext";
 import { useHotelContext } from "../../context/HotelContext";
 import { Countrys } from "../../components/Countrys";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { profileSchema } from "../../validations/profile.validation.js";
+import { registerProfileSchema } from "../../validations/profile.validation.js";
 
 export function Register() {
   const { user, isAuthenticated, signUp, error } = useUserContext();
@@ -16,7 +16,7 @@ export function Register() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm({ resolver: yupResolver(profileSchema) });
+  } = useForm({ resolver: yupResolver(registerProfileSchema) });
 
   const navigate = useNavigate();
 
@@ -72,13 +72,7 @@ export function Register() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("password", {
-                required: { value: true, message: "Password is required" },
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
+              {...register("password")}
             />
             <label htmlFor="password">Password</label>
             <div className="container-span">
@@ -174,7 +168,7 @@ export function Register() {
           </Link>
         </div>
         <div className="universal-container-button">
-          <button type="submit" id="button-padding" className="waves-effect waves-light btn">
+          <button type="submit" className="common-button">
             {load}
           </button>
         </div>

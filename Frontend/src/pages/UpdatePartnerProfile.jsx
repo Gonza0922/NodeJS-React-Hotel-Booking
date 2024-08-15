@@ -6,7 +6,7 @@ import { useHotelContext } from "../context/HotelContext";
 import { transformDateZ } from "../functions/dates";
 import { Countrys } from "../components/Countrys";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { profileSchema } from "../validations/profile.validation.js";
+import { updateProfileSchema } from "../validations/profile.validation.js";
 import {
   getPartnerIdRequest,
   putPartnerIdRequest,
@@ -23,7 +23,7 @@ function UpdatePartnerProfile() {
     reset,
     formState: { errors },
     control,
-  } = useForm({ resolver: yupResolver(profileSchema) });
+  } = useForm({ resolver: yupResolver(updateProfileSchema) });
   const navigate = useNavigate();
   const [partnerData, setPartnerData] = useState({
     email: "",
@@ -266,7 +266,7 @@ function UpdatePartnerProfile() {
           </div>
         </div>
         <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
+          <button type="submit" className="common-button">
             {load}
           </button>
         </div>
@@ -278,10 +278,7 @@ function UpdatePartnerProfile() {
               If you delete your profile, your hotels and their reservations will also be deleted.
             </h5>
             <div className="container-button-delete-confirm">
-              <button
-                onClick={() => setConfirmDelete(false)}
-                className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-              >
+              <button onClick={() => setConfirmDelete(false)} className="button-cancel-confirm">
                 Cancel
               </button>
               <button
@@ -289,7 +286,7 @@ function UpdatePartnerProfile() {
                   deletePartner();
                   setConfirmDelete(false);
                 }}
-                className="button-delete-confirm waves-effect waves-light btn red darken-2"
+                className="button-delete-confirm"
               >
                 Delete
               </button>

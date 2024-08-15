@@ -48,7 +48,7 @@ function Home() {
                 </div>
                 <div className="card-content">
                   <span className="card-title">{hotel.name}</span>
-                  <a className="btn-floating halfway-fab waves-effect waves-light">View</a>
+                  <button className="button-view">View</button>
                   <h5>${hotel.price_per_night}</h5>
                   <TruncateText text={hotel.description} maxLength={200} />
                   <h6>{hotel.location}</h6>

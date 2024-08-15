@@ -57,7 +57,7 @@ function Reservations() {
       {reservations.length === 0 ? (
         <div className="no-reservations">
           <h4>THERE ARE NO RESERVATIONS...</h4>
-          <button onClick={() => navigate("/login")} className="waves-effect waves-light btn">
+          <button onClick={() => navigate("/login")} className="common-button">
             Start by making a reservation
           </button>
         </div>
@@ -83,13 +83,13 @@ function Reservations() {
                 )}
                 <button
                   onClick={() => showConfirmDelete(reservation.reservation_ID)}
-                  className="buttons-right waves-effect waves-light btn red darken-2"
+                  className="buttons-right-delete"
                 >
                   Delete Reservation
                 </button>
                 <button
                   onClick={() => navigate(`update/${reservation.reservation_ID}`)}
-                  className="buttons-right waves-effect waves-light btn"
+                  className="buttons-right"
                 >
                   Edit Reservation
                 </button>

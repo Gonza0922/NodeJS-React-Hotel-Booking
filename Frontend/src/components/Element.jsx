@@ -35,21 +35,15 @@ const Element = ({ bookings, hotel_ID }) => {
         ) : bookings.length > 1 ? (
           <div className="container-select-who-reserved-card">
             <h5>There´s {bookings.length} Reservations</h5>
-            <button
-              onClick={handleClick}
-              className="btn-who-reserved waves-effect waves-light btn teal lighten-1"
-            >
-              who reserved? {"=>"}
+            <button onClick={handleClick} className="common-button">
+              Who reserved? {"=>"}
             </button>
           </div>
         ) : typeof bookings === "object" ? (
           <div className="container-select-who-reserved-card">
             <h5>There´s 1 Reservation</h5>
-            <button
-              onClick={clickGetUser}
-              className="btn-who-reserved waves-effect waves-light btn teal lighten-1"
-            >
-              who reserved? {"=>"}
+            <button onClick={clickGetUser} className="common-button">
+              Who reserved? {"=>"}
             </button>
           </div>
         ) : (

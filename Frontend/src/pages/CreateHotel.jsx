@@ -264,7 +264,7 @@ function CreateHotel() {
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>
         <div className="universal-container-button">
-          <button id="button-padding" type="submit" className="waves-effect waves-light btn">
+          <button type="submit" className="common-button">
             {load}
           </button>
         </div>

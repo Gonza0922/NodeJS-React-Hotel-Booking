@@ -21,16 +21,21 @@
   object-fit: cover;
 }
 
-.btn-floating {
-  margin-bottom: 40px;
-  border-radius: 10px;
-  padding-left: 33px;
-  width: 100px;
-  background-color: #ff8a65;
+.button-view {
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  background-color: #fd7c54;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 3px;
 }
 
-.btn-floating:hover {
-  background-color: #ff7044;
+.button-view:hover {
+  background-color: #ff8a65;
 }
 
 /* HOTEL */

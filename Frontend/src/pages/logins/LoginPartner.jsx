@@ -79,7 +79,7 @@ export function LoginPartner() {
             </div>
           </div>
           <div className="universal-container-button">
-            <button type="submit" id="button-padding" className="waves-effect waves-light btn">
+            <button type="submit" className="login-register-partner-button">
               Sign In
             </button>
           </div>
@@ -87,7 +87,7 @@ export function LoginPartner() {
             <button
               type="button"
               onClick={() => navigate("/registerpartner")}
-              className="waves-effect waves-light btn"
+              className="login-register-partner-button"
             >
               Create yor partner account
             </button>

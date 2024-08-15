@@ -17,13 +17,12 @@ const ReservationOption = ({ guests, room_type, price_per_night, itsReserved }) 
       <div>Room Type: {room_type}</div>
       <div>Per Night: ${guests * price_per_night}</div>
       {itsReserved === room_type ? (
-        <div className="waves-effect waves-light btn red darken-2">My Reservation</div>
+        <div className="button-my-reservation">My Reservation</div>
       ) : (
         <button
-          className="waves-effect waves-light btn"
+          className="common-button"
           onClick={() => {
             verify();
-            document.body.style.overflowY = "hidden";
             setGuestsAndRoomType({ guests, room_type });
           }}
         >

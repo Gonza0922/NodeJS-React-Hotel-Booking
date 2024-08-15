@@ -103,7 +103,7 @@ function UserComments() {
       {comments.length === 0 ? (
         <div className="no-comments">
           <h4>THERE ARE NO REVIEWS...</h4>
-          <button onClick={() => navigate("/login")} className="waves-effect waves-light btn">
+          <button onClick={() => navigate("/login")} className="common-button">
             Start by making a Review
           </button>
         </div>
@@ -138,13 +138,13 @@ function UserComments() {
                 <div className="container-my-comment_edit-delete">
                   <button
                     onClick={() => showConfirmDelete(comment.comment_ID)}
-                    className="buttons-right waves-effect waves-light btn red darken-2"
+                    className="buttons-right-delete"
                   >
                     Delete Review
                   </button>
                   <button
                     onClick={() => handleEditClick(comment.comment_ID, comment.isEditing)}
-                    className="buttons-right waves-effect waves-light btn"
+                    className="buttons-right"
                   >
                     {!comment.isEditing ? "Edit Review" : "Confirm Review"}
                   </button>

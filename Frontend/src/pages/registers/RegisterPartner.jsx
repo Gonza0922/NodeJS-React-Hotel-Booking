@@ -6,7 +6,7 @@ import { usePartnerContext } from "../../context/PartnerContext.jsx";
 import { useHotelContext } from "../../context/HotelContext.jsx";
 import { Countrys } from "../../components/Countrys.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { profileSchema } from "../../validations/profile.validation.js";
+import { registerProfileSchema } from "../../validations/profile.validation.js";
 
 export function RegisterPartner() {
   const { partner, isAuthenticatedPartner, signUp, error } = usePartnerContext();
@@ -16,7 +16,7 @@ export function RegisterPartner() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm({ resolver: yupResolver(profileSchema) });
+  } = useForm({ resolver: yupResolver(registerProfileSchema) });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,13 +71,7 @@ export function RegisterPartner() {
               className="validate"
               autoComplete="off"
               spellCheck={false}
-              {...register("password", {
-                required: { value: true, message: "Password is required" },
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
+              {...register("password")}
             />
             <label htmlFor="password">Password</label>
             <div className="container-span">
@@ -167,7 +161,7 @@ export function RegisterPartner() {
           </div>
         </div>
         <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
+          <button type="submit" className="login-register-partner-button">
             {load}
           </button>
         </div>
@@ -175,7 +169,7 @@ export function RegisterPartner() {
           <button
             type="button"
             onClick={() => navigate("/loginpartner")}
-            className="waves-effect waves-light btn"
+            className="login-register-partner-button"
           >
             Login yor partner account
           </button>

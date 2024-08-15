@@ -103,9 +103,8 @@ function WhoReserved() {
                 <h6>Total Price:</h6> ${bookings.total_price}
               </div>
               <button
-                id="button-padding"
                 onClick={() => showConfirmDelete(bookings.reservation_ID)}
-                className="button-decline waves-effect waves-light btn red darken-2"
+                className="button-decline"
               >
                 Decline
               </button>
@@ -152,12 +151,11 @@ function WhoReserved() {
                   <h6>Total Price:</h6> ${reserve.total_price}
                 </div>
                 <button
-                  id="button-padding"
                   onClick={() => {
                     setIdToDelete(reserve.reservation_ID);
                     showConfirmDelete(reserve.reservation_ID);
                   }}
-                  className="button-decline waves-effect waves-light btn red darken-2"
+                  className="button-decline"
                 >
                   Decline
                 </button>

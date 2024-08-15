@@ -7,7 +7,7 @@ import { useHotelContext } from "../context/HotelContext.jsx";
 import { transformDateZ } from "../functions/dates.js";
 import { Countrys } from "../components/Countrys.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { profileSchema } from "../validations/profile.validation.js";
+import { updateProfileSchema } from "../validations/profile.validation.js";
 import { deleteUserRequest, getUserIdRequest, putUserIdRequest } from "../api/user.api.js";
 
 function UpdateUserProfile() {
@@ -20,7 +20,7 @@ function UpdateUserProfile() {
     reset,
     formState: { errors },
     control,
-  } = useForm({ resolver: yupResolver(profileSchema) });
+  } = useForm({ resolver: yupResolver(updateProfileSchema) });
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -263,7 +263,7 @@ function UpdateUserProfile() {
           </div>
         </div>
         <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
+          <button type="submit" className="common-button">
             {load}
           </button>
         </div>
@@ -273,10 +273,7 @@ function UpdateUserProfile() {
           <div className="delete-confirm">
             <h5>If you delete your profile, the Reservations will also be deleted.</h5>
             <div className="container-button-delete-confirm">
-              <button
-                onClick={() => setConfirmDelete(false)}
-                className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-              >
+              <button onClick={() => setConfirmDelete(false)} className="button-cancel-confirm">
                 Cancel
               </button>
               <button
@@ -284,7 +281,7 @@ function UpdateUserProfile() {
                   deleteUser();
                   setConfirmDelete(false);
                 }}
-                className="button-delete-confirm waves-effect waves-light btn red darken-2"
+                className="button-delete-confirm"
               >
                 Delete
               </button>

@@ -123,6 +123,7 @@ function Home() {
   }, [confirmation]);
 
   const createReservation = async (reservation) => {
+    document.body.style.overflowY = "hidden";
     try {
       await postReservationRequest(reservation);
       setConfirmation("Correctly booked hotel");
@@ -290,7 +291,7 @@ function Home() {
                   if (isPIN) return setConfirmation("Create Comment");
                   setConfirmation("Verify PIN");
                 }}
-                className="waves-effect waves-light btn"
+                className="common-button"
               >
                 Write a review
               </button>
@@ -315,7 +316,7 @@ function Home() {
                     navigate(`/users/${user.first_name}/reservations`);
                     window.scrollTo(0, 0);
                   }}
-                  className="button-delete-confirm waves-effect waves-light btn blue darken-2"
+                  className="button-cancel-confirm"
                 >
                   My reservations
                 </button>
@@ -328,7 +329,7 @@ function Home() {
                       console.log(datosUsar);
                     }
                   }}
-                  className="button-delete-confirm waves-effect waves-light btn"
+                  className="common-button"
                 >
                   Reserve Now
                 </button>
@@ -337,7 +338,7 @@ function Home() {
                     setConfirmation(null);
                     document.body.style.overflowY = "auto";
                   }}
-                  className="button-delete-confirm waves-effect waves-light btn red darken-2"
+                  className="button-delete-confirm"
                 >
                   Cancel
                 </button>
@@ -353,7 +354,7 @@ function Home() {
                   document.body.style.overflowY = "auto";
                   navigate(`/users/${user.first_name}`);
                 }}
-                className="button-delete-confirm waves-effect waves-light btn blue darken-2"
+                className="common-button"
               >
                 Great
               </button>
@@ -414,7 +415,7 @@ function Home() {
                     />
                   </div>
                 </div>
-                <button id="comment" className="waves-effect waves-light btn">
+                <button id="comment" className="common-button">
                   Rate your stay
                 </button>
                 <p className="info-verify-PIN">
@@ -457,7 +458,7 @@ function Home() {
                   spellCheck={false}
                   onChange={(e) => setComment(e.target.value)}
                 />
-                <button type="submit" id="comment" className="waves-effect waves-light btn">
+                <button type="submit" id="comment" className="common-button">
                   Create
                 </button>
               </form>

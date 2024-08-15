@@ -107,7 +107,7 @@ function UpdateUserPassword() {
           </div>
         </div>
         <div className="universal-container-button">
-          <button type="submit" className="waves-effect waves-light btn">
+          <button type="submit" className="common-button">
             Update Password
           </button>
         </div>

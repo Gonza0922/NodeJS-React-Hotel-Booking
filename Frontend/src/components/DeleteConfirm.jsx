@@ -3,10 +3,7 @@ const DeleteConfirm = ({ text, id, showConfirmDelete, deleteReservation, buttonN
     <div className="delete-confirm">
       <h5>{text}</h5>
       <div className="container-button-delete-confirm">
-        <button
-          onClick={() => showConfirmDelete(id)}
-          className="button-delete-confirm waves-effect waves-light btn blue darken-2"
-        >
+        <button onClick={() => showConfirmDelete(id)} className="button-cancel-confirm">
           Cancel
         </button>
         <button
@@ -14,7 +11,7 @@ const DeleteConfirm = ({ text, id, showConfirmDelete, deleteReservation, buttonN
             deleteReservation(id);
             showConfirmDelete(id);
           }}
-          className="button-delete-confirm waves-effect waves-light btn red darken-2"
+          className="button-delete-confirm"
         >
           {buttonName}
         </button>

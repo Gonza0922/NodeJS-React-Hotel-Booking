@@ -1,7 +1,7 @@
 #root {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto 0.5fr auto;
 }
 
 main {
@@ -116,10 +116,31 @@ pre {
 
 /* BUTTONS */
 
-.waves-effect,
-.waves-effect:hover {
-  text-transform: none;
-  box-shadow: none;
+.common-button,
+.login-register-partner-button {
+  background-color: #fd7c54;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.common-button {
+  margin: 10px;
+}
+
+.login-register-partner-button {
+  margin: 0;
+}
+
+.common-button:focus,
+.login-register-partner-button:focus {
+  background-color: #fd7c54;
+}
+
+.common-button:hover,
+.login-register-partner-button:hover {
+  background-color: #ff8a65;
 }
 
 #button-padding {
@@ -129,15 +150,82 @@ pre {
 .buttons-right {
   float: right;
   margin-right: 40px;
+  background-color: #fd7c54;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.buttons-right:focus {
+  background-color: #fd7c54;
+}
+
+.buttons-right:hover {
+  background-color: #ff8a65;
+}
+
+.buttons-right-delete {
+  float: right;
+  margin-right: 40px;
+  background-color: #d31717;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.buttons-right-delete:focus {
+  background-color: #d31717;
+}
+
+.buttons-right-delete:hover {
+  background-color: #c21616;
 }
 
 .button-delete-confirm {
   margin: 10px;
+  background-color: #d31717;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .button-decline {
   float: right;
   margin-right: 10px;
+  background-color: #d31717;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button-decline:hover,
+.button-delete-confirm:hover {
+  background-color: #c21616;
+}
+
+.button-cancel-confirm {
+  margin: 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button-cancel-confirm:hover {
+  background-color: #1664b3;
+}
+
+.button-my-reservation {
+  background-color: #d31717;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  margin: 10px;
 }
 
 /* FOOTER */
