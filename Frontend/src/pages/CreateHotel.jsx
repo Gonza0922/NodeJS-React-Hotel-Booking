@@ -118,7 +118,7 @@ function CreateHotel() {
     <>
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <form className="create-update-hotel col s12" onSubmit={onSubmit}>
-        <h3>Register Hotel</h3>
+        <h3 className="center-title">Register Hotel</h3>
         <div className="container-sections-create-and-update-hotel">
           <div className="first-section-create-and-update-hotel">
             <div className="row-input">

@@ -136,7 +136,7 @@ function UpdateUserProfile() {
         </ul>
       </nav>
       <form className="basic-form col s12" onSubmit={onSubmit}>
-        <h3 className="form-title">Update Profile</h3>
+        <h3 className="center-title">Update Profile</h3>
         <div className="container-errors">
           {!Array.isArray(error) ? <div className="error">{error}</div> : <div></div>}
         </div>

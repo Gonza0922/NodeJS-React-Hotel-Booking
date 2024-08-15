@@ -64,6 +64,7 @@ function WhoReserved() {
     <>
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
       <h3 className="title">Clients who reserved at {hotel.name}</h3>
+      <p className="p-down-title">Manage your Hotel Reservations</p>
       <div>
         {typeof bookings === "object" && !Array.isArray(bookings) ? (
           <div className="container-who-reserved-card">

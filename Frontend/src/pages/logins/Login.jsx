@@ -29,7 +29,7 @@ export function Login() {
     <>
       <NavbarLRP />
       <form className="basic-form col s12" onSubmit={onSubmit}>
-        <h3 className="form-title">Login Account</h3>
+        <h3 className="center-title">Login Account</h3>
         <div className="container-errors">
           {error === "User not found" ? (
             <div className="error">{error}</div>

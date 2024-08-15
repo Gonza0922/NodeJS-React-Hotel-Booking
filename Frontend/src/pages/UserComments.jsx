@@ -99,7 +99,7 @@ function UserComments() {
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
-      <h3 className="my-reviews-title">My Reviews</h3>
+      <h3 className="center-title">My Reviews</h3>
       {comments.length === 0 ? (
         <div className="no-comments">
           <h4>THERE ARE NO REVIEWS...</h4>

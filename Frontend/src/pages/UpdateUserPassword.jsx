@@ -33,7 +33,7 @@ function UpdateUserPassword() {
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <form className="basic-form col s12" onSubmit={onSubmit}>
-        <h3 className="form-title">Update User Password</h3>
+        <h3 className="center-title">Update User Password</h3>
         <div className="container-errors">
           {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>

@@ -33,7 +33,7 @@ function UpdatePartnerPassword() {
     <>
       <NavbarMenuPartner navigation={"partners"} profile={partner} logout={logout} />
       <form className="basic-form  col s12" onSubmit={onSubmit}>
-        <h3 className="form-title">Update Partner Password</h3>
+        <h3 className="center-title">Update Partner Password</h3>
         <div className="container-errors">
           {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>

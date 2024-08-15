@@ -15,7 +15,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
   width: 100vw;
   min-width: 1360px;
 }
@@ -46,10 +46,25 @@ body {
   margin: auto;
 }
 
-/* H3, INPUT, LABEL, PRE */
+/* H3, P, INPUT, LABEL, PRE */
 
 .title {
-  margin: 20px;
+  font-size: 2.2rem;
+  color: #4b4b4b;
+  margin: 30px 20px 20px 20px;
+  font-weight: bold;
+}
+
+.center-title {
+  font-size: 2.2rem;
+  color: #4b4b4b;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.p-down-title {
+  margin: 0px 20px 10px 20px;
 }
 
 .input-field {
@@ -202,6 +217,10 @@ pre {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.button-decline:focus {
+  background-color: var(--button-red-color);
 }
 
 .button-decline:hover,

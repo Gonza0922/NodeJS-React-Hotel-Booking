@@ -29,7 +29,7 @@ export function LoginPartner() {
     <>
       <NavbarLRP />
       <form className="basic-form col s12" onSubmit={onSubmit}>
-        <h3 className="form-title">Login Partner</h3>
+        <h3 className="center-title">Login Partner</h3>
         <div className="container-errors">
           {error === "Partner not found" ? (
             <div className="error">{error}</div>

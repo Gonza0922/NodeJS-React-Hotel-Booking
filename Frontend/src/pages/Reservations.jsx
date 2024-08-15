@@ -54,6 +54,7 @@ function Reservations() {
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <h3 className="title">My Reservations</h3>
+      <p className="p-down-title">Manage Hotels Reservations</p>
       {reservations.length === 0 ? (
         <div className="no-reservations">
           <h4>THERE ARE NO RESERVATIONS...</h4>

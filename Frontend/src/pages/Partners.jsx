@@ -126,6 +126,7 @@ const Partners = () => {
         </ul>
       </nav>
       <h3 className="title">My Hotels</h3>
+      <p className="p-down-title">Manage your Published Hotels</p>
       {hotels.length === 0 ? (
         <div className="no-reservations">
           <h4>THERE ARE NO HOTELS...</h4>

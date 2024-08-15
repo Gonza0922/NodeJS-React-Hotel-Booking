@@ -30,18 +30,21 @@ function UpdateReservation() {
     const clickGetReservation = async () => {
       try {
         const data = await getReservationIdRequest(reservation_ID);
-        const hotelName = await getHotelIdRequest(data.hotel_ID);
+        const hotel = await getHotelIdRequest(data.hotel_ID);
         setReservationData({
           ...data,
           check_in: transformDateZ(data.check_in),
           check_out: transformDateZ(data.check_out),
-          hotelPrice_per_night: hotelName.price_per_night,
+          hotelPrice_per_night: hotel.price_per_night,
+          hotelName: hotel.name,
         });
         reset({
           ...data,
           check_in: transformDateZ(data.check_in),
           check_out: transformDateZ(data.check_out),
         });
+        console.log(data);
+        console.log(hotel);
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
@@ -81,7 +84,8 @@ function UpdateReservation() {
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
       <form className="update-reservation-form col s12" onSubmit={handleClick}>
-        <h3 className="form-title">Update Reservation {reservation_ID}</h3>
+        <h3 className="center-title">Update Reservation</h3>
+        <h3 className="center-title">"{reservationData.hotelName}"</h3>
         <div className="container-errors">
           {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
         </div>
