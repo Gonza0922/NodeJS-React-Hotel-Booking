@@ -68,7 +68,9 @@
 
 /* input */
 #check_out,
-#check_in {
+#check_in,
+#birthdate,
+.browser-default {
   cursor: pointer;
 }
 

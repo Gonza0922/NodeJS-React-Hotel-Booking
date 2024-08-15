@@ -79,6 +79,10 @@
   cursor: pointer;
 }
 
+.delete-nav-button:focus {
+  background-color: var(--button-red-color);
+}
+
 .delete-nav-button:hover {
   background-color: var(--button-red-hover-color);
 }
