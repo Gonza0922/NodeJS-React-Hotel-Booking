@@ -1,3 +1,5 @@
+@import "variables.css";
+
 /* HOME */
 
 .hotel-not-found {
@@ -25,7 +27,7 @@
   position: absolute;
   bottom: 12px;
   right: 20px;
-  background-color: #fd7c54;
+  background-color: var(--button-orange-focus-color);
   color: white;
   border: none;
   padding: 10px 30px;
@@ -35,7 +37,7 @@
 }
 
 .button-view:hover {
-  background-color: #ff8a65;
+  background-color: var(--orange-color);
 }
 
 /* HOTEL */

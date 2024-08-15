@@ -1,8 +1,10 @@
+@import "variables.css";
+
 /* nav */
 .nav-wrapper {
   width: 100vw;
   height: 85px;
-  background-color: #ff8a65;
+  background-color: var(--orange-color);
   min-width: 1260px;
   padding: 10px 50px;
   display: flex;
@@ -56,7 +58,7 @@
 /* button */
 .nav-buttons {
   background-color: rgb(255, 255, 255);
-  color: #ff8a65;
+  color: var(--orange-color);
   border: none;
   padding: 10px 20px;
   margin: 10px;
@@ -69,7 +71,7 @@
 
 /* button */
 .delete-nav-button {
-  background-color: #d31717;
+  background-color: var(--button-red-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -78,5 +80,5 @@
 }
 
 .delete-nav-button:hover {
-  background-color: #c21616;
+  background-color: var(--button-red-hover-color);
 }

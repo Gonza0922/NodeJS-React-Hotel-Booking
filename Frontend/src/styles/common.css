@@ -1,3 +1,5 @@
+@import "variables.css";
+
 #root {
   min-height: 100vh;
   display: grid;
@@ -118,7 +120,7 @@ pre {
 
 .common-button,
 .login-register-partner-button {
-  background-color: #fd7c54;
+  background-color: var(--button-orange-focus-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -135,12 +137,12 @@ pre {
 
 .common-button:focus,
 .login-register-partner-button:focus {
-  background-color: #fd7c54;
+  background-color: var(--button-orange-focus-color);
 }
 
 .common-button:hover,
 .login-register-partner-button:hover {
-  background-color: #ff8a65;
+  background-color: var(--orange-color);
 }
 
 #button-padding {
@@ -150,7 +152,7 @@ pre {
 .buttons-right {
   float: right;
   margin-right: 40px;
-  background-color: #fd7c54;
+  background-color: var(--button-orange-focus-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -158,17 +160,17 @@ pre {
 }
 
 .buttons-right:focus {
-  background-color: #fd7c54;
+  background-color: var(--button-orange-focus-color);
 }
 
 .buttons-right:hover {
-  background-color: #ff8a65;
+  background-color: var(--orange-color);
 }
 
 .buttons-right-delete {
   float: right;
   margin-right: 40px;
-  background-color: #d31717;
+  background-color: var(--button-red-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -176,16 +178,16 @@ pre {
 }
 
 .buttons-right-delete:focus {
-  background-color: #d31717;
+  background-color: var(--button-red-color);
 }
 
 .buttons-right-delete:hover {
-  background-color: #c21616;
+  background-color: var(--button-red-hover-color);
 }
 
 .button-delete-confirm {
   margin: 10px;
-  background-color: #d31717;
+  background-color: var(--button-red-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -195,7 +197,7 @@ pre {
 .button-decline {
   float: right;
   margin-right: 10px;
-  background-color: #d31717;
+  background-color: var(--button-red-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -204,12 +206,12 @@ pre {
 
 .button-decline:hover,
 .button-delete-confirm:hover {
-  background-color: #c21616;
+  background-color: var(--button-red-hover-color);
 }
 
 .button-cancel-confirm {
   margin: 10px;
-  background-color: #1976d2;
+  background-color: var(--button-blue-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -217,11 +219,11 @@ pre {
 }
 
 .button-cancel-confirm:hover {
-  background-color: #1664b3;
+  background-color: var(--button-blue-hover-color);
 }
 
 .button-my-reservation {
-  background-color: #d31717;
+  background-color: var(--button-red-color);
   color: white;
   border: none;
   padding: 8px 20px;
