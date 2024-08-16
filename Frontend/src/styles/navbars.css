@@ -51,8 +51,9 @@
 
 /* a */
 .dropdown-trigger {
-  font-size: 20px;
-  padding: 0px 39px;
+  position: relative;
+  font-size: 15px;
+  padding: 0 15px 0 55px;
 }
 
 /* button */

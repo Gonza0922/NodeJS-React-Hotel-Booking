@@ -26,8 +26,8 @@ function NavbarUserWithOutSearching() {
         </li>
         <li>
           <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-            {user.first_name}
-            <i className="material-icons right">arrow_drop_down</i>
+            <div className="logo-initial">{user.first_name.split("")[0]}</div>
+            {user.first_name} {user.last_name}
           </a>
         </li>
         <ul id="dropdown1" className="dropdown-content">
@@ -36,7 +36,7 @@ function NavbarUserWithOutSearching() {
           </li>
           <li className="divider" tabIndex="-1"></li>
           <li>
-            <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Change Password</a>
+            <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Password</a>
           </li>
           <li className="divider" tabIndex="-2"></li>
           <li>

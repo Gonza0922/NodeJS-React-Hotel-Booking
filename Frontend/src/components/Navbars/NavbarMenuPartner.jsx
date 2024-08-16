@@ -16,8 +16,8 @@ function NavbarMenuPartner({ navigation, profile, logout }) {
       <ul className="nav-wrapper_ul">
         <li>
           <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-            {profile.first_name}
-            <i className="material-icons right">arrow_drop_down</i>
+            <div className="logo-initial">{profile.first_name.split("")[0]}</div>
+            {profile.first_name} {profile.last_name}
           </a>
         </li>
         <ul id="dropdown1" className="dropdown-content">
@@ -29,7 +29,7 @@ function NavbarMenuPartner({ navigation, profile, logout }) {
           <li className="divider" tabIndex="-1"></li>
           <li>
             <a onClick={() => navigate(`/${navigation}/${profile.first_name}/password`)}>
-              Change Password
+              Password
             </a>
           </li>
           <li className="divider" tabIndex="-2"></li>

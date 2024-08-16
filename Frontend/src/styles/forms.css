@@ -110,6 +110,22 @@
   margin-right: 10px;
 }
 
+.logo-initial {
+  position: absolute;
+  bottom: 15px;
+  left: 13px;
+  width: 35px;
+  height: 35px;
+  background-color: rgb(67, 138, 245);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  margin-right: 10px;
+}
+
 .comment_name {
   font-size: 18px;
 }

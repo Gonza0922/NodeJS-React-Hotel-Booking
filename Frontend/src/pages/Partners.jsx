@@ -102,8 +102,8 @@ const Partners = () => {
           </li>
           <li>
             <a className="dropdown-trigger" href="#!" data-target="dropdown1">
-              {partner.first_name}
-              <i className="material-icons right">arrow_drop_down</i>
+              <div className="logo-initial">{partner.first_name.split("")[0]}</div>
+              {partner.first_name} {partner.last_name}
             </a>
           </li>
           <ul id="dropdown1" className="dropdown-content">
@@ -114,9 +114,7 @@ const Partners = () => {
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
-              <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>
-                Change Password
-              </a>
+              <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>Password</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
