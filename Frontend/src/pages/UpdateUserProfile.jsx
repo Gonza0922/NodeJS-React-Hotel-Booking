@@ -9,6 +9,12 @@ import { Countrys } from "../components/Countrys.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateProfileSchema } from "../validations/profile.validation.js";
 import { deleteUserRequest, getUserIdRequest, putUserIdRequest } from "../api/user.api.js";
+import {
+  MyCommentIcon,
+  MyLogoutIcon,
+  MyPasswordIcon,
+  MyPersonIcon,
+} from "../components/Icons.jsx";
 
 function UpdateUserProfile() {
   const { logout, user, error, setError } = useUserContext();
@@ -116,18 +122,22 @@ function UpdateUserProfile() {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
-              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
+              <MyPersonIcon />
+              <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Manage Profile</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
+              <MyPasswordIcon />
               <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Password</a>
             </li>
             <li className="divider" tabIndex="-2"></li>
             <li>
+              <MyCommentIcon />
               <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
             </li>
             <li className="divider" tabIndex="-3"></li>
             <li>
+              <MyLogoutIcon />
               <a onClick={logout}>Logout</a>
             </li>
           </ul>

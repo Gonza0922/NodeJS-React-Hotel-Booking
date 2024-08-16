@@ -56,6 +56,38 @@
   padding: 0 15px 0 55px;
 }
 
+/* ul */
+.dropdown-content {
+  border-radius: 5px;
+  position: absolute;
+}
+
+/* li */
+.dropdown-content li {
+  background-color: white;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+/* a */
+.dropdown-content li a {
+  font-size: 15px;
+  width: 100%;
+  color: #333;
+  margin-left: 15px;
+  padding-left: 0;
+}
+
+.dropdown-content li a:hover {
+  background-color: transparent;
+}
+
+.dropdown-content li .dropdown-icon {
+  font-size: 20px;
+  margin-left: 15px;
+}
+
 /* button */
 .nav-buttons {
   background-color: rgb(255, 255, 255);

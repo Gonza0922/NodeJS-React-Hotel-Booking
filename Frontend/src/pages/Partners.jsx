@@ -6,6 +6,7 @@ import { getReservationFromHotelRequest } from "../api/reservation.api.js";
 import Element from "../components/Element.jsx";
 import { useNavigate } from "react-router-dom";
 import DeleteConfirm from "../components/DeleteConfirm.jsx";
+import { MyLogoutIcon, MyPasswordIcon, MyPersonIcon } from "../components/Icons.jsx";
 
 const Partners = () => {
   const { hotels, setHotels, setRedirect, setErrorRedirect } = useHotelContext();
@@ -108,16 +109,19 @@ const Partners = () => {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
+              <MyPersonIcon />
               <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
-                Profile Data
+                Manage Profile
               </a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
+              <MyPasswordIcon />
               <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>Password</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
+              <MyLogoutIcon />
               <a onClick={logout}>Logout</a>
             </li>
           </ul>

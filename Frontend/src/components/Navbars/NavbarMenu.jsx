@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { MyCommentIcon, MyLogoutIcon, MyPasswordIcon, MyPersonIcon } from "../Icons";
 
 function NavbarMenu({ navigation, profile, logout }) {
   const navigate = useNavigate();
@@ -22,24 +23,28 @@ function NavbarMenu({ navigation, profile, logout }) {
         </li>
         <ul id="dropdown1" className="dropdown-content">
           <li>
+            <MyPersonIcon />
             <a onClick={() => navigate(`/${navigation}/${profile.first_name}/profile`)}>
-              Profile Data
+              Manage Profile
             </a>
           </li>
           <li className="divider" tabIndex="-1"></li>
           <li>
+            <MyPasswordIcon />
             <a onClick={() => navigate(`/${navigation}/${profile.first_name}/password`)}>
               Password
             </a>
           </li>
           <li className="divider" tabIndex="-2"></li>
           <li>
+            <MyCommentIcon />
             <a onClick={() => navigate(`/${navigation}/${profile.first_name}/reviews`)}>
               Reviews
             </a>
           </li>
           <li className="divider" tabIndex="-3"></li>
           <li>
+            <MyLogoutIcon />
             <a onClick={logout}>Logout</a>
           </li>
         </ul>

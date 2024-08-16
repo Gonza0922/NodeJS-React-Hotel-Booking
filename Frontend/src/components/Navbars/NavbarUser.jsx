@@ -2,7 +2,13 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import { useHotelContext } from "../../context/HotelContext";
-import SearchIcon from "@mui/icons-material/Search";
+import {
+  MyCommentIcon,
+  MyLogoutIcon,
+  MyPasswordIcon,
+  MyPersonIcon,
+  MySearchIcon,
+} from "../Icons";
 
 function NavbarUser() {
   const { logout, user } = useUserContext();
@@ -34,7 +40,7 @@ function NavbarUser() {
             autoComplete="off"
             spellCheck={false}
           ></input>
-          <SearchIcon className="search-icon" />
+          <MySearchIcon />
           <i
             className="material-icons"
             onClick={() => {
@@ -68,18 +74,22 @@ function NavbarUser() {
         </li>
         <ul id="dropdown1" className="dropdown-content">
           <li>
-            <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
+            <MyPersonIcon />
+            <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Manage Profile</a>
           </li>
           <li className="divider" tabIndex="-1"></li>
           <li>
+            <MyPasswordIcon />
             <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Password</a>
           </li>
           <li className="divider" tabIndex="-2"></li>
           <li>
+            <MyCommentIcon />
             <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
           </li>
           <li className="divider" tabIndex="-3"></li>
           <li>
+            <MyLogoutIcon />
             <a onClick={logout}>Logout</a>
           </li>
         </ul>

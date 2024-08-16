@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import { useEffect } from "react";
+import { MyCommentIcon, MyLogoutIcon, MyPasswordIcon, MyPersonIcon } from "../Icons";
 
 function NavbarUserWithOutSearching() {
   const { logout, user } = useUserContext();
@@ -32,18 +33,22 @@ function NavbarUserWithOutSearching() {
         </li>
         <ul id="dropdown1" className="dropdown-content">
           <li>
-            <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Profile Data</a>
+            <MyPersonIcon />
+            <a onClick={() => navigate(`/users/${user.first_name}/profile`)}>Manage Profile</a>
           </li>
           <li className="divider" tabIndex="-1"></li>
           <li>
+            <MyPasswordIcon />
             <a onClick={() => navigate(`/users/${user.first_name}/password`)}>Password</a>
           </li>
           <li className="divider" tabIndex="-2"></li>
           <li>
+            <MyCommentIcon />
             <a onClick={() => navigate(`/users/${user.first_name}/reviews`)}>Reviews</a>
           </li>
           <li className="divider" tabIndex="-3"></li>
           <li>
+            <MyLogoutIcon />
             <a onClick={logout}>Logout</a>
           </li>
         </ul>

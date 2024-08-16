@@ -12,6 +12,7 @@ import {
   putPartnerIdRequest,
   deletePartnerRequest,
 } from "../api/partner.api";
+import { MyLogoutIcon, MyPasswordIcon, MyPersonIcon } from "../components/Icons.jsx";
 
 function UpdatePartnerProfile() {
   const { logout, partner, error, setError, confirmDelete, setConfirmDelete } =
@@ -118,16 +119,19 @@ function UpdatePartnerProfile() {
           </li>
           <ul id="dropdown1" className="dropdown-content">
             <li>
+              <MyPersonIcon />
               <a onClick={() => navigate(`/partners/${partner.first_name}/profile`)}>
-                Profile Data
+                Manage Profile
               </a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
+              <MyPasswordIcon />
               <a onClick={() => navigate(`/partners/${partner.first_name}/password`)}>Password</a>
             </li>
             <li className="divider" tabIndex="-1"></li>
             <li>
+              <MyLogoutIcon />
               <a onClick={logout}>Logout</a>
             </li>
           </ul>
