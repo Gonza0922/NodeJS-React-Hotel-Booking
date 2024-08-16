@@ -129,6 +129,7 @@ export const loginUser = async (req, res) => {
     res.status(200).json({
       user_ID: user[0].user_ID,
       first_name: user[0].first_name,
+      last_name: user[0].last_name,
       message: "Logged in",
     });
   } catch (err) {
@@ -160,6 +161,7 @@ export const verifyUser = async (req, res) => {
       return res.status(200).json({
         user_ID: userFound[0].user_ID,
         first_name: userFound[0].first_name,
+        last_name: userFound[0].last_name,
         email: userFound[0].email,
       });
     });
