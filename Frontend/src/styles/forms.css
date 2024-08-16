@@ -1,9 +1,11 @@
+@import "variables.css";
+
 /* form */
 .basic-form {
   width: 550px;
   padding: 10px 40px;
   margin: 20px auto;
-  background-color: rgb(241, 241, 241);
+  background-color: var(--form-color);
   border-radius: 5px;
 }
 
@@ -12,7 +14,7 @@
   width: 80%;
   padding: 10px 40px;
   margin: 20px auto;
-  background-color: rgb(241, 241, 241);
+  background-color: var(--form-color);
   border-radius: 5px;
 }
 
@@ -41,7 +43,7 @@
   width: 700px;
   padding: 10px 40px;
   margin: 20px auto;
-  background-color: rgb(241, 241, 241);
+  background-color: var(--form-color);
   border-radius: 5px;
   text-align: center;
 }
@@ -52,7 +54,7 @@
   padding: 20px;
   margin: 20px 0px 20px 20px;
   border-radius: 5px;
-  background-color: rgb(241, 241, 241);
+  background-color: var(--form-color);
 }
 
 /* h3 */

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PartnerProvider from "./context/PartnerContext.jsx";
 import HotelProvider from "./context/HotelContext.jsx";
 import UserProvider from "./context/UserContext.jsx";
@@ -23,23 +23,20 @@ import UpdatePartnerProfile from "./pages/UpdatePartnerProfile.jsx";
 import UpdatePartnerPassword from "./pages/UpdatePartnerPassword.jsx";
 import ErrorHandling from "./components/ErrorHandling.jsx";
 import UserComments from "./pages/UserComments.jsx";
-import Footer from "./components/Footer.jsx";
 import LayoutWithFooter from "./components/LayoutWithFooter.jsx";
 
 function MyRoutes() {
-  const location = useLocation();
-
   return (
     <>
       <Routes>
         <Route element={<ErrorHandling />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/LoginPartner" element={<LoginPartner />} />
+          <Route path="/RegisterPartner" element={<RegisterPartner />} />
           <Route element={<LayoutWithFooter />}>
             <Route index element={<Home />} />
             <Route path="/hotel/:hotel_ID" element={<Hotel />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/LoginPartner" element={<LoginPartner />} />
-            <Route path="/RegisterPartner" element={<RegisterPartner />} />
             <Route element={<UserProtectedPages />}>
               <Route path="/users/:name" element={<Home />} />
               <Route path="/users/:name/reservations" element={<Reservations />} />

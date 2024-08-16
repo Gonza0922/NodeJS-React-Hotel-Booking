@@ -3,10 +3,10 @@ import Footer from "./Footer";
 
 function LayoutWithFooter() {
   return (
-    <>
+    <div className="layout-with-footer">
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
 
