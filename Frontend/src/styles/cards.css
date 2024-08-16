@@ -23,6 +23,19 @@
 }
 
 /* Reservations */
+
+.reservation-reservation_id {
+  position: absolute;
+  right: 25px;
+  top: 35px;
+}
+
+.who-reserved-reservation_id {
+  position: absolute;
+  right: 20px;
+  top: 40px;
+}
+
 #reservations-card {
   width: 60%;
   margin: 15px 15px;

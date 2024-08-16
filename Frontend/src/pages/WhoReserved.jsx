@@ -115,6 +115,9 @@ function WhoReserved() {
           <div className="container-who-reserved-card">
             {bookings.map((reserve, index) => (
               <div id="who-reserved-card" className="card" key={index}>
+                <span className="who-reserved-reservation_id">
+                  Reservation_ID: {reserve.reservation_ID}
+                </span>
                 {typeof users === "object" && !Array.isArray(users) ? (
                   <h5 className="name">
                     {users.first_name} {users.last_name}

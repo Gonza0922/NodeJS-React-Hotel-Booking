@@ -67,6 +67,9 @@ function Reservations() {
           <div key={index} className="hotel-and-who-reserved">
             <div id="reservations-card" className="card">
               <div className="card-content">
+                <span className="reservation-reservation_id">
+                  Reservation_ID: {reservation.reservation_ID}
+                </span>
                 <h6>Reservation Date: {resetDate(reservation.reservation_date)}</h6>
                 <h5>Check In: {resetDate(reservation.check_in)}</h5>
                 <h5>Check Out: {resetDate(reservation.check_out)}</h5>
