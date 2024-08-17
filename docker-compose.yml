@@ -15,13 +15,24 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  redisdb:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
   backend:
     build:
       context: ./Backend
       dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: $DOCKER_REDIS_HOST
     depends_on:
       mysqldb:
         condition: service_healthy
+      redisdb:
+        condition: service_started
     ports:
       - "3001:3001"
 
@@ -36,3 +47,4 @@ services:
 
 volumes:
   mysql_data:
+  redis-data:
