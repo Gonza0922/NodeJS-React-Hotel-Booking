@@ -20,16 +20,19 @@ The Hotel Booking System is a web application designed to facilitate hotel reser
 - Database: MySQL
 - Frontend: React
 - DevOps: Docker
-- Other: NodeJS, JWT, Resend for email services, bcrypt for password and PIN encryption, zod for input validations, and cloudinary for images management
+- Other: NodeJS, JWT, Redis for caché, Resend for email services, bcrypt for password and PIN encryption, zod for input validations, and cloudinary for images management
 
 ## Prerequisites
 
 - Node.js
 - MySQL
+- Redis
 - Docker
 - Cloudinary
 
 ## Installation
+
+IMPORTANT: You should have redis installed and running
 
 ```
 git clone https://github.com/Gonza0922/NodeJS-React-Hotel-Booking
@@ -38,12 +41,12 @@ npm install
 npm run start
 ```
 
-## Installation with docker-compose
+## Installation with docker-compose (Recommended)
 
 ```
 git clone https://github.com/Gonza0922/NodeJS-React-Hotel-Booking
 cd NodeJS-React-Hotel-Booking
-docker compose up
+docker compose up --build
 ```
 
 ## Environment Variables
@@ -79,3 +82,5 @@ docker compose up
   ```
 
 - Finally open the ".env" file and set the required variables. (variables should start with "VITE")
+
+#### Notice: If docker compose doesn´t recognize the environment variables, create an ".env" in the root of the project, and add the necessary variables
