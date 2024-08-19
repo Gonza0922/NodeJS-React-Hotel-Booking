@@ -61,7 +61,7 @@ function Home() {
         setIsPIN(true);
       } catch (error) {
         setIsPIN(false);
-        console.log(error);
+        console.error(error);
       }
     };
     verifyPIN();
@@ -117,9 +117,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (confirmation === null) {
-      clickGetCommentsAndUser();
-    }
+    if (confirmation === null) clickGetCommentsAndUser();
   }, [confirmation]);
 
   const createReservation = async (reservation) => {
@@ -128,11 +126,13 @@ function Home() {
       await postReservationRequest(reservation);
       setConfirmation("Correctly booked hotel");
     } catch (error) {
-      console.log(error);
       const e = error.response.data;
       if (e.message === "You have already made a reservation at that hotel") {
         setError([]);
-      } else e.message ? setError(e.message) : setError(e.error);
+      } else {
+        console.error(error);
+        e.message ? setError(e.message) : setError(e.error);
+      }
       setConfirmation(e.message);
     }
   };
@@ -167,7 +167,7 @@ function Home() {
       document.body.style.overflowY = "auto";
       setConfirmation(null);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError([e.error]);
     }

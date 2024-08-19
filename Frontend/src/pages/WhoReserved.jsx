@@ -38,7 +38,7 @@ function WhoReserved() {
       } catch (error) {
         setRedirect(true);
         setErrorRedirect(error.message);
-        console.log(error);
+        console.error(error);
       }
     };
     clickGetHotelId();

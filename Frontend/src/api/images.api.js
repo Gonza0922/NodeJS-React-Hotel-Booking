@@ -52,7 +52,7 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
 //     const request = await axios.get(`/images/delete/single/${hotel_ID}`);
 //     return request.data;
 //   } catch (error) {
-//     console.log(error);
+//     console.error(error);
 //     throw error;
 //   }
 // }; //IT CAN USE
@@ -63,7 +63,7 @@ export const updateMoreImagesRequest = async (hotel_ID, formData) => {
 //     const request = await axios.get(`/images/delete/multiple/${hotel_ID}`);
 //     return request.data;
 //   } catch (error) {
-//     console.log(error);
+//     console.error(error);
 //     throw error;
 //   }
 // }; //IT CAN USE

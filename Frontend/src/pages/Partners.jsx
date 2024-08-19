@@ -66,7 +66,7 @@ const Partners = () => {
       console.log("Hotel eliminado correctamente");
       setHotels(hotels.filter((hotel) => hotel.hotel_ID !== id));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error.response.data.message);
     }
   };

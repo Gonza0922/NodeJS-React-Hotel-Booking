@@ -77,7 +77,7 @@ function CreateHotel() {
       }
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -110,7 +110,7 @@ function CreateHotel() {
         setError("Please complete images");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

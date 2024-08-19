@@ -69,7 +69,7 @@ function UpdateUserProfile() {
       });
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -98,7 +98,7 @@ function UpdateUserProfile() {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

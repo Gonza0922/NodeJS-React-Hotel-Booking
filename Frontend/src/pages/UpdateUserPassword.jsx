@@ -19,7 +19,7 @@ function UpdateUserPassword() {
       console.log(data);
       navigate(`/users/${user.first_name}`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }

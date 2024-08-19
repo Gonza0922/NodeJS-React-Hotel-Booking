@@ -59,7 +59,7 @@ function UpdateReservation() {
       console.log(data);
       navigate(`/users/${user.first_name}/reservations`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -76,7 +76,7 @@ function UpdateReservation() {
       console.log(data);
       updateReservation(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

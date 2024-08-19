@@ -43,7 +43,7 @@ const PartnerProvider = (props) => {
       setIsAuthenticatedPartner(true);
       console.log(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -57,7 +57,7 @@ const PartnerProvider = (props) => {
       console.log(data);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message[0]) : setError(e.error);
     }
@@ -71,7 +71,7 @@ const PartnerProvider = (props) => {
       setIsAuthenticatedPartner(false);
       setBookings([]);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -15,9 +15,7 @@ export function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(`/users/${user.first_name}`);
-    }
+    if (isAuthenticated) navigate(`/users/${user.first_name}`);
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit((data) => {

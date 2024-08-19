@@ -64,7 +64,7 @@ function UpdateHotel() {
         setImages([]);
         setRedirect(true);
         setErrorRedirect(error.response.data.message);
-        console.log(error);
+        console.error(error);
       }
     };
     clickGetHotel();
@@ -90,9 +90,8 @@ function UpdateHotel() {
     try {
       const moreImages = [];
       for (let i = 1; i < 5; i++) {
-        if (hotelData[`moreImage${i}`] && hotelData[`moreImage${i}`].img) {
+        if (hotelData[`moreImage${i}`] && hotelData[`moreImage${i}`].img)
           moreImages.push(hotelData[`moreImage${i}`].img);
-        }
       }
       if (typeof hotelData.principalImg !== "string") {
         console.log(hotelData.principalImg.img);
@@ -105,7 +104,7 @@ function UpdateHotel() {
       const data = await putHotelRequest(hotel_ID, newData);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -125,7 +124,7 @@ function UpdateHotel() {
         window.scrollTo(0, 0);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

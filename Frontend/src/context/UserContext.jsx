@@ -31,7 +31,7 @@ const UserProvider = (props) => {
       setIsAuthenticated(true);
       console.log(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message) : setError(e.error);
     }
@@ -45,7 +45,7 @@ const UserProvider = (props) => {
       console.log(data);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const e = error.response.data;
       e.message ? setError(e.message[0]) : setError(e.error);
     }
@@ -58,7 +58,7 @@ const UserProvider = (props) => {
       setUser({});
       setIsAuthenticated(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

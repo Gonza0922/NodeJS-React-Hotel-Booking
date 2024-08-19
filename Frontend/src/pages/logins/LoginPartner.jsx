@@ -14,9 +14,7 @@ export function LoginPartner() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticatedPartner) {
-      navigate(`/partners/${partner.first_name}`);
-    }
+    if (isAuthenticatedPartner) navigate(`/partners/${partner.first_name}`);
   }, [isAuthenticatedPartner]);
 
   const onSubmit = handleSubmit((data) => {
