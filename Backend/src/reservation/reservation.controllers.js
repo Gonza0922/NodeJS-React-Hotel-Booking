@@ -26,7 +26,7 @@ export const getReservationPerId = async (req, res) => {
       [reservation_ID]
     );
     if (findReservation.length === 0)
-      return res.status(400).json({ message: "Reservation not found" });
+      return res.status(404).json({ message: "Reservation not found" });
     res.status(200).json(findReservation[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -44,7 +44,7 @@ export const getReservationPerHotel = async (req, res) => {
       hotel_ID,
     ]);
     if (!findReservation)
-      return res.status(400).json({
+      return res.status(404).json({
         message: `In reservations the hotel with id ${hotel_ID} is not found`,
       });
     res.status(200).json(findReservation);
@@ -63,7 +63,7 @@ export const postReservation = async (req, res, next) => {
     const check_in = req.body.check_in.substring(0, 10);
     const check_out = req.body.check_out.substring(0, 10);
     if (check_out <= check_in)
-      return res.status(400).json({
+      return res.status(422).json({
         message: "Check Out must be at least 1 day after Check In",
       });
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
@@ -101,7 +101,7 @@ export const postReservation = async (req, res, next) => {
       [check_in, check_out, req.body.room_type, req.body.hotel_ID]
     );
     if (ItsReserved.length > 0)
-      return res.status(400).json({
+      return res.status(409).json({
         message: "Sorry, the room is already booked for those dates",
       });
     const [iHaveReservation] = await db.query(
@@ -109,7 +109,7 @@ export const postReservation = async (req, res, next) => {
       [user_ID, req.body.hotel_ID]
     );
     if (iHaveReservation.length > 0 && req.body.reserveAnyway !== true)
-      return res.status(400).json({
+      return res.status(409).json({
         message: "You have already made a reservation at that hotel",
         apiInformation:
           "Reserve again and add property {reserveAnyway:true} if you want to reserve anyway",
@@ -134,7 +134,7 @@ export const putReservation = async (req, res) => {
     const check_in = req.body.check_in.substring(0, 10);
     const check_out = req.body.check_out.substring(0, 10);
     if (check_out <= check_in)
-      return res.status(400).json({
+      return res.status(422).json({
         message: "Check Out must be at least 1 day after Check In",
       });
     const [calculateNights] = await db.query("SELECT DATEDIFF(?, ?) AS nights", [
@@ -165,7 +165,7 @@ export const putReservation = async (req, res) => {
       [check_in, check_out, req.body.room_type, req.body.hotel_ID]
     );
     if (ItsReserved.length > 0 && reservation_ID != ItsReserved[0].reservation_ID)
-      return res.status(400).json({
+      return res.status(409).json({
         message: "Sorry, the room is already booked for those dates",
       });
     await db.query(q, [...values, reservation_ID]);
@@ -185,7 +185,7 @@ export const deleteReservation = async (req, res) => {
       reservation_ID
     );
     if (deleteReservation.affectedRows === 0)
-      return res.status(400).json({ message: "Reservation doesn´t exists" });
+      return res.status(404).json({ message: "Reservation doesn´t exists" });
     res.status(204).json({ message: `Reservation ${reservation_ID} deleted` });
   } catch (err) {
     console.error("Error:", err);

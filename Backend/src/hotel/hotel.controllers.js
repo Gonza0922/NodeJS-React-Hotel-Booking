@@ -30,7 +30,7 @@ export const getHotelId = async (req, res) => {
   try {
     const { hotel_ID } = req.params;
     const [findHotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [hotel_ID]);
-    if (findHotel.length === 0) return res.status(400).json({ message: "Hotel not found" });
+    if (findHotel.length === 0) return res.status(404).json({ message: "Hotel not found" });
     res.status(200).json(findHotel[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -73,7 +73,7 @@ export const postHotel = async (req, res) => {
       partner_ID,
     ];
     const [findName] = await db.query("SELECT name FROM hotels WHERE name = ?", [req.body.name]);
-    if (findName.length > 0) return res.status(400).json({ message: "Hotel already exists" });
+    if (findName.length > 0) return res.status(409).json({ message: "Hotel already exists" });
     const createHotel = await db.query(q, [values]);
     const hotel_ID = createHotel[0].insertId;
     const [hotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [hotel_ID]);
@@ -103,7 +103,7 @@ export const putHotel = async (req, res) => {
       hotel_ID,
     ]);
     if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
-      return res.status(400).json({ message: "Hotel already exists" });
+      return res.status(409).json({ message: "Hotel already exists" });
     await db.query(q, [...values, hotel_ID]);
     res.status(200).json({ message: `Hotel ${hotel_ID} updated` });
   } catch (err) {
@@ -128,7 +128,7 @@ export const deleteHotel = async (req, res) => {
     if (deleteHotelImages.affectedRows === 0) console.log({ message: "Hotel hasn´t images" });
     const [deleteHotel] = await db.query("DELETE FROM hotels WHERE hotel_ID = ?", hotel_ID);
     if (deleteHotel.affectedRows === 0)
-      return res.status(400).json({ message: "Hotel doesn´t exists" });
+      return res.status(404).json({ message: "Hotel doesn´t exists" });
     res.status(204).json({
       message: `Hotel ${hotel_ID} deleted with its images`,
     });

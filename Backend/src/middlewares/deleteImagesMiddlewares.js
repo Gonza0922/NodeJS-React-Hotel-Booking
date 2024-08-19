@@ -9,7 +9,7 @@ export const deleteSingleImage = async (req, res, next) => {
       hotel_ID,
     ]);
     if (getUrl[0] === undefined)
-      return res.status(400).json({ message: "There is no image to delete" });
+      return res.status(404).json({ message: "There is no image to delete" });
     const url = getUrl[0].principalImg;
     const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);
     if (match && match[1]) {
@@ -34,7 +34,7 @@ export const deleteMultipleImages = async (req, res, next) => {
       hotel_ID,
     ]);
     if (getUrl[0] === undefined)
-      return res.status(400).json({ message: "There are no images to delete" });
+      return res.status(404).json({ message: "There are no images to delete" });
     getUrl.forEach(async (element) => {
       const url = element.image_name;
       const match = url.match(/\/v\d+\/([^/]+)\.\w+$/);

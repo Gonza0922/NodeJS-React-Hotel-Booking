@@ -25,7 +25,7 @@ export const getCommentPerId = async (req, res) => {
     const [findComment] = await db.query("SELECT * FROM comments WHERE comment_ID = ?", [
       comment_ID,
     ]);
-    if (findComment.length === 0) return res.status(400).json({ message: ["Comment not found"] });
+    if (findComment.length === 0) return res.status(404).json({ message: ["Comment not found"] });
     res.status(200).json(findComment[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -104,7 +104,7 @@ export const deleteComment = async (req, res) => {
       comment_ID,
     ]);
     if (deleteComment.affectedRows === 0)
-      return res.status(400).json({ message: ["Comment doesn´t exists"] });
+      return res.status(404).json({ message: ["Comment doesn´t exists"] });
     res.status(204).json({
       message: `Comment ${comment_ID} deleted with its images`,
     });
@@ -123,11 +123,11 @@ export const verifyPIN = async (req, res) => {
       [req.body.reservation_ID, hotel_ID]
     );
     if (findPIN.length === 0)
-      return res.status(400).json({
+      return res.status(404).json({
         message: ["Reservation not found, try again"],
       });
     const isMatch = await bcrypt.compare(req.body.PIN.toString(), findPIN[0].PIN);
-    if (!isMatch) return res.status(400).json({ message: ["Incorrect PIN"] });
+    if (!isMatch) return res.status(401).json({ message: ["Incorrect PIN"] });
     const token = await generateToken({ PIN: req.body.PIN });
     res.cookie(`TokenPIN`, token);
     res.status(200).json({
@@ -144,15 +144,15 @@ export const verifyTokenPIN = async (req, res) => {
   try {
     const { user_ID } = req.user;
     const TokenPIN = req.cookies.TokenPIN; //encriptado
-    if (!TokenPIN) return res.status(400).json({ message: "Unauthorized, no PIN" });
+    if (!TokenPIN) return res.status(401).json({ message: "Unauthorized, no PIN" });
     jwt.verify(TokenPIN, process.env.TOKEN_SECURE, async (err, resultPIN) => {
       if (err) return res.status(400).json({ message: "PIN verification error" });
       const [findPIN] = await db.query("SELECT PIN FROM reservations WHERE user_ID = ?", [
         user_ID,
       ]);
-      if (findPIN.length === 0) return res.status(400).json({ message: "PIN not found" });
+      if (findPIN.length === 0) return res.status(404).json({ message: "PIN not found" });
       const isMatch = await bcrypt.compare(resultPIN.PIN.toString(), findPIN[0].PIN);
-      if (!isMatch) return res.status(400).json({ message: "Incorrect PIN" });
+      if (!isMatch) return res.status(401).json({ message: "Incorrect PIN" });
       return res.status(200).json({
         message: "User Authorized",
       });
