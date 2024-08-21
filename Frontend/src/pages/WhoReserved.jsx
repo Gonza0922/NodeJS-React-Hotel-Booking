@@ -177,6 +177,7 @@ function WhoReserved() {
           showConfirmDelete={showConfirmDelete}
           deleteReservation={deleteReservation}
           buttonName={"Decline"}
+          toastText={`Reservation ${bookings.reservation_ID} declined`}
         />
       ) : idToDelete && idToDelete === elementView.confirmDelete ? (
         <DeleteConfirm
@@ -185,6 +186,7 @@ function WhoReserved() {
           showConfirmDelete={showConfirmDelete}
           deleteReservation={deleteReservation}
           buttonName={"Decline"}
+          toastText={`Reservation ${idToDelete} declined`}
         />
       ) : (
         <></>

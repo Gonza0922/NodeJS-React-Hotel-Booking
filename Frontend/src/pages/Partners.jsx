@@ -185,6 +185,7 @@ const Partners = () => {
                 showConfirmDelete={showConfirmDelete}
                 deleteReservation={deleteHotel}
                 buttonName={"Delete"}
+                toastText={`"${hotel.name}" deleted`}
               />
             )}
           </div>

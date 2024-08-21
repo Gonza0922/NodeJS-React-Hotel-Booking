@@ -1,4 +1,13 @@
-const DeleteConfirm = ({ text, id, showConfirmDelete, deleteReservation, buttonName }) => (
+import { toast } from "react-hot-toast";
+
+const DeleteConfirm = ({
+  text,
+  id,
+  showConfirmDelete,
+  deleteReservation,
+  buttonName,
+  toastText,
+}) => (
   <div className="delete-confirm-container">
     <div className="delete-confirm">
       <h5>{text}</h5>
@@ -10,6 +19,14 @@ const DeleteConfirm = ({ text, id, showConfirmDelete, deleteReservation, buttonN
           onClick={() => {
             deleteReservation(id);
             showConfirmDelete(id);
+            toast.success(toastText, {
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+                padding: "15px",
+              },
+            });
           }}
           className="button-delete-confirm"
         >

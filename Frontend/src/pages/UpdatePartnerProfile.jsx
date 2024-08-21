@@ -13,6 +13,7 @@ import {
   deletePartnerRequest,
 } from "../api/partner.api";
 import { MyLogoutIcon, MyPasswordIcon, MyPersonIcon } from "../components/Icons.jsx";
+import { toast } from "react-hot-toast";
 
 function UpdatePartnerProfile() {
   const { logout, partner, error, setError, confirmDelete, setConfirmDelete } =
@@ -287,6 +288,14 @@ function UpdatePartnerProfile() {
                 onClick={() => {
                   deletePartner();
                   setConfirmDelete(false);
+                  toast.success("All Profile deleted", {
+                    style: {
+                      borderRadius: "10px",
+                      background: "#333",
+                      color: "#fff",
+                      padding: "15px",
+                    },
+                  });
                 }}
                 className="button-delete-confirm"
               >

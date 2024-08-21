@@ -158,6 +158,7 @@ function UserComments() {
                 showConfirmDelete={showConfirmDelete}
                 deleteReservation={deleteComment}
                 buttonName={"Delete"}
+                toastText={`Review ${comment.comment_ID} deleted`}
               />
             )}
           </div>

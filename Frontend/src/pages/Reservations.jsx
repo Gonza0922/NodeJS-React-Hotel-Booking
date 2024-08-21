@@ -106,6 +106,7 @@ function Reservations() {
                 showConfirmDelete={showConfirmDelete}
                 deleteReservation={deleteReservation}
                 buttonName={"Delete"}
+                toastText={`Reservation ${reservation.reservation_ID} deleted`}
               />
             )}
           </div>

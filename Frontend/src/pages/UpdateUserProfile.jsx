@@ -15,6 +15,7 @@ import {
   MyPasswordIcon,
   MyPersonIcon,
 } from "../components/Icons.jsx";
+import { toast } from "react-hot-toast";
 
 function UpdateUserProfile() {
   const { logout, user, error, setError } = useUserContext();
@@ -288,6 +289,14 @@ function UpdateUserProfile() {
                 onClick={() => {
                   deleteUser();
                   setConfirmDelete(false);
+                  toast.success("All Profile deleted", {
+                    style: {
+                      borderRadius: "10px",
+                      background: "#333",
+                      color: "#fff",
+                      padding: "15px",
+                    },
+                  });
                 }}
                 className="button-delete-confirm"
               >

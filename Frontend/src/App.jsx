@@ -24,6 +24,7 @@ import UpdatePartnerPassword from "./pages/UpdatePartnerPassword.jsx";
 import ErrorHandling from "./components/ErrorHandling.jsx";
 import UserComments from "./pages/UserComments.jsx";
 import LayoutWithFooter from "./components/LayoutWithFooter.jsx";
+import { Toaster } from "react-hot-toast";
 
 function MyRoutes() {
   return (
@@ -71,6 +72,7 @@ function App() {
         <PartnerProvider>
           <BrowserRouter>
             <MyRoutes />
+            <Toaster />
           </BrowserRouter>
         </PartnerProvider>
       </HotelProvider>
