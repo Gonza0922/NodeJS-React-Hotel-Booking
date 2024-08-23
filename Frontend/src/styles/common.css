@@ -20,6 +20,10 @@ body {
   min-width: 1360px;
 }
 
+.toast-icon {
+  transform: translateY(-2px) translateX(3px);
+}
+
 /* ERRORS */
 
 .container-errors {

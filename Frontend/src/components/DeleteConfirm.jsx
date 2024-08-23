@@ -1,4 +1,5 @@
 import { toast } from "react-hot-toast";
+import { MyDeleteOutlineIcon } from "./Icons";
 
 const DeleteConfirm = ({
   text,
@@ -19,7 +20,8 @@ const DeleteConfirm = ({
           onClick={() => {
             deleteReservation(id);
             showConfirmDelete(id);
-            toast.success(toastText, {
+            toast(toastText, {
+              icon: <MyDeleteOutlineIcon />,
               style: {
                 borderRadius: "10px",
                 background: "#333",
