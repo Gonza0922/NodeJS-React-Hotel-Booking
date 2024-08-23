@@ -19,6 +19,7 @@ function UserComments() {
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [comments, setComments] = useState([]);
   const [commentHotel, setCommentHotel] = useState([]);
+  const [idToDelete, setIdToDelete] = useState(undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,71 +100,76 @@ function UserComments() {
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
-      <h3 className="center-title">My Reviews</h3>
-      {comments.length === 0 ? (
-        <div className="no-comments">
-          <h4>THERE ARE NO REVIEWS...</h4>
-          <button onClick={() => navigate("/login")} className="common-button">
-            Start by making a Review
-          </button>
-        </div>
-      ) : (
-        comments.map((comment, index) => (
-          <div key={index} className="container-my-comments">
-            <div id="comments-card" className="card">
-              <div className="card-content">
-                <span className="my-comment_id">Comment_ID: {comment.comment_ID}</span>
-                <span>Reviewed: {resetDate(comment.comment_date)}</span>
-                {commentHotel < 1 ? (
-                  <p></p>
-                ) : (
-                  <h6 className="my-comment_hotel">To: {commentHotel[index].name}</h6>
-                )}
-                {comment.isEditing ? (
-                  <>
-                    <div className="container-errors">
-                      {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
-                    </div>
-                    <textarea
-                      id="update-comment"
-                      value={comment.content}
-                      onChange={(e) => handleInputChange(comment.comment_ID, e.target.value)}
-                      autoFocus
-                      spellCheck={false}
-                    />
-                  </>
-                ) : (
-                  <span className="my-comment_content">"{comment.content}"</span>
-                )}
+      <main>
+        <h3 className="center-title">My Reviews</h3>
+        {comments.length === 0 ? (
+          <div className="no-comments">
+            <h4>THERE ARE NO REVIEWS...</h4>
+            <button onClick={() => navigate("/login")} className="common-button">
+              Start by making a Review
+            </button>
+          </div>
+        ) : (
+          <div className="container-my-comments">
+            {comments.map((comment, index) => (
+              <div key={index} id="comments-card" className="card">
+                <div className="card-content">
+                  <span className="my-comment_id">Comment_ID: {comment.comment_ID}</span>
+                  <span>Reviewed: {resetDate(comment.comment_date)}</span>
+                  {commentHotel < 1 ? (
+                    <p></p>
+                  ) : (
+                    <h6 className="my-comment_hotel">To: {commentHotel[index].name}</h6>
+                  )}
+                  {comment.isEditing ? (
+                    <>
+                      <div className="container-errors">
+                        {error.length > 0 ? <div className="error">{error[0]}</div> : <div></div>}
+                      </div>
+                      <textarea
+                        id="update-comment"
+                        value={comment.content}
+                        onChange={(e) => handleInputChange(comment.comment_ID, e.target.value)}
+                        autoFocus
+                        spellCheck={false}
+                      />
+                    </>
+                  ) : (
+                    <span className="my-comment_content">"{comment.content}"</span>
+                  )}
+                </div>
                 <div className="container-my-comment_edit-delete">
                   <button
-                    onClick={() => showConfirmDelete(comment.comment_ID)}
+                    onClick={() => {
+                      setIdToDelete(comment.comment_ID);
+                      showConfirmDelete(comment.comment_ID);
+                    }}
                     className="buttons-right-delete"
                   >
-                    Delete Review
+                    Delete
                   </button>
                   <button
                     onClick={() => handleEditClick(comment.comment_ID, comment.isEditing)}
                     className="buttons-right"
                   >
-                    {!comment.isEditing ? "Edit Review" : "Confirm Review"}
+                    {!comment.isEditing ? "Edit" : "Confirm"}
                   </button>
                 </div>
               </div>
-            </div>
-            {comment.comment_ID === elementView.confirmDelete && (
+            ))}
+            {idToDelete && idToDelete === elementView.confirmDelete && (
               <DeleteConfirm
-                text={`Delete Review ${comment.comment_ID}?`}
-                id={comment.comment_ID}
+                text={`Delete Review ${idToDelete}?`}
+                id={idToDelete}
                 showConfirmDelete={showConfirmDelete}
                 deleteReservation={deleteComment}
                 buttonName={"Delete"}
-                toastText={`Review ${comment.comment_ID} deleted`}
+                toastText={`Review ${idToDelete} deleted`}
               />
             )}
           </div>
-        ))
-      )}
+        )}
+      </main>
     </>
   );
 }

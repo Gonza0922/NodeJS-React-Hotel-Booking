@@ -216,8 +216,8 @@
 
 .container-my-comments {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
 }
 
 .my-comment_id {
@@ -233,5 +233,8 @@
 }
 
 .container-my-comment_edit-delete {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
   margin: 10px 0px;
 }

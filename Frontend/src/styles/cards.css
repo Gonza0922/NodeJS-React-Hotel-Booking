@@ -38,7 +38,7 @@
 
 #reservations-card {
   width: 60%;
-  margin: 15px 15px;
+  margin: 15px;
 }
 
 #reservations-title {
@@ -53,10 +53,13 @@
 
 /* Comments */
 #comments-card {
-  padding-bottom: 20px;
-  min-width: 550px;
-  max-width: 660px;
-  margin: 15px 15px;
+  width: 550px;
+  margin: 25px;
+}
+
+#comments-card .card-content {
+  padding: 24px;
+  margin-bottom: 30px;
 }
 
 /* Who-Reserve */
