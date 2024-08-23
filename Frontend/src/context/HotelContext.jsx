@@ -37,6 +37,7 @@ const HotelProvider = (props) => {
     guests: undefined,
     room_type: undefined,
   });
+  const [idToDelete, setIdToDelete] = useState(undefined);
 
   useEffect(() => {
     const getHotels = async () => {
@@ -115,6 +116,8 @@ const HotelProvider = (props) => {
         setIsPIN,
         guestsAndRoomType,
         setGuestsAndRoomType,
+        idToDelete,
+        setIdToDelete,
       }}
     >
       {props.children}

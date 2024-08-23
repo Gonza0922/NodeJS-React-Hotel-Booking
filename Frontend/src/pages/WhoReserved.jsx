@@ -20,9 +20,9 @@ function WhoReserved() {
     styles,
     setStyles,
   } = usePartnerContext();
-  const { hotel, setHotel, setRedirect, setErrorRedirect } = useHotelContext();
+  const { hotel, setHotel, setRedirect, setErrorRedirect, idToDelete, setIdToDelete } =
+    useHotelContext();
   const { hotel_ID } = useParams();
-  const [idToDelete, setIdToDelete] = useState(undefined);
 
   const navigate = useNavigate();
 

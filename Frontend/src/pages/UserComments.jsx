@@ -14,12 +14,11 @@ import {
 import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 function UserComments() {
-  const { setRedirect, setErrorRedirect } = useHotelContext();
+  const { setRedirect, setErrorRedirect, idToDelete, setIdToDelete } = useHotelContext();
   const { logout, user, error, setError } = useUserContext();
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [comments, setComments] = useState([]);
   const [commentHotel, setCommentHotel] = useState([]);
-  const [idToDelete, setIdToDelete] = useState(undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
