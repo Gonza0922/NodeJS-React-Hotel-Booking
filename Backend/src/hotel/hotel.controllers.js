@@ -1,12 +1,13 @@
 import { db } from "../tables.js";
 import redisClient from "../redisConfig.js";
 
+const CACHE_KEY = `hotels:cache`;
+
 export const getAllHotels = async (req, res) => {
   //Select all hotels
   try {
     const { limit = 1000000, page = 1 } = req.query;
-    const cacheKey = `hotels_page_${page}_limit_${limit}`;
-    const cachedHotels = await redisClient.get(cacheKey);
+    const cachedHotels = await redisClient.get(CACHE_KEY);
     const cachedData = JSON.parse(cachedHotels);
     if (cachedHotels && cachedData.pagination.limit === limit)
       return res.status(200).json(cachedData);
@@ -15,7 +16,7 @@ export const getAllHotels = async (req, res) => {
     const [totalPageData] = await db.query("SELECT count(*) as count FROM hotels");
     const totalPage = Math.ceil(totalPageData[0]?.count / limit);
     await redisClient.set(
-      cacheKey,
+      CACHE_KEY,
       JSON.stringify({ data: hotels, pagination: { page, limit, totalPage } })
     );
     res.status(200).json({ data: hotels, pagination: { page, limit, totalPage } });
@@ -77,6 +78,7 @@ export const postHotel = async (req, res) => {
     const createHotel = await db.query(q, [values]);
     const hotel_ID = createHotel[0].insertId;
     const [hotel] = await db.query("SELECT * FROM hotels WHERE hotel_ID = ?", [hotel_ID]);
+    await redisClient.del(CACHE_KEY);
     res.status(201).json(hotel[0]);
   } catch (err) {
     console.error("Error:", err);
@@ -105,6 +107,7 @@ export const putHotel = async (req, res) => {
     if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
       return res.status(409).json({ message: "Hotel already exists" });
     await db.query(q, [...values, hotel_ID]);
+    await redisClient.del(CACHE_KEY);
     res.status(200).json({ message: `Hotel ${hotel_ID} updated` });
   } catch (err) {
     console.error("Error:", err);
@@ -129,6 +132,7 @@ export const deleteHotel = async (req, res) => {
     const [deleteHotel] = await db.query("DELETE FROM hotels WHERE hotel_ID = ?", hotel_ID);
     if (deleteHotel.affectedRows === 0)
       return res.status(404).json({ message: "Hotel doesn´t exists" });
+    await redisClient.del(CACHE_KEY);
     res.status(204).json({
       message: `Hotel ${hotel_ID} deleted with its images`,
     });
