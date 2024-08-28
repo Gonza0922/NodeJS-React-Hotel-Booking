@@ -21,7 +21,6 @@ function Reservations() {
   const { logout, user } = useUserContext();
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [reservationHotel, setReservationHotel] = useState([]);
-  const [algo, setAlgo] = useState(false);
 
   useEffect(() => {
     const clickGetReservations = async () => {
@@ -58,6 +57,19 @@ function Reservations() {
     }));
   };
 
+  const tableColums = [
+    "Reservation ID",
+    "Hotel",
+    "Date",
+    "Check In",
+    "Nights",
+    "Guests",
+    "Person Price",
+    "Total Price",
+    "Edit",
+    "Delete",
+  ];
+
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
@@ -68,16 +80,11 @@ function Reservations() {
           <table className="my-reservations_table">
             <thead>
               <tr className="head-tr">
-                <th className="head-th">Reservation ID</th>
-                <th className="head-th">Hotel</th>
-                <th className="head-th">Date</th>
-                <th className="head-th">Check In</th>
-                <th className="head-th">Nights</th>
-                <th className="head-th">Guests</th>
-                <th className="head-th">Person Price</th>
-                <th className="head-th">Total Price</th>
-                <th className="head-th">Edit</th>
-                <th className="head-th">Delete</th>
+                {tableColums.map((colum, index) => (
+                  <th key={index} className="head-th">
+                    {colum}
+                  </th>
+                ))}
               </tr>
             </thead>
             {reservations.length > 0 ? (

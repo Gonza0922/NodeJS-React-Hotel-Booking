@@ -130,6 +130,8 @@
 
 .my-reservations_container {
   margin: 20px;
+  border: 1px solid rgb(230, 230, 230);
+  border-bottom: none;
 }
 
 .my-reservations_table {
