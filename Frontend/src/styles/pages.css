@@ -126,6 +126,34 @@
   border-radius: 0 0 8px 0;
 }
 
+/* RESERVATIONS */
+
+.my-reservations_container {
+  margin: 20px;
+}
+
+.my-reservations_table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.head-tr {
+  background-color: rgb(235, 235, 235);
+}
+
+.head-th {
+  padding: 15px 8px;
+  text-align: left;
+}
+
+.body-tr {
+  background-color: rgb(255, 255, 255);
+}
+
+.body-td {
+  padding: 30px 8px;
+}
+
 /* PARTNERS*/
 
 .hotel-and-who-reserved {

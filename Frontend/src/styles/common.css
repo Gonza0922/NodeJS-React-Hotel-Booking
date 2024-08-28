@@ -253,6 +253,34 @@ pre {
   margin: 10px;
 }
 
+.body-td_edit-button {
+  background-color: var(--button-orange-focus-color);
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  color: white;
+}
+
+.body-td_edit-button:hover {
+  background-color: var(--orange-color);
+}
+
+.body-td_delete-button {
+  background-color: var(--button-red-color);
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  color: white;
+}
+
+.body-td_delete-button:hover {
+  background-color: var(--button-red-hover-color);
+}
+
+.body-td_delete-button:focus {
+  background-color: var(--button-red-hover-color);
+}
+
 /* FOOTER */
 
 .footer {

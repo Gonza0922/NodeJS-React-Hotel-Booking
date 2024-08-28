@@ -10,10 +10,18 @@ import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 import DeleteConfirm from "../components/DeleteConfirm.jsx";
 
 function Reservations() {
-  const { reservations, setReservations, setRedirect, setErrorRedirect } = useHotelContext();
+  const {
+    reservations,
+    setReservations,
+    setRedirect,
+    setErrorRedirect,
+    idToDelete,
+    setIdToDelete,
+  } = useHotelContext();
   const { logout, user } = useUserContext();
   const { elementView, setElementView, styles, setStyles } = usePartnerContext();
   const [reservationHotel, setReservationHotel] = useState([]);
+  const [algo, setAlgo] = useState(false);
 
   useEffect(() => {
     const clickGetReservations = async () => {
@@ -53,65 +61,88 @@ function Reservations() {
   return (
     <>
       <NavbarMenu navigation={"users"} profile={user} logout={logout} />
-      <h3 className="title">My Reservations</h3>
-      <p className="p-down-title">Manage Hotels Reservations</p>
-      {reservations.length === 0 ? (
-        <div className="no-reservations">
-          <h4>THERE ARE NO RESERVATIONS...</h4>
-          <button onClick={() => navigate("/login")} className="common-button">
-            Start by making a reservation
-          </button>
-        </div>
-      ) : (
-        reservations.map((reservation, index) => (
-          <div key={index} className="hotel-and-who-reserved">
-            <div id="reservations-card" className="card">
-              <div className="card-content">
-                <span className="reservation-reservation_id">
-                  Reservation_ID: {reservation.reservation_ID}
-                </span>
-                <h6>Reservation Date: {resetDate(reservation.reservation_date)}</h6>
-                <h5>Check In: {resetDate(reservation.check_in)}</h5>
-                <h5>Check Out: {resetDate(reservation.check_out)}</h5>
-                <h6>Nights: {reservation.nights}</h6>
-                <h6>Guests: {reservation.guests}</h6>
-                <h6>Room Type: {reservation.room_type}</h6>
-                <h6>Person Price: ${reservation.person_price}</h6>
-                <h6>Total Price: ${reservation.total_price}</h6>
-                {reservationHotel < 1 ? (
-                  <p></p>
-                ) : (
-                  <span id="reservations-title" className="card-title">
-                    {reservationHotel[index].name}
-                  </span>
-                )}
-                <button
-                  onClick={() => showConfirmDelete(reservation.reservation_ID)}
-                  className="buttons-right-delete"
-                >
-                  Delete Reservation
-                </button>
-                <button
-                  onClick={() => navigate(`update/${reservation.reservation_ID}`)}
-                  className="buttons-right"
-                >
-                  Edit Reservation
-                </button>
-              </div>
-            </div>
-            {reservation.reservation_ID === elementView.confirmDelete && (
-              <DeleteConfirm
-                text={`Delete reservation ${reservation.reservation_ID}?`}
-                id={reservation.reservation_ID}
-                showConfirmDelete={showConfirmDelete}
-                deleteReservation={deleteReservation}
-                buttonName={"Delete"}
-                toastText={`Reservation ${reservation.reservation_ID} deleted`}
-              />
+      <main>
+        <h3 className="title">My Reservations</h3>
+        <p className="p-down-title">Manage Hotels Reservations</p>
+        <div className="my-reservations_container">
+          <table className="my-reservations_table">
+            <thead>
+              <tr className="head-tr">
+                <th className="head-th">Reservation ID</th>
+                <th className="head-th">Hotel</th>
+                <th className="head-th">Date</th>
+                <th className="head-th">Check In</th>
+                <th className="head-th">Nights</th>
+                <th className="head-th">Guests</th>
+                <th className="head-th">Person Price</th>
+                <th className="head-th">Total Price</th>
+                <th className="head-th">Edit</th>
+                <th className="head-th">Delete</th>
+              </tr>
+            </thead>
+            {reservations.length > 0 ? (
+              <tbody>
+                {reservations.map((reservation, index) => (
+                  <tr key={index} className="body-tr">
+                    <td className="body-td">{reservation.reservation_ID}</td>
+                    <td className="body-td">
+                      <div> {reservation.room_type} room</div>
+                      <b>{reservationHotel[index] && reservationHotel[index].name}</b>
+                    </td>
+                    <td className="body-td">{resetDate(reservation.reservation_date)}</td>
+                    <td className="body-td">{resetDate(reservation.check_in)}</td>
+                    <td className="body-td">{reservation.nights} nights</td>
+                    <td className="body-td">{reservation.guests} guests</td>
+                    <td className="body-td">${reservation.person_price}</td>
+                    <td className="body-td">${reservation.total_price}</td>
+                    <td>
+                      <button
+                        className="body-td_edit-button"
+                        onClick={() => navigate(`update/${reservation.reservation_ID}`)}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="body-td_delete-button"
+                        onClick={() => {
+                          setIdToDelete(reservation.reservation_ID);
+                          showConfirmDelete(reservation.reservation_ID);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              <></>
             )}
-          </div>
-        ))
-      )}
+          </table>
+          {reservations.length === 0 ? (
+            <div className="no-reservations">
+              <h4>THERE ARE NO RESERVATIONS...</h4>
+              <button onClick={() => navigate("/login")} className="common-button">
+                Start by making a reservation
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+        {idToDelete && idToDelete === elementView.confirmDelete && (
+          <DeleteConfirm
+            text={`Delete reservation ${idToDelete}?`}
+            id={idToDelete}
+            showConfirmDelete={showConfirmDelete}
+            deleteReservation={deleteReservation}
+            buttonName={"Delete"}
+            toastText={`Reservation ${idToDelete} deleted`}
+          />
+        )}
+      </main>
     </>
   );
 }
