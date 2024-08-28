@@ -223,7 +223,7 @@ function Home() {
               </div>
             </div>
             <form className="availability-form col s12" onSubmit={onSubmit}>
-              <h3>Availability</h3>
+              <h3 className="center-title">Availability</h3>
               <div className="container-errors">
                 {typeof error === "string" ? <div className="error">{error}</div> : <div></div>}
               </div>
