@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { resetDate } from "../functions/dates.js";
 import { usePartnerContext } from "../context/PartnerContext.jsx";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
@@ -42,6 +42,7 @@ function WhoReserved() {
       }
     };
     clickGetHotelId();
+    if (typeof bookings === "object" && !Array.isArray(bookings)) setBookings([bookings]);
   }, []);
 
   const showConfirmDelete = (id) => {
@@ -60,137 +61,85 @@ function WhoReserved() {
       : setBookings(bookings.filter((reserve) => reserve.reservation_ID !== id));
   };
 
+  const tableColums = [
+    "Reservation ID",
+    "Customer",
+    "Room",
+    "Date",
+    "Check In",
+    "Nights",
+    "Guests",
+    "Person Price",
+    "Total Price",
+    "Decline",
+  ];
+
   return (
     <>
       <NavbarMenu navigation={"partners"} profile={partner} logout={logout} />
-      <h3 className="title">Clients who reserved at {hotel.name}</h3>
-      <p className="p-down-title">Manage your Hotel Reservations</p>
-      <div>
-        {typeof bookings === "object" && !Array.isArray(bookings) ? (
-          <div className="container-who-reserved-card">
-            <div id="who-reserved-card" className="card who-reserved">
-              {typeof users === "object" && !Array.isArray(users) ? (
-                <h5 className="name">
-                  {users.first_name} {users.last_name}
-                </h5>
-              ) : Array.isArray(users) ? (
-                <h5>Hay mas de 1 usuario</h5>
-              ) : (
-                <Navigate to={`/partners/${partner.first_name}`} replace />
-              )}
-              <hr />
-              <div className="who-reserved-card_container-data">
-                <h6>Reservation Date:</h6> {resetDate(bookings.reservation_date)}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Check In:</h6> {resetDate(bookings.check_in)}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Check Out:</h6> {resetDate(bookings.check_out)}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Nights:</h6> {bookings.nights}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Guests:</h6> {bookings.guests}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Room Type:</h6> {bookings.room_type}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Person Price:</h6> ${bookings.person_price}
-              </div>
-              <div className="who-reserved-card_container-data">
-                <h6>Total Price:</h6> ${bookings.total_price}
-              </div>
-              <button
-                onClick={() => showConfirmDelete(bookings.reservation_ID)}
-                className="button-decline"
-              >
-                Decline
-              </button>
-            </div>
-          </div>
-        ) : Array.isArray(bookings) ? (
-          <div className="container-who-reserved-card">
-            {bookings.map((reserve, index) => (
-              <div id="who-reserved-card" className="card" key={index}>
-                <span className="who-reserved-reservation_id">
-                  Reservation_ID: {reserve.reservation_ID}
-                </span>
-                {typeof users === "object" && !Array.isArray(users) ? (
-                  <h5 className="name">
-                    {users.first_name} {users.last_name}
-                  </h5>
-                ) : Array.isArray(users) ? (
-                  <h5 key={index} className="name">
-                    {users[index].first_name} {users[index].last_name}
-                  </h5>
-                ) : (
-                  <Navigate to={`/partners/${partner.first_name}`} replace />
-                )}
-                <hr />
-                <div className="who-reserved-card_container-data">
-                  <h6>Reservation Date:</h6> {resetDate(reserve.reservation_date)}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Check In:</h6> {resetDate(reserve.check_in)}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Check Out:</h6> {resetDate(reserve.check_out)}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Nights:</h6> {reserve.nights}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Guests:</h6> {reserve.guests}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Room Type:</h6> {reserve.room_type}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Person Price:</h6> ${reserve.person_price}
-                </div>
-                <div className="who-reserved-card_container-data">
-                  <h6>Total Price:</h6> ${reserve.total_price}
-                </div>
-                <button
-                  onClick={() => {
-                    setIdToDelete(reserve.reservation_ID);
-                    showConfirmDelete(reserve.reservation_ID);
-                  }}
-                  className="button-decline"
-                >
-                  Decline
-                </button>
-              </div>
-            ))}
-          </div>
+      <main>
+        <h3 className="title">Clients who reserved at {hotel.name}</h3>
+        <p className="p-down-title">Manage your Hotel Reservations</p>
+        <div className="my-reservations_container">
+          <table className="my-reservations_table">
+            <thead>
+              <tr className="head-tr">
+                {tableColums.map((colum, index) => (
+                  <th key={index} className="head-th">
+                    {colum}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            {Array.isArray(bookings) && bookings.length > 0 ? (
+              <tbody>
+                {bookings.map((reserve, index) => (
+                  <tr key={index} className="body-tr">
+                    <td className="body-td">{reserve.reservation_ID}</td>
+                    <td className="body-td">
+                      {users.first_name} {users.last_name}
+                    </td>
+                    <td className="body-td">{reserve.room_type} room</td>
+                    <td className="body-td">{resetDate(reserve.reservation_date)}</td>
+                    <td className="body-td">{resetDate(reserve.check_in)}</td>
+                    <td className="body-td">{reserve.nights} nights</td>
+                    <td className="body-td">{reserve.guests} guests</td>
+                    <td className="body-td">${reserve.person_price}</td>
+                    <td className="body-td">${reserve.total_price}</td>
+                    <td>
+                      <button
+                        className="body-td_delete-button"
+                        onClick={() => {
+                          setIdToDelete(reserve.reservation_ID);
+                          showConfirmDelete(reserve.reservation_ID);
+                        }}
+                      >
+                        Decline
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : !bookings ? (
+              <Navigate to={`/partners/${partner.first_name}`} replace />
+            ) : (
+              <></>
+            )}
+          </table>
+        </div>
+        {idToDelete && idToDelete === elementView.confirmDelete ? (
+          <DeleteConfirm
+            text={`Decline reservation ${idToDelete}?`}
+            id={idToDelete}
+            showConfirmDelete={showConfirmDelete}
+            deleteReservation={deleteReservation}
+            buttonName={"Decline"}
+            toastText={`Reservation ${idToDelete} declined`}
+          />
         ) : (
-          <Navigate to={`/partners/${partner.first_name}`} replace />
+          <></>
         )}
-      </div>
-      {bookings && bookings.reservation_ID === elementView.confirmDelete ? (
-        <DeleteConfirm
-          text={`Decline reservation ${bookings.reservation_ID}?`}
-          id={bookings.reservation_ID}
-          showConfirmDelete={showConfirmDelete}
-          deleteReservation={deleteReservation}
-          buttonName={"Decline"}
-          toastText={`Reservation ${bookings.reservation_ID} declined`}
-        />
-      ) : idToDelete && idToDelete === elementView.confirmDelete ? (
-        <DeleteConfirm
-          text={`Decline reservation ${idToDelete}?`}
-          id={idToDelete}
-          showConfirmDelete={showConfirmDelete}
-          deleteReservation={deleteReservation}
-          buttonName={"Decline"}
-          toastText={`Reservation ${idToDelete} declined`}
-        />
-      ) : (
-        <></>
-      )}
+      </main>
     </>
   );
 }
