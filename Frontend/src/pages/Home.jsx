@@ -13,10 +13,6 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     if (isAuthenticated) navigate(`/users/${user.first_name}`);
   }, [isAuthenticated]);
 

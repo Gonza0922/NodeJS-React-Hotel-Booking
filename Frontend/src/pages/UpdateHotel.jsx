@@ -119,10 +119,7 @@ function UpdateHotel() {
       };
       console.log(data);
       const hotelUpdated = await updateHotel(data); // hotel info + new images in name format
-      if (hotelUpdated) {
-        navigate("/partners/Hotel");
-        window.scrollTo(0, 0);
-      }
+      if (hotelUpdated) navigate("/partners/Hotel");
     } catch (error) {
       console.error(error);
     }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import PartnerProvider from "./context/PartnerContext.jsx";
 import HotelProvider from "./context/HotelContext.jsx";
 import UserProvider from "./context/UserContext.jsx";
@@ -25,6 +25,17 @@ import ErrorHandling from "./components/ErrorHandling.jsx";
 import UserComments from "./pages/UserComments.jsx";
 import LayoutWithFooter from "./components/LayoutWithFooter.jsx";
 import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+
+const ScrollToTop = () => {
+  const pathname = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 function MyRoutes() {
   return (
@@ -70,10 +81,11 @@ function App() {
     <UserProvider>
       <HotelProvider>
         <PartnerProvider>
-          <BrowserRouter>
+          <Router>
+            <ScrollToTop />
             <MyRoutes />
             <Toaster />
-          </BrowserRouter>
+          </Router>
         </PartnerProvider>
       </HotelProvider>
     </UserProvider>

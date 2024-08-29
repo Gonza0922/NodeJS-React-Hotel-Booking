@@ -67,10 +67,6 @@ function Home() {
     verifyPIN();
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const clickGetCommentsAndUser = async () => {
     try {
       const commentsData = await getCommentPerHotelRequest(hotel_ID);
@@ -314,7 +310,6 @@ function Home() {
                   onClick={() => {
                     document.body.style.overflowY = "auto";
                     navigate(`/users/${user.first_name}/reservations`);
-                    window.scrollTo(0, 0);
                   }}
                   className="button-cancel-confirm"
                 >
