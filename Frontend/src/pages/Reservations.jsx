@@ -130,7 +130,7 @@ function Reservations() {
           </table>
           {reservations.length === 0 ? (
             <div className="no-reservations">
-              <h4>THERE ARE NO RESERVATIONS...</h4>
+              <h4>There Are No Reservations...</h4>
               <button onClick={() => navigate("/login")} className="common-button">
                 Start by making a reservation
               </button>

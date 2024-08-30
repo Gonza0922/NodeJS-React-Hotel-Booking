@@ -131,7 +131,7 @@ const Partners = () => {
       <p className="p-down-title">Manage your Published Hotels</p>
       {hotels.length === 0 ? (
         <div className="no-reservations">
-          <h4>THERE ARE NO HOTELS...</h4>
+          <h4>There Are No Hotels...</h4>
           <button
             onClick={() => navigate(`/partners/${partner.first_name}/create`)}
             className="common-button"

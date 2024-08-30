@@ -5,7 +5,7 @@
   display: flex;
   cursor: pointer;
   margin: 40px 0px;
-  color: black;
+  color: rgb(0, 0, 0);
 }
 
 #home-card .card-content {

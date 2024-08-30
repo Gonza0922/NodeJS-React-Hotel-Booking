@@ -103,7 +103,7 @@ function UserComments() {
         <h3 className="center-title">My Reviews</h3>
         {comments.length === 0 ? (
           <div className="no-comments">
-            <h4>THERE ARE NO REVIEWS...</h4>
+            <h4>There Are No Reviews...</h4>
             <button onClick={() => navigate("/login")} className="common-button">
               Start by making a Review
             </button>

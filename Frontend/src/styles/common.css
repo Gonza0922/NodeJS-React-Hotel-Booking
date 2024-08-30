@@ -27,8 +27,8 @@ body {
 /* ERRORS */
 
 .container-errors {
-  background-color: red;
-  color: white;
+  background-color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
   text-align: center;
   border-radius: 2px;
 }
@@ -38,12 +38,12 @@ body {
 }
 
 .container-span {
-  color: red;
+  color: rgb(255, 0, 0);
 }
 
 .container-error-create-update-hotel {
-  background-color: red;
-  color: white;
+  background-color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
   text-align: center;
   border-radius: 2px;
   width: 30%;
@@ -54,14 +54,14 @@ body {
 
 .title {
   font-size: 2.2rem;
-  color: #4b4b4b;
+  color: rgb(75, 75, 75);
   margin: 30px 20px 20px 20px;
   font-weight: bold;
 }
 
 .center-title {
   font-size: 2.2rem;
-  color: #4b4b4b;
+  color: rgb(75, 75, 75);
   text-align: center;
   font-weight: bold;
   margin-bottom: 30px;
@@ -120,7 +120,7 @@ pre {
 
 .delete-confirm {
   text-align: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   width: 35%;
   min-width: 400px;
   padding: 30px 40px;
@@ -129,7 +129,7 @@ pre {
 
 .delete-confirm-hotelError {
   text-align: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   width: 600px;
   padding: 40px 15px;
   border-radius: 10px;
@@ -140,7 +140,7 @@ pre {
 .common-button,
 .login-register-partner-button {
   background-color: var(--button-orange-focus-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -172,7 +172,7 @@ pre {
   float: right;
   margin-right: 40px;
   background-color: var(--button-orange-focus-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -190,7 +190,7 @@ pre {
   float: right;
   margin-right: 40px;
   background-color: var(--button-red-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -207,7 +207,7 @@ pre {
 .button-delete-confirm {
   margin: 10px;
   background-color: var(--button-red-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -217,7 +217,7 @@ pre {
   float: right;
   margin-right: 10px;
   background-color: var(--button-red-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -235,7 +235,7 @@ pre {
 .button-cancel-confirm {
   margin: 10px;
   background-color: var(--button-blue-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -247,7 +247,7 @@ pre {
 
 .button-my-reservation {
   background-color: var(--button-red-color);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 8px 20px;
   margin: 10px;
@@ -258,7 +258,7 @@ pre {
   border: none;
   padding: 8px 15px;
   cursor: pointer;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .body-td_edit-button:hover {
@@ -270,7 +270,7 @@ pre {
   border: none;
   padding: 8px 15px;
   cursor: pointer;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .body-td_delete-button:hover {
@@ -285,7 +285,7 @@ pre {
 
 .footer {
   margin-top: 100px;
-  background-color: #ebebeb;
+  background-color: rgb(235, 235, 235);
   padding: 1rem 0;
 }
 
@@ -319,5 +319,5 @@ pre {
 }
 
 .footer-link:hover {
-  color: #0004ff;
+  color: rgb(0, 0, 255);
 }

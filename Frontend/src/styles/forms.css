@@ -35,7 +35,7 @@
 
 .linkToRegister,
 .linkToLogin {
-  color: blue;
+  color: rgb(0, 0, 255);
 }
 
 /* UPDATE RESERVATION */
@@ -76,7 +76,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   margin: 10px;
   padding: 8px;
 }
@@ -107,7 +107,7 @@
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  color: #fff;
+  color: rgb(255, 255, 255);
   margin-right: 10px;
 }
 
@@ -123,7 +123,7 @@
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  color: #fff;
+  color: rgb(255, 255, 255);
   margin-right: 10px;
 }
 
@@ -154,7 +154,7 @@
 .delete-confirm,
 .comment {
   text-align: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   width: 35%;
   padding: 20px;
   border-radius: 10px;
@@ -163,7 +163,7 @@
 #create-comment,
 #update-comment {
   height: 110px;
-  border: 1px solid black;
+  border: 1px solid rgb(0, 0, 0);
   font-size: 18px;
   resize: none;
   padding: 10px;
