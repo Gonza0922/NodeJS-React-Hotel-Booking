@@ -7,7 +7,7 @@ import { usePartnerContext } from "../context/PartnerContext.jsx";
 import { useNavigate } from "react-router-dom";
 import NavbarMenu from "../components/Navbars/NavbarMenu.jsx";
 import {
-  getCommentPerUserRequest,
+  getCommentByUserRequest,
   deleteCommentRequest,
   putCommentRequest,
 } from "../api/comment.api.js";
@@ -24,7 +24,7 @@ function UserComments() {
   useEffect(() => {
     const clickGetComments = async () => {
       try {
-        const data = await getCommentPerUserRequest(user.user_ID);
+        const data = await getCommentByUserRequest(user.user_ID);
         const finalComments = [];
         const hotelDataArray = [];
         for (const comment of data) {

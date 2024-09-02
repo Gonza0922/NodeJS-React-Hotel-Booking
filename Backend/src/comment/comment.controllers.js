@@ -18,7 +18,7 @@ export const getAllComments = async (req, res) => {
   }
 };
 
-export const getCommentPerId = async (req, res) => {
+export const getCommentById = async (req, res) => {
   //Select the comment that matches the comment_ID sent by parameter
   try {
     const { comment_ID } = req.params;
@@ -35,7 +35,7 @@ export const getCommentPerId = async (req, res) => {
   }
 };
 
-export const getCommentPerHotel = async (req, res) => {
+export const getCommentByHotel = async (req, res) => {
   //Select the comment(s) created by the Hotel_ID sent by parameter
   try {
     const { hotel_ID } = req.params;
@@ -51,7 +51,7 @@ export const getCommentPerHotel = async (req, res) => {
   }
 };
 
-export const getCommentPerUser = async (req, res) => {
+export const getCommentByUser = async (req, res) => {
   //Select the comment that matches the user_ID sent by parameter
   try {
     const { user_ID } = req.params;

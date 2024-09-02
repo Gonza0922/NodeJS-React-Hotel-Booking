@@ -5,14 +5,14 @@ import { validatePIN } from "../middlewares/validates/validatePIN.js";
 import { PIN, comment } from "../comment/comment.schema.js";
 import {
   getAllComments,
-  getCommentPerId,
-  getCommentPerHotel,
+  getCommentById,
+  getCommentByHotel,
   postComment,
   putComment,
   deleteComment,
   verifyPIN,
   verifyTokenPIN,
-  getCommentPerUser,
+  getCommentByUser,
 } from "../comment/comment.controllers.js";
 import { validateQuery } from "../middlewares/validates/validatePagination.js";
 import { pagination } from "../common/paginationSchema.js";
@@ -20,9 +20,9 @@ import { pagination } from "../common/paginationSchema.js";
 const commentRouter = Router();
 
 commentRouter.get("/all/comments", validateQuery(pagination), getAllComments);
-commentRouter.get("/comments/:comment_ID", getCommentPerId);
-commentRouter.get("/per_hotel/:hotel_ID", getCommentPerHotel);
-commentRouter.get("/per_user/:user_ID", validateTokenUser, getCommentPerUser);
+commentRouter.get("/comments/:comment_ID", getCommentById);
+commentRouter.get("/by_hotel/:hotel_ID", getCommentByHotel);
+commentRouter.get("/by_user/:user_ID", validateTokenUser, getCommentByUser);
 commentRouter.post(
   "/create/comments",
   validateSchema(comment),

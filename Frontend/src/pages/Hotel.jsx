@@ -3,13 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { getHotelIdRequest } from "../api/hotel.api";
 import { postReservationRequest } from "../api/reservation.api.js";
-import { getImagesPerHotelRequest } from "../api/images.api.js";
+import { getImagesByHotelRequest } from "../api/images.api.js";
 import { useUserContext } from "../context/UserContext.jsx";
 import { useHotelContext } from "../context/HotelContext.jsx";
 import NavbarWithOutSearching from "../components/Navbars/NavbarWithOutSearching.jsx";
 import NavbarUserWithOutSearching from "../components/Navbars/NavbarUserWithOutSearching.jsx";
 import {
-  getCommentPerHotelRequest,
+  getCommentByHotelRequest,
   postCommentRequest,
   verifyPINRequest,
 } from "../api/comment.api.js";
@@ -69,7 +69,7 @@ function Home() {
 
   const clickGetCommentsAndUser = async () => {
     try {
-      const commentsData = await getCommentPerHotelRequest(hotel_ID);
+      const commentsData = await getCommentByHotelRequest(hotel_ID);
       const userPromise = commentsData.map(async (comment) => {
         return await getUserIdRequest(comment.user_ID);
       });
@@ -99,9 +99,9 @@ function Home() {
         setErrorRedirect(error.message);
       }
     };
-    const clickGetImagesPerHotel = async () => {
+    const clickGetImagesByHotel = async () => {
       try {
-        const data = await getImagesPerHotelRequest(hotel_ID);
+        const data = await getImagesByHotelRequest(hotel_ID);
         setImages(data);
       } catch (error) {
         setImages([]);
@@ -109,7 +109,7 @@ function Home() {
     };
     clickGetCommentsAndUser();
     clickGetHotel();
-    clickGetImagesPerHotel();
+    clickGetImagesByHotel();
   }, []);
 
   useEffect(() => {

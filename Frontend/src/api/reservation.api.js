@@ -2,7 +2,7 @@ import axios from "./axios.js";
 
 export const getReservationRequest = async () => {
   //Select the reservation that matches the user_ID, selected when validating the UserToken
-  const request = await axios.get("/user/per_user/reservations");
+  const request = await axios.get("/user/by_user/reservations");
   return request.data;
 }; //[USED]
 

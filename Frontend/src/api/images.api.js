@@ -1,6 +1,6 @@
 import axios from "./axios.js";
 
-export const getImagesPerHotelRequest = async (hotel_ID) => {
+export const getImagesByHotelRequest = async (hotel_ID) => {
   //Select all images of the hotel sent by parameter
   const request = await axios.get(`/images/all/${hotel_ID}`);
   return request.data;

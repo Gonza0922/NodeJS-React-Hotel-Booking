@@ -5,7 +5,7 @@ import { hotel } from "../hotel/hotel.schema.js";
 import {
   getAllHotels,
   getHotelId,
-  getHotelPerPartner,
+  getHotelByPartner,
   postHotel,
   putHotel,
   deleteHotel,
@@ -21,7 +21,7 @@ const hotelRouter = Router();
 
 hotelRouter.get("/all/hotels", validateQuery(pagination), getAllHotels);
 hotelRouter.get("/hotels/:hotel_ID", getHotelId);
-hotelRouter.get("/per_partner/hotels", validateTokenPartner, getHotelPerPartner);
+hotelRouter.get("/by_partner/hotels", validateTokenPartner, getHotelByPartner);
 hotelRouter.post("/create/hotels", validateSchema(hotel), validateTokenPartner, postHotel);
 hotelRouter.put(
   "/update/hotels/:hotel_ID",

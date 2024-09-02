@@ -5,9 +5,9 @@ import { chooseMiddleware } from "../middlewares/chooseMiddleware.js";
 import { validateSchema } from "../middlewares/validates/validateSchema.js";
 import { reservation } from "../reservation/reservation.schema.js";
 import {
-  getReservationPerUser,
-  getReservationPerId,
-  getReservationPerHotel,
+  getReservationByUser,
+  getReservationById,
+  getReservationByHotel,
   postReservation,
   putReservation,
   deleteReservation,
@@ -16,12 +16,12 @@ import { sendEmail } from "../email/email.controllers.js";
 
 const reservationRouter = Router();
 
-reservationRouter.get("/per_user/reservations", validateTokenUser, getReservationPerUser);
-reservationRouter.get("/reservations/:reservation_ID", validateTokenUser, getReservationPerId);
+reservationRouter.get("/by_user/reservations", validateTokenUser, getReservationByUser);
+reservationRouter.get("/reservations/:reservation_ID", validateTokenUser, getReservationById);
 reservationRouter.get(
   "/hotel/reservations/:hotel_ID",
   validateTokenPartner,
-  getReservationPerHotel
+  getReservationByHotel
 );
 reservationRouter.post(
   "/create/reservations",

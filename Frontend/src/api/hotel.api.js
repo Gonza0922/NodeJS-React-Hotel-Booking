@@ -19,7 +19,7 @@ export const getHotelIdRequest = async (hotel_ID) => {
 
 export const getHotelPartnerRequest = async () => {
   //Select the hotel(s) created by the partner_ID, selected when validating the PartnerToken
-  const request = await axios.get("/partner/per_partner/hotels");
+  const request = await axios.get("/partner/by_partner/hotels");
   return request.data;
 }; //[USED]
 

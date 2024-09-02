@@ -5,7 +5,7 @@ import NavbarMenu from "../components/Navbars/NavbarMenu";
 import { usePartnerContext } from "../context/PartnerContext";
 import { useHotelContext } from "../context/HotelContext";
 import { getHotelIdRequest, putHotelRequest } from "../api/hotel.api";
-import { getImagesPerHotelRequest } from "../api/images.api";
+import { getImagesByHotelRequest } from "../api/images.api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateHotelSchema } from "../validations/hotel.validation.js";
 
@@ -51,9 +51,9 @@ function UpdateHotel() {
         setErrorRedirect(error.message);
       }
     };
-    const clickGetImagesPerHotel = async () => {
+    const clickGetImagesByHotel = async () => {
       try {
-        const data = await getImagesPerHotelRequest(hotel_ID);
+        const data = await getImagesByHotelRequest(hotel_ID);
         setImages({ ...images, moreImages: data });
         setHotelData((prevHotelData) => ({
           ...prevHotelData,
@@ -68,7 +68,7 @@ function UpdateHotel() {
       }
     };
     clickGetHotel();
-    clickGetImagesPerHotel();
+    clickGetImagesByHotel();
   }, []);
 
   const handleImageChange = (e, name) => {

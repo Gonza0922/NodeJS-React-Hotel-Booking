@@ -41,7 +41,7 @@ export const getHotelId = async (req, res) => {
   }
 };
 
-export const getHotelPerPartner = async (req, res) => {
+export const getHotelByPartner = async (req, res) => {
   //Select the hotel(s) created by the partner_ID, selected when validating the PartnerToken
   try {
     const { partner_ID } = req.partner;
@@ -101,10 +101,10 @@ export const putHotel = async (req, res) => {
       req.body.phone,
     ];
     const [findName] = await db.query("SELECT name FROM hotels WHERE name = ?", [req.body.name]);
-    const [findNamePerHotelId] = await db.query("SELECT name FROM hotels WHERE hotel_ID = ?", [
+    const [findNameByHotelId] = await db.query("SELECT name FROM hotels WHERE hotel_ID = ?", [
       hotel_ID,
     ]);
-    if (findName.length > 0 && findNamePerHotelId[0].name !== req.body.name)
+    if (findName.length > 0 && findNameByHotelId[0].name !== req.body.name)
       return res.status(409).json({ message: "Hotel already exists" });
     await db.query(q, [...values, hotel_ID]);
     await redisClient.del(CACHE_KEY);

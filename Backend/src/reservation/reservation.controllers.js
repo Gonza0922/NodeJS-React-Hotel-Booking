@@ -1,7 +1,7 @@
 import { db } from "../tables.js";
 import bcrypt from "bcryptjs";
 
-export const getReservationPerUser = async (req, res) => {
+export const getReservationByUser = async (req, res) => {
   //Select the reservation that matches the user_ID, selected when validating the UserToken
   try {
     const { user_ID } = req.user;
@@ -17,7 +17,7 @@ export const getReservationPerUser = async (req, res) => {
   }
 };
 
-export const getReservationPerId = async (req, res) => {
+export const getReservationById = async (req, res) => {
   //Select the reservation that matches the reservation_ID sent by parameter
   try {
     const { reservation_ID } = req.params;
@@ -36,7 +36,7 @@ export const getReservationPerId = async (req, res) => {
   }
 };
 
-export const getReservationPerHotel = async (req, res) => {
+export const getReservationByHotel = async (req, res) => {
   //Select the reservation that matches the hotel_ID sent by parameter
   try {
     const { hotel_ID } = req.params;

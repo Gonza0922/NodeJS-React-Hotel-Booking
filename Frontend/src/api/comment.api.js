@@ -17,15 +17,15 @@ export const getCommentIdRequest = async (comment_ID) => {
   return request.data;
 }; //[USED]
 
-export const getCommentPerHotelRequest = async (hotel_ID) => {
+export const getCommentByHotelRequest = async (hotel_ID) => {
   //Select the comment(s) created by the hotel_ID sent by parameter
-  const request = await axios.get(`/user/per_hotel/${hotel_ID}`);
+  const request = await axios.get(`/user/by_hotel/${hotel_ID}`);
   return request.data;
 }; //[USED]
 
-export const getCommentPerUserRequest = async (user_ID) => {
+export const getCommentByUserRequest = async (user_ID) => {
   //Select the comment(s) created by the user_ID sent by parameter
-  const request = await axios.get(`/user/per_user/${user_ID}`);
+  const request = await axios.get(`/user/by_user/${user_ID}`);
   return request.data;
 }; //[USED]
 
