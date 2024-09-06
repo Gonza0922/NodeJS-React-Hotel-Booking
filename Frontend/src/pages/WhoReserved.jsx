@@ -64,11 +64,11 @@ function WhoReserved() {
   const tableColums = [
     "Reservation ID",
     "Customer",
-    "Room",
-    "Date",
     "Check In",
+    "Check Out",
+    "Room",
+    "Reservation Date",
     "Nights",
-    "Guests",
     "Person Price",
     "Total Price",
     "Decline",
@@ -97,16 +97,19 @@ function WhoReserved() {
                   <tr key={index} className="body-tr">
                     <td className="body-td">{reserve.reservation_ID}</td>
                     <td className="body-td">
-                      {users.first_name} {users.last_name}
+                      <b>
+                        {users.first_name} {users.last_name}
+                      </b>
+                      <div>{reserve.guests} guests</div>
                     </td>
+                    <td className="body-td">{resetDate(reserve.check_in)}</td>
+                    <td className="body-td">{resetDate(reserve.check_out)}</td>
                     <td className="body-td">{reserve.room_type} room</td>
                     <td className="body-td">{resetDate(reserve.reservation_date)}</td>
-                    <td className="body-td">{resetDate(reserve.check_in)}</td>
                     <td className="body-td">{reserve.nights} nights</td>
-                    <td className="body-td">{reserve.guests} guests</td>
                     <td className="body-td">${reserve.person_price}</td>
                     <td className="body-td">${reserve.total_price}</td>
-                    <td>
+                    <td className="body-td">
                       <button
                         className="body-td_delete-button"
                         onClick={() => {

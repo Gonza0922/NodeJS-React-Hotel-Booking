@@ -12,7 +12,7 @@ export default function Footer() {
             </li>
             <li>
               <a href="tel:+123456789" className="footer-link">
-                +54 221 7893029
+                +54 9 11 9384-0291
               </a>
             </li>
           </ul>

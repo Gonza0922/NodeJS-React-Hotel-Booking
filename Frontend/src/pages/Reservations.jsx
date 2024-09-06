@@ -60,7 +60,7 @@ function Reservations() {
   const tableColums = [
     "Reservation ID",
     "Hotel",
-    "Date",
+    "Reservation Date",
     "Check In",
     "Nights",
     "Guests",
@@ -93,8 +93,8 @@ function Reservations() {
                   <tr key={index} className="body-tr">
                     <td className="body-td">{reservation.reservation_ID}</td>
                     <td className="body-td">
-                      <div> {reservation.room_type} room</div>
                       <b>{reservationHotel[index] && reservationHotel[index].name}</b>
+                      <div> {reservation.room_type} room</div>
                     </td>
                     <td className="body-td">{resetDate(reservation.reservation_date)}</td>
                     <td className="body-td">{resetDate(reservation.check_in)}</td>
@@ -110,7 +110,7 @@ function Reservations() {
                         Edit
                       </button>
                     </td>
-                    <td>
+                    <td className="body-td">
                       <button
                         className="body-td_delete-button"
                         onClick={() => {
