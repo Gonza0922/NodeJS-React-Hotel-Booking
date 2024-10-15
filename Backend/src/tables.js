@@ -16,10 +16,10 @@ const {
 async function connectToDatabase(config) {
   try {
     const connection = await mysql.createConnection(config);
-    console.log("Conexión establecida a la base de datos MySQL");
+    console.log("Connection to the MySQL database has been successfully established");
     return connection;
   } catch (error) {
-    console.error("Error al conectar con la base de datos MySQL:", error.message);
+    console.error("Error connecting to MySQL database:", error.message);
     throw error;
   }
 }
@@ -47,7 +47,7 @@ async function initializeDatabase() {
     const db = await connectToDatabase(config);
     return db;
   } catch (error) {
-    console.error("Error al inicializar la conexión a la base de datos:", error.message);
+    console.error("Error initializing database connection:", error.message);
     throw error;
   }
 }
