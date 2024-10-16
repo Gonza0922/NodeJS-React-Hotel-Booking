@@ -67,7 +67,7 @@ function SliderComponent({ comments }) {
     <div className="container-slider">
       <Slider {...settings}>
         {comments.map((comment, index) => (
-          <div key={index} id="comment-card">
+          <div key={index} id="comment-card" className="card">
             <div className="card-content">
               <div className="comment_profile">
                 <div className="comment_initial">{comment.first_name.split("")[0]}</div>

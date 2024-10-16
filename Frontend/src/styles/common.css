@@ -8,6 +8,7 @@
 
 main {
   width: 100vw;
+  min-width: 1250px;
 }
 
 body {
