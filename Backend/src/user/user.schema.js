@@ -70,3 +70,15 @@ export const update = z.object({
     .gt(1000000000, { message: "Phone must be at least than 10 characters" })
     .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });
+
+export const updatePassword = z.object({
+  oldPassword: z.string({ required_error: "Old Password is required" }),
+  newPassword: z
+    .string({ required_error: "New Password is required" })
+    .min(1, { message: "New Password is required" })
+    .min(6, { message: "New Password must be at least 6 characters" }),
+  againNewPassword: z
+    .string({ required_error: "Again New Password is required" })
+    .min(1, { message: "Again New Password is required" })
+    .min(6, { message: "Again New Password must be at least 6 characters" }),
+});

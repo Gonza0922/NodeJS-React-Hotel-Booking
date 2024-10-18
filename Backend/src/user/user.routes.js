@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login, update } from "../user/user.schema.js";
+import { register, login, update, updatePassword } from "../user/user.schema.js";
 import { validateSchema } from "../middlewares/validates/validateSchema.js";
 import { validateTokenUser } from "../middlewares/validates/validateTokenUser.js";
 import {
@@ -22,7 +22,12 @@ userRouter.get("/all/users", validateQuery(pagination), getAllUsers);
 userRouter.get("/users/get/:user_ID", getUserId);
 userRouter.post("/users/register", validateSchema(register), registerUser);
 userRouter.put("/users/update", validateSchema(update), validateTokenUser, putUser);
-userRouter.put("/users/password/update/:user_ID", validateTokenUser, putUserPassword);
+userRouter.put(
+  "/users/password/update/:user_ID",
+  validateSchema(updatePassword),
+  validateTokenUser,
+  putUserPassword
+);
 userRouter.post("/users/login", validateSchema(login), loginUser);
 userRouter.post("/users/logout", logoutUser);
 userRouter.get("/users/verify", verifyUser);

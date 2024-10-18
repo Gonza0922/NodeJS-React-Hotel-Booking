@@ -108,7 +108,7 @@ export const putUserPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await db.query("UPDATE users SET password = ? WHERE user_ID = ?", [hashedPassword, user_ID]);
     res.status(200).json({
-      message: `User password from user ${user_ID} updated`,
+      message: `Password from user ${user_ID} updated`,
     });
   } catch (err) {
     console.error("Error:", err);
