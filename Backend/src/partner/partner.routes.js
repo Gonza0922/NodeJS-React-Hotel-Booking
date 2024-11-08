@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { register, login, update, updatePassword } from "../user/user.schema.js";
+import { login, register } from "../auth/auth.schema.js";
+import { update, updatePassword } from "../user/user.schema.js";
 import { validateSchema } from "../middlewares/validates/validateSchema.js";
 import { validateTokenPartner } from "../middlewares/validates/validateTokenPartner.js";
 import {

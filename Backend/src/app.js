@@ -11,6 +11,7 @@ import partnerRouter from "./partner/partner.routes.js";
 import imagesRouter from "./images/images.routes.js";
 import commentRouter from "./comment/comment.routes.js";
 import emailRouter from "./email/email.routes.js";
+import authRouter from "./auth/auth.routes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use("/auth", authRouter);
 app.use("/auth", userRouter);
 app.use("/auth", partnerRouter);
 app.use("/user", reservationRouter);
