@@ -20,7 +20,7 @@ import { pagination } from "../common/paginationSchema.js";
 const hotelRouter = Router();
 
 hotelRouter.get("/all", validateQuery(pagination), getAllHotels);
-hotelRouter.get("/:hotel_ID", getHotelId);
+hotelRouter.get("/by_hotel/:hotel_ID", getHotelId);
 hotelRouter.get("/by_partner", validateTokenPartner, getHotelByPartner);
 hotelRouter.post("/create", validateSchema(hotel), validateTokenPartner, postHotel);
 hotelRouter.put("/update/:hotel_ID", validateSchema(hotel), validateTokenPartner, putHotel);

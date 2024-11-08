@@ -2,7 +2,7 @@ import axios from "./axios.js";
 
 export const getAllUsersRequest = async (limit, page) => {
   //Select all users
-  const request = await axios.get("/auth/all/users", {
+  const request = await axios.get("/user/all", {
     params: {
       limit: limit,
       page: page,
@@ -13,19 +13,19 @@ export const getAllUsersRequest = async (limit, page) => {
 
 export const getUserIdRequest = async (user_ID) => {
   //Select the user that matches the user_ID sent by parameter
-  const request = await axios.get(`/auth/users/get/${user_ID}`);
+  const request = await axios.get(`/user/get/${user_ID}`);
   return request.data;
 }; //[USED]
 
 export const putUserIdRequest = async (newData) => {
   //Update a user
-  const request = await axios.put("/auth/users/update", newData);
+  const request = await axios.put("/user/update", newData);
   return request.data;
 }; //[USED]
 
 export const putUserIdPasswordRequest = async (user_ID, newData) => {
   //Update a user's password
-  const request = await axios.put(`/auth/users/password/update/${user_ID}`, newData);
+  const request = await axios.put(`/user/password/update/${user_ID}`, newData);
   return request.data;
 }; //[USED]
 
@@ -55,6 +55,6 @@ export const verifyTokenUserRequest = async () => {
 
 export const deleteUserRequest = async (user_ID) => {
   //Delete a user that matches the user_ID sent by parameter and all its reservations
-  const request = await axios.delete(`/auth/delete/users/${user_ID}`);
+  const request = await axios.delete(`/user/delete/${user_ID}`);
   return request.data;
 }; //[USED]

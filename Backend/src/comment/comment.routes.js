@@ -20,7 +20,7 @@ import { pagination } from "../common/paginationSchema.js";
 const commentRouter = Router();
 
 commentRouter.get("/all", validateQuery(pagination), getAllComments);
-commentRouter.get("/:comment_ID", getCommentById);
+commentRouter.get("/by_comment/:comment_ID", getCommentById);
 commentRouter.get("/by_hotel/:hotel_ID", getCommentByHotel);
 commentRouter.get("/by_user/:user_ID", validateTokenUser, getCommentByUser);
 commentRouter.post(

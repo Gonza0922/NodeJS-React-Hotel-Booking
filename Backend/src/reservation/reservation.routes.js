@@ -17,8 +17,8 @@ import { sendEmail } from "../email/email.controllers.js";
 const reservationRouter = Router();
 
 reservationRouter.get("/by_user", validateTokenUser, getReservationByUser);
-reservationRouter.get("/:reservation_ID", validateTokenUser, getReservationById);
-reservationRouter.get("/hotel/:hotel_ID", validateTokenPartner, getReservationByHotel);
+reservationRouter.get("/by_reservation/:reservation_ID", validateTokenUser, getReservationById);
+reservationRouter.get("/by_hotel/:hotel_ID", validateTokenPartner, getReservationByHotel);
 reservationRouter.post(
   "/create",
   validateSchema(reservation),
