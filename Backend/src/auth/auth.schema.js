@@ -1,10 +1,14 @@
 import { z } from "zod";
 
-export const update = z.object({
+export const register = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .min(1, { message: "Email is required" })
     .email({ message: "Email is not valid" }),
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(1, { message: "Password is required" })
+    .min(6, { message: "Password must be at least 6 characters" }),
   first_name: z
     .string({ required_error: "First Name is required" })
     .min(1, { message: "First Name is required" })
@@ -30,14 +34,9 @@ export const update = z.object({
     .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });
 
-export const updatePassword = z.object({
-  oldPassword: z.string({ required_error: "Old Password is required" }),
-  newPassword: z
-    .string({ required_error: "New Password is required" })
-    .min(1, { message: "New Password is required" })
-    .min(6, { message: "New Password must be at least 6 characters" }),
-  againNewPassword: z
-    .string({ required_error: "Again New Password is required" })
-    .min(1, { message: "Again New Password is required" })
-    .min(6, { message: "Again New Password must be at least 6 characters" }),
+export const login = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .email({ message: "Email is not valid" }),
+  password: z.string({ required_error: "Password is required" }),
 });
