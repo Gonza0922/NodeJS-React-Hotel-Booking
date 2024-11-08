@@ -16,11 +16,11 @@ import {
 
 const partnerRouter = Router();
 
-partnerRouter.get("/partners/get/:partner_ID", getPartner);
+partnerRouter.get("/get/:partner_ID", getPartner);
 partnerRouter.post("/partners/register", validateSchema(register), registerPartner);
-partnerRouter.put("/partners/update", validateSchema(update), validateTokenPartner, putPartner);
+partnerRouter.put("/update", validateSchema(update), validateTokenPartner, putPartner);
 partnerRouter.put(
-  "/partners/password/update/:partner_ID",
+  "/password/update/:partner_ID",
   validateSchema(updatePassword),
   validateTokenPartner,
   putPartnerPassword
@@ -28,6 +28,6 @@ partnerRouter.put(
 partnerRouter.post("/partners/login", validateSchema(login), loginPartner);
 partnerRouter.post("/partners/logout", logoutPartner);
 partnerRouter.get("/partners/verify", verifyPartner);
-partnerRouter.delete("/delete/partners/:partner_ID", validateTokenPartner, deletePartner);
+partnerRouter.delete("/delete/:partner_ID", validateTokenPartner, deletePartner);
 
 export default partnerRouter;

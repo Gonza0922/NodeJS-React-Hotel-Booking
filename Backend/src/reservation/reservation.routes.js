@@ -16,30 +16,22 @@ import { sendEmail } from "../email/email.controllers.js";
 
 const reservationRouter = Router();
 
-reservationRouter.get("/by_user/reservations", validateTokenUser, getReservationByUser);
-reservationRouter.get("/reservations/:reservation_ID", validateTokenUser, getReservationById);
-reservationRouter.get(
-  "/hotel/reservations/:hotel_ID",
-  validateTokenPartner,
-  getReservationByHotel
-);
+reservationRouter.get("/by_user", validateTokenUser, getReservationByUser);
+reservationRouter.get("/:reservation_ID", validateTokenUser, getReservationById);
+reservationRouter.get("/hotel/:hotel_ID", validateTokenPartner, getReservationByHotel);
 reservationRouter.post(
-  "/create/reservations",
+  "/create",
   validateSchema(reservation),
   validateTokenUser,
   postReservation,
   sendEmail
 );
 reservationRouter.put(
-  "/update/reservations/:reservation_ID",
+  "/update/:reservation_ID",
   validateSchema(reservation),
   validateTokenUser,
   putReservation
 );
-reservationRouter.delete(
-  "/delete/reservations/:reservation_ID",
-  chooseMiddleware,
-  deleteReservation
-);
+reservationRouter.delete("/delete/:reservation_ID", chooseMiddleware, deleteReservation);
 
 export default reservationRouter;

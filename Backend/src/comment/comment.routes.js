@@ -19,30 +19,20 @@ import { pagination } from "../common/paginationSchema.js";
 
 const commentRouter = Router();
 
-commentRouter.get("/all/comments", validateQuery(pagination), getAllComments);
-commentRouter.get("/comments/:comment_ID", getCommentById);
+commentRouter.get("/all", validateQuery(pagination), getAllComments);
+commentRouter.get("/:comment_ID", getCommentById);
 commentRouter.get("/by_hotel/:hotel_ID", getCommentByHotel);
 commentRouter.get("/by_user/:user_ID", validateTokenUser, getCommentByUser);
 commentRouter.post(
-  "/create/comments",
+  "/create",
   validateSchema(comment),
   validateTokenUser,
   validatePIN,
   postComment
 );
-commentRouter.put(
-  "/update/comments/:comment_ID",
-  validateSchema(comment),
-  validateTokenUser,
-  putComment
-);
-commentRouter.delete("/delete/comments/:comment_ID", validateTokenUser, deleteComment);
-commentRouter.post(
-  "/verify/PIN/comments/:hotel_ID",
-  validateSchema(PIN),
-  validateTokenUser,
-  verifyPIN
-); //Check PIN in data base and create a cookie
+commentRouter.put("/update/:comment_ID", validateSchema(comment), validateTokenUser, putComment);
+commentRouter.delete("/delete/:comment_ID", validateTokenUser, deleteComment);
+commentRouter.post("/verify/PIN/:hotel_ID", validateSchema(PIN), validateTokenUser, verifyPIN); //Check PIN in data base and create a cookie
 commentRouter.get("/verify/token/PIN/:hotel_ID", validateTokenUser, verifyTokenPIN); //Check PIN in the cookie
 
 export default commentRouter;

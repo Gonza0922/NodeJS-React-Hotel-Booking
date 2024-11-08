@@ -14,15 +14,15 @@ import { validateQuery } from "../middlewares/validates/validatePagination.js";
 
 const userRouter = Router();
 
-userRouter.get("/all/users", validateQuery(pagination), getAllUsers);
-userRouter.get("/users/get/:user_ID", getUserId);
-userRouter.put("/users/update", validateSchema(update), validateTokenUser, putUser);
+userRouter.get("/all", validateQuery(pagination), getAllUsers);
+userRouter.get("/get/:user_ID", getUserId);
+userRouter.put("/update", validateSchema(update), validateTokenUser, putUser);
 userRouter.put(
-  "/users/password/update/:user_ID",
+  "/password/update/:user_ID",
   validateSchema(updatePassword),
   validateTokenUser,
   putUserPassword
 );
-userRouter.delete("/delete/users/:user_ID", validateTokenUser, deleteUser);
+userRouter.delete("/delete/:user_ID", validateTokenUser, deleteUser);
 
 export default userRouter;

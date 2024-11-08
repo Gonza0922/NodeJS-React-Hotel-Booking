@@ -28,11 +28,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use("/auth", authRouter);
-app.use("/auth", userRouter);
-app.use("/auth", partnerRouter);
-app.use("/user", reservationRouter);
-app.use("/user", commentRouter);
-app.use("/partner", hotelRouter);
+app.use("/user", userRouter);
+app.use("/partner", partnerRouter);
+app.use("/reservations", reservationRouter);
+app.use("/comments", commentRouter);
+app.use("/hotels", hotelRouter);
 app.use("/images", imagesRouter);
 app.use("/email", emailRouter);
 
