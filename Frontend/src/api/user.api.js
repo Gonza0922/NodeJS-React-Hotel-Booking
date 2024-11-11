@@ -29,30 +29,6 @@ export const putUserIdPasswordRequest = async (user_ID, newData) => {
   return request.data;
 }; //[USED]
 
-export const registerUserRequest = async (user) => {
-  //Register a new user
-  const request = await axios.post("/auth/users/register", user);
-  return request.data;
-}; //[USED]
-
-export const loginUserRequest = async (user) => {
-  //Log in a user that matches the data sent
-  const request = await axios.post("/auth/users/login", user);
-  return request.data;
-}; //[USED]
-
-export const logoutUserRequest = async () => {
-  //Log out a partner
-  const request = await axios.post("/auth/users/logout");
-  return request.data;
-}; //[USED]
-
-export const verifyTokenUserRequest = async () => {
-  //Check if the UserToken exists/matches to enter the user account
-  const request = await axios.get("/auth/users/verify");
-  return request.data;
-}; //[USED]
-
 export const deleteUserRequest = async (user_ID) => {
   //Delete a user that matches the user_ID sent by parameter and all its reservations
   const request = await axios.delete(`/user/delete/${user_ID}`);

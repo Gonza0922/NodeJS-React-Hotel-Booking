@@ -1,7 +1,11 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { registerUserRequest, loginUserRequest, logoutUserRequest } from "../api/user.api";
+import {
+  registerUserRequest,
+  loginUserRequest,
+  logoutUserRequest,
+  verifyTokenUserRequest,
+} from "../api/auth.api";
 import Cookie from "js-cookie";
-import { verifyTokenUserRequest } from "../api/user.api";
 
 const userContext = createContext();
 
