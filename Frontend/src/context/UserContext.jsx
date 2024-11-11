@@ -1,9 +1,9 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import {
-  registerUserRequest,
-  loginUserRequest,
-  logoutUserRequest,
-  verifyTokenUserRequest,
+  registerRequest,
+  loginRequest,
+  logoutRequest,
+  verifyTokenRequest,
 } from "../api/auth.api";
 import Cookie from "js-cookie";
 
@@ -31,7 +31,7 @@ const UserProvider = (props) => {
 
   const login = async (user) => {
     try {
-      const data = await loginUserRequest({ ...user, role });
+      const data = await loginRequest({ ...user, role });
       setUser(data);
       setIsAuthenticated(true);
       console.log(data);
@@ -44,7 +44,7 @@ const UserProvider = (props) => {
 
   const signUp = async (user) => {
     try {
-      const data = await registerUserRequest({ ...user, role });
+      const data = await registerRequest({ ...user, role });
       setUser(data);
       setIsAuthenticated(true);
       console.log(data);
@@ -58,7 +58,7 @@ const UserProvider = (props) => {
 
   const logout = async () => {
     try {
-      await logoutUserRequest({ role });
+      await logoutRequest({ role });
       Cookie.remove("token");
       setUser({});
       setIsAuthenticated(false);
@@ -76,7 +76,7 @@ const UserProvider = (props) => {
         return;
       }
       try {
-        const user = await verifyTokenUserRequest(cookies.UserToken);
+        const user = await verifyTokenRequest(cookies.UserToken);
         if (!user) {
           setIsAuthenticated(false);
         } else {

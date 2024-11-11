@@ -1,11 +1,11 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import {
-  registerPartnerRequest,
-  loginPartnerRequest,
-  logoutPartnerRequest,
-} from "../api/partner.api";
+  registerRequest,
+  loginRequest,
+  logoutRequest,
+  verifyTokenRequest,
+} from "../api/auth.api";
 import Cookie from "js-cookie";
-import { verifyTokenPartnerRequest } from "../api/partner.api";
 
 const partnerContext = createContext();
 
@@ -26,6 +26,7 @@ const PartnerProvider = (props) => {
   const [styles, setStyles] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [loading, setLoading] = useState(true);
+  const role = "partners";
 
   useEffect(() => {
     if (error.length > 0) {
@@ -38,7 +39,7 @@ const PartnerProvider = (props) => {
 
   const login = async (partner) => {
     try {
-      const data = await loginPartnerRequest(partner);
+      const data = await loginRequest({ ...partner, role });
       setPartner(data);
       setIsAuthenticatedPartner(true);
       console.log(data);
@@ -51,7 +52,7 @@ const PartnerProvider = (props) => {
 
   const signUp = async (partner) => {
     try {
-      const data = await registerPartnerRequest(partner);
+      const data = await registerRequest({ ...partner, role });
       setPartner(data);
       setIsAuthenticatedPartner(true);
       console.log(data);
@@ -65,7 +66,7 @@ const PartnerProvider = (props) => {
 
   const logout = async () => {
     try {
-      await logoutPartnerRequest();
+      await logoutRequest({ role });
       Cookie.remove("token");
       setPartner({});
       setIsAuthenticatedPartner(false);
@@ -84,7 +85,7 @@ const PartnerProvider = (props) => {
         return;
       }
       try {
-        const partner = await verifyTokenPartnerRequest(cookies.UserToken);
+        const partner = await verifyTokenRequest(cookies.UserToken);
         if (!partner) {
           setIsAuthenticatedPartner(false);
         } else {

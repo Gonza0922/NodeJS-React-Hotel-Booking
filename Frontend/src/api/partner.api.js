@@ -18,30 +18,6 @@ export const putPartnerIdPasswordRequest = async (partner_ID, newData) => {
   return request.data;
 }; //[USED]
 
-export const registerPartnerRequest = async (partner) => {
-  //Register a new partner
-  const request = await axios.post("/partners/partners/register", partner);
-  return request.data;
-}; //[USED]
-
-export const loginPartnerRequest = async (partner) => {
-  //Log in a partner that matches the data sent
-  const request = await axios.post("/partners/partners/login", partner);
-  return request.data;
-}; //[USED]
-
-export const logoutPartnerRequest = async () => {
-  //Log out a partner
-  const request = await axios.post("/partners/partners/logout");
-  return request.data;
-}; //[USED]
-
-export const verifyTokenPartnerRequest = async () => {
-  //Check if the PartnerToken exists/matches to enter the partner account
-  const request = await axios.get("/partners/partners/verify");
-  return request.data;
-}; //[USED]
-
 export const deletePartnerRequest = async (partner_ID) => {
   //Delete a partner that matches the partner_ID sent by parameter, all its hotels and all its reservations
   const request = await axios.delete(`/partners/delete/${partner_ID}`);
