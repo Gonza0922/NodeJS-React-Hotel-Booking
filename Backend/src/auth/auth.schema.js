@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const register = z.object({
+export const registerSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .min(1, { message: "Email is required" })
@@ -34,7 +34,7 @@ export const register = z.object({
     .lt(99999999999, { message: "Phone must be no more 11 characters" }),
 });
 
-export const login = z.object({
+export const loginSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .email({ message: "Email is not valid" }),

@@ -3,7 +3,7 @@ import { generateToken } from "../jwt/jwt.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const registerUser = async (req, res) => {
+export const register = async (req, res) => {
   //Register a new user/partner
   try {
     const { role } = req.body;
@@ -42,7 +42,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const loginUser = async (req, res) => {
+export const login = async (req, res) => {
   //Log in a user/partner that matches the data sent
   try {
     const { email, password, role } = req.body;
@@ -72,7 +72,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const logoutUser = async (req, res) => {
+export const logout = async (req, res) => {
   //Log out a user/partner
   try {
     const { role } = req.body;
@@ -94,13 +94,16 @@ export const verifyUser = async (req, res) => {
     jwt.verify(token, process.env.TOKEN_SECURE, async (err, user) => {
       if (err) return res.status(400).json({ message: "Verification error" });
       const { role } = user;
-      const roleId = role === "users" ? "user" : "partner";
-      const stringRole = role === "users" ? "User" : "Partner";
-      const [userFound] = await db.query(`SELECT * FROM ${role} WHERE ${roleId}_ID = ?`, [
-        user.user_ID,
-      ]);
+      const roleInfo =
+        role === "users"
+          ? { roleId: "user", stringRole: "User", param: user.user_ID }
+          : { roleId: "partner", stringRole: "Partner", param: user.partner_ID };
+      const [userFound] = await db.query(
+        `SELECT * FROM ${role} WHERE ${roleInfo.roleId}_ID = ?`,
+        [roleInfo.param]
+      );
       if (userFound.length === 0)
-        return res.status(404).json({ message: `${stringRole} not found` });
+        return res.status(404).json({ message: `${roleInfo.stringRole} not found` });
       const responseData = {
         first_name: userFound[0].first_name,
         last_name: userFound[0].last_name,
