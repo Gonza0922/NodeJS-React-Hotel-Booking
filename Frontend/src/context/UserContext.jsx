@@ -3,7 +3,7 @@ import {
   registerRequest,
   loginRequest,
   logoutRequest,
-  verifyTokenRequest,
+  verifyTokenUserRequest,
 } from "../api/auth.api";
 import Cookie from "js-cookie";
 
@@ -76,7 +76,7 @@ const UserProvider = (props) => {
         return;
       }
       try {
-        const user = await verifyTokenRequest(cookies.UserToken);
+        const user = await verifyTokenUserRequest(cookies.UserToken);
         if (!user) {
           setIsAuthenticated(false);
         } else {

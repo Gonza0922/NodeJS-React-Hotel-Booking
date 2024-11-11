@@ -18,8 +18,14 @@ export const logoutRequest = async (role) => {
   return request.data;
 }; //[USED]
 
-export const verifyTokenRequest = async () => {
+export const verifyTokenUserRequest = async () => {
   //Check if the UserToken/PartnerToken exists/matches to enter the user/partner account
-  const request = await axios.get("/auth/verify");
+  const request = await axios.get("/auth/users/verify");
+  return request.data;
+}; //[USED]
+
+export const verifyTokenPartnerRequest = async () => {
+  //Check if the UserToken/PartnerToken exists/matches to enter the user/partner account
+  const request = await axios.get("/auth/partners/verify");
   return request.data;
 }; //[USED]

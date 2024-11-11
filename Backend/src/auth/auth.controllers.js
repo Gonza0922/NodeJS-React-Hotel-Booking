@@ -86,36 +86,50 @@ export const logout = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
-  //Check if the UserToken/PartnerToken exists/matches to enter the user/partner account
+  //Check if the UserToken exists/matches to enter the user account
   try {
-    const { UserToken, PartnerToken } = req.cookies;
-    const token = UserToken || PartnerToken;
-    if (!token) return res.status(401).json({ message: "Unauthorized, no token" });
-    jwt.verify(token, process.env.TOKEN_SECURE, async (err, user) => {
+    const { UserToken } = req.cookies;
+    if (!UserToken) return res.status(401).json({ message: "Unauthorized, no token" });
+    jwt.verify(UserToken, process.env.TOKEN_SECURE, async (err, user) => {
+      console.log(user);
       if (err) return res.status(400).json({ message: "Verification error" });
-      const { role } = user;
-      const roleInfo =
-        role === "users"
-          ? { roleId: "user", stringRole: "User", param: user.user_ID }
-          : { roleId: "partner", stringRole: "Partner", param: user.partner_ID };
-      const [userFound] = await db.query(
-        `SELECT * FROM ${role} WHERE ${roleInfo.roleId}_ID = ?`,
-        [roleInfo.param]
-      );
-      if (userFound.length === 0)
-        return res.status(404).json({ message: `${roleInfo.stringRole} not found` });
-      const responseData = {
+      const [userFound] = await db.query(`SELECT * FROM users WHERE user_ID = ?`, [user.user_ID]);
+      if (userFound.length === 0) return res.status(404).json({ message: "User not found" });
+      return res.status(200).json({
+        user_ID: userFound[0].user_ID,
         first_name: userFound[0].first_name,
         last_name: userFound[0].last_name,
         email: userFound[0].email,
-        ...(role === "users"
-          ? { user_ID: userFound[0].user_ID }
-          : { partner_ID: userFound[0].partner_ID }),
-      };
-      return res.status(200).json(responseData);
+      });
     });
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ error: "Failed to verify User/Partner" });
+    res.status(500).json({ error: "Failed to verify User" });
+  }
+};
+
+export const verifyPartner = async (req, res) => {
+  //Check if the PartnerToken exists/matches to enter the partner account
+  try {
+    const { PartnerToken } = req.cookies;
+    if (!PartnerToken) return res.status(401).json({ message: "Unauthorized, no token" });
+    jwt.verify(PartnerToken, process.env.TOKEN_SECURE, async (err, partner) => {
+      console.log(partner);
+      if (err) return res.status(400).json({ message: "Verification error" });
+      const [partnerFound] = await db.query(`SELECT * FROM partners WHERE partner_ID = ?`, [
+        partner.partner_ID,
+      ]);
+      if (partnerFound.length === 0)
+        return res.status(404).json({ message: "Partner not found" });
+      return res.status(200).json({
+        partner_ID: partnerFound[0].partner_ID,
+        first_name: partnerFound[0].first_name,
+        last_name: partnerFound[0].last_name,
+        email: partnerFound[0].email,
+      });
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Failed to verify Partner" });
   }
 };

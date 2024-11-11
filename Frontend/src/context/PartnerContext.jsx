@@ -3,7 +3,7 @@ import {
   registerRequest,
   loginRequest,
   logoutRequest,
-  verifyTokenRequest,
+  verifyTokenPartnerRequest,
 } from "../api/auth.api";
 import Cookie from "js-cookie";
 
@@ -85,7 +85,7 @@ const PartnerProvider = (props) => {
         return;
       }
       try {
-        const partner = await verifyTokenRequest(cookies.UserToken);
+        const partner = await verifyTokenPartnerRequest(cookies.UserToken);
         if (!partner) {
           setIsAuthenticatedPartner(false);
         } else {
