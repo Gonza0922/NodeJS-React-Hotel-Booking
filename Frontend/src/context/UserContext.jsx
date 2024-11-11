@@ -18,6 +18,7 @@ const UserProvider = (props) => {
   const [error, setError] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const role = "users";
 
   useEffect(() => {
     if (error.length > 0) {
@@ -30,7 +31,7 @@ const UserProvider = (props) => {
 
   const login = async (user) => {
     try {
-      const data = await loginUserRequest(user);
+      const data = await loginUserRequest({ ...user, role });
       setUser(data);
       setIsAuthenticated(true);
       console.log(data);
@@ -43,7 +44,7 @@ const UserProvider = (props) => {
 
   const signUp = async (user) => {
     try {
-      const data = await registerUserRequest(user);
+      const data = await registerUserRequest({ ...user, role });
       setUser(data);
       setIsAuthenticated(true);
       console.log(data);
@@ -57,7 +58,7 @@ const UserProvider = (props) => {
 
   const logout = async () => {
     try {
-      await logoutUserRequest();
+      await logoutUserRequest({ role });
       Cookie.remove("token");
       setUser({});
       setIsAuthenticated(false);
